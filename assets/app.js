@@ -304,10 +304,26 @@ window.addEventListener('scroll', () => {
   progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
 }, { passive: true });
 
-try {
-  const saved = localStorage.getItem('theme');
-  if (saved === 'light' || saved === 'dark') applyTheme(saved);
-} catch (_) { /* ignore */ }
+const params = new URLSearchParams(location.search);
+// `?shot=1` forces every reveal-able element visible (used for headless previews)
+if (params.has('shot')) {
+  document.querySelectorAll('.reveal').forEach((e) => e.classList.add('in'));
+}
+const qTheme = params.get('theme');
+if (qTheme === 'light' || qTheme === 'dark') {
+  applyTheme(qTheme);
+} else {
+  try {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') applyTheme(saved);
+  } catch (_) { /* ignore */ }
+}
+// `?scroll=<id>` scrolls to a section (used for headless previews)
+const scrollTo = params.get('scroll');
+if (scrollTo) {
+  const target = document.getElementById(scrollTo);
+  if (target) setTimeout(() => target.scrollIntoView({ block: 'start', behavior: 'instant' }), 120);
+}
 
 renderLocal();
 renderSkills();
