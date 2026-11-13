@@ -554,54 +554,15 @@ html[data-theme="light"] .btn--primary:hover {
   background: var(--border);
 }
 
-/* Deck Controls */
-.deck-controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.deck-nav-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--bg-card) 75%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  color: var(--fg);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.deck-nav-btn:hover {
-  border-color: var(--fg);
-  color: var(--fg);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.4);
-}
-
-.deck-counter {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--fg);
-  min-width: 65px;
-  text-align: center;
-  padding: 8px 12px;
-  background: var(--bg-subtle);
-  border-radius: 10px;
-  border: 1px solid var(--border);
-}
-
 /* Draggable Card Deck Stage */
 .deck-stage {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  padding: 30px 0 20px 0;
+  overflow: visible;
+  overflow-x: clip;
+  overflow-y: visible;
+  padding: 35px 0 95px 0;
+  margin-bottom: -55px;
   cursor: grab;
   user-select: none;
   touch-action: pan-y;
@@ -1162,12 +1123,12 @@ html[data-theme="light"] .about-card {
 /* Footer */
 .footer {
   border-top: none;
-  padding: 36px 0;
-  background: #000000;
+  padding: 44px 0 60px 0;
+  background: transparent;
 }
 
 html[data-theme="light"] .footer {
-  background: #f4f4f5;
+  background: transparent;
 }
 
 .footer__container {
@@ -1183,13 +1144,21 @@ html[data-theme="light"] .footer {
   color: var(--fg-muted);
 }
 
-.footer__brand strong {
-  color: var(--fg);
+.footer__end-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--fg-muted);
+  letter-spacing: -0.2px;
 }
 
 .footer__links {
   display: flex;
   gap: 20px;
+}
+
+.footer__links a {
+  color: var(--fg-muted);
+  transition: color 0.2s ease;
 }
 
 .footer__links a:hover {
