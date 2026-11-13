@@ -471,22 +471,27 @@ attachCardGlow();
 initScrollReveal();
 fetchGitHubStats();
 
-// Ensure background video plays reliably
-const bgVideo = document.querySelector('.video-bg');
+// Ensure background video plays reliably across all browsers including Firefox
+const bgVideo = document.getElementById('bgVideo') || document.querySelector('.video-bg');
 if (bgVideo) {
   bgVideo.muted = true;
   bgVideo.defaultMuted = true;
+  bgVideo.volume = 0;
+  
+  const startPlayback = () => {
+    if (bgVideo.paused) {
+      bgVideo.muted = true;
+      bgVideo.play().catch(() => {});
+    }
+  };
+
   const playPromise = bgVideo.play();
   if (playPromise !== undefined) {
     playPromise.catch(() => {
       bgVideo.muted = true;
-      const playOnTouch = () => {
-        bgVideo.play().catch(() => {});
-        window.removeEventListener('pointerdown', playOnTouch);
-        window.removeEventListener('keydown', playOnTouch);
-      };
-      window.addEventListener('pointerdown', playOnTouch, { once: true });
-      window.addEventListener('keydown', playOnTouch, { once: true });
+      ['pointerdown', 'pointermove', 'scroll', 'touchstart', 'click', 'keydown'].forEach(evt => {
+        window.addEventListener(evt, startPlayback, { once: true, passive: true });
+      });
     });
   }
 }
