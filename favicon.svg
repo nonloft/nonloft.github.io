@@ -5,7 +5,6 @@
       <stop offset="1" stop-color="#37d0ff"/>
     </linearGradient>
   </defs>
-  <text x="12" y="23" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="20" font-weight="800" fill="#0d1320" text-anchor="middle">n</text>
-  <circle cx="21" cy="8" r="3" fill="url(#g)"/>
-  <rect x="5" y="27" width="22" height="3" rx="1.5" fill="url(#g)"/>
+  <text x="13" y="24" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="21" font-weight="800" fill="url(#g)" text-anchor="middle">n</text>
+  <circle cx="22" cy="7" r="3" fill="url(#g)"/>
 </svg>
