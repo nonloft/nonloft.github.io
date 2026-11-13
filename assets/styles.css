@@ -566,7 +566,7 @@ html[data-theme="light"] .btn--primary:hover {
   background: var(--border);
 }
 
-/* Draggable Card Deck Stage */
+/* Draggable Card Deck Stage with smooth atmospheric edge blur instead of harsh slice */
 .deck-stage {
   position: relative;
   width: 100%;
@@ -577,8 +577,37 @@ html[data-theme="light"] .btn--primary:hover {
   margin-bottom: -55px;
   cursor: grab;
   user-select: none;
+  -webkit-user-select: none;
   touch-action: pan-y;
   outline: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 70px, black calc(100% - 70px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 70px, black calc(100% - 70px), transparent 100%);
+}
+
+/* Atmospheric edge blur vignettes replacing harsh slice */
+.deck-stage::before,
+.deck-stage::after {
+  content: "";
+  position: absolute;
+  top: 25px;
+  bottom: 85px;
+  width: 80px;
+  pointer-events: none;
+  z-index: 10;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.deck-stage::before {
+  left: 0;
+  -webkit-mask-image: linear-gradient(to right, black 25%, transparent 100%);
+  mask-image: linear-gradient(to right, black 25%, transparent 100%);
+}
+
+.deck-stage::after {
+  right: 0;
+  -webkit-mask-image: linear-gradient(to left, black 25%, transparent 100%);
+  mask-image: linear-gradient(to left, black 25%, transparent 100%);
 }
 
 .deck-stage.is-dragging {
@@ -1249,6 +1278,17 @@ html[data-theme="light"] .footer {
 @media (max-width: 768px) {
   .nav__links {
     display: none !important;
+  }
+  .deck-stage {
+    margin-left: -24px !important;
+    margin-right: -24px !important;
+    width: calc(100% + 48px) !important;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 45px, black calc(100% - 45px), transparent 100%) !important;
+    mask-image: linear-gradient(to right, transparent 0%, black 45px, black calc(100% - 45px), transparent 100%) !important;
+  }
+  .deck-stage::before,
+  .deck-stage::after {
+    width: 50px !important;
   }
   .nav__container {
     justify-content: center !important;
