@@ -75,39 +75,15 @@ const LOCAL_PROJECTS = [
     wip: true,
   },
   {
-    name: 'Extralest',
-    status: 'активен',
-    description: 'Форк AyuGram Desktop с системой Python-плагинов (.plugin) и моделью разрешений — ghost mode, анти-отзыв, история удалений.',
-    languages: ['C++', 'Python'],
-  },
-  {
     name: 'eaveVPN (Qt)',
     status: 'активен',
     description: 'VPN-клиент для ядра mihomo/Clash Meta на Python + Qt6 (PySide6): профили по ссылке, проверка задержек узлов, журнал, тёмная/светлая темы.',
     languages: ['Python'],
   },
   {
-    name: 'EavePay',
-    status: 'активен',
-    description: 'Фронтенд для пополнения Steam, смены региона и подарочных игр — Next.js.',
-    languages: ['TypeScript'],
-  },
-  {
-    name: 'AnxFlow',
-    status: 'заморожен',
-    description: 'Музыкальный плеер на C#/WPF.',
-    languages: ['C#'],
-  },
-  {
     name: 'PlotterGRBL',
     status: 'заморожен',
     description: 'Контроллер GRBL-плоттера/лазера на Python: контуры, текст и трейсинг в G-code.',
-    languages: ['Python'],
-  },
-  {
-    name: 'Timer MD3',
-    status: 'завершён',
-    description: 'Таймер в стиле Material Design 3 на Flet.',
     languages: ['Python'],
   },
 ];
