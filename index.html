@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kirillo4ka — портфолио</title>
-  <meta name="description" content="Проекты и наработки Kirillo4ka: десктопные приложения, VPN-клиенты, инструменты для ИИ.">
+  <title>nonloft — портфолио</title>
+  <meta name="description" content="Проекты и наработки nonloft: десктопные приложения, VPN-клиенты, инструменты для ИИ.">
   <meta name="theme-color" content="#0a0d14">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236272fd'/%3E%3Ctext x='16' y='22' font-family='system-ui' font-size='17' font-weight='700' text-anchor='middle' fill='white'%3EK%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/styles.css">
@@ -20,10 +20,10 @@
   </div>
 
   <header class="nav">
-    <a class="brand" href="#top">Kirillo4ka<span class="brand__dot">.</span></a>
+    <a class="brand" href="#top">nonloft<span class="brand__dot">.</span></a>
     <nav class="nav__links" aria-label="Основная навигация">
       <a href="#projects">Проекты</a>
-      <a href="#stack">Стек</a>
+      <a href="#skills">Навыки</a>
       <a href="#about">Обо мне</a>
     </nav>
     <button class="theme" id="themeBtn" type="button" aria-label="Сменить тему" title="Сменить тему">
@@ -45,7 +45,7 @@
   <main>
     <section class="hero" id="top">
       <p class="eyebrow reveal">Портфолио · open source</p>
-      <h1 class="reveal">Привет, я <span class="grad">Kirillo4ka</span></h1>
+      <h1 class="reveal">Привет, я <span class="grad">nonloft</span></h1>
       <p class="lead reveal">
         Делаю десктопные приложения, VPN-клиенты и экспериментирую с инструментами для ИИ.
       </p>
@@ -72,14 +72,23 @@
       <div class="grid" id="repos" aria-live="polite"></div>
     </section>
 
-    <section class="section" id="stack">
+    <section class="section" id="local">
       <div class="section__head reveal">
-        <h2>Стек</h2>
-        <p>С чем работаю.</p>
+        <h2>Локальные наработки</h2>
+        <p>Проекты вне GitHub — в том числе в разработке.</p>
+      </div>
+      <div class="grid" id="localProjects"></div>
+    </section>
+
+    <section class="section" id="skills">
+      <div class="section__head reveal">
+        <h2>Навыки</h2>
+        <p>Языки и инструменты, с которыми работаю.</p>
       </div>
       <div class="marquee reveal" aria-hidden="true">
         <div class="marquee__track" id="marqueeTrack"></div>
       </div>
+      <div class="skills reveal" id="skillBars"></div>
       <ul class="chips reveal" id="chips"></ul>
     </section>
 
@@ -103,8 +112,8 @@
   </main>
 
   <footer class="footer">
-    <p>© <span id="year"></span> Kirillo4ka · собрано на GitHub Pages</p>
-    <a href="https://github.com/Kirillo4ka" target="_blank" rel="noopener">github.com/Kirillo4ka</a>
+    <p>© <span id="year"></span> nonloft · собрано на GitHub Pages</p>
+    <a href="https://github.com/Kirillo4ka" target="_blank" rel="noopener">GitHub</a>
   </footer>
 
   <div class="wave" id="wave" aria-hidden="true">
