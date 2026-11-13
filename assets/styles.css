@@ -108,14 +108,15 @@ a {
   width: auto;
   height: auto;
   object-fit: cover;
-  opacity: 0.85;
-  filter: contrast(1.05) brightness(0.92);
+  opacity: 0.9;
+  filter: contrast(1.05) brightness(0.96);
+  display: block;
 }
 
 .video-bg__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(9, 13, 20, 0.42);
+  background: rgba(9, 13, 20, 0.32);
   pointer-events: none;
 }
 
