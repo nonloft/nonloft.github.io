@@ -224,18 +224,26 @@ function renderDeck() {
       : 'project-card__status--wip';
 
     return `
-      <article class="deck-card project-card ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" role="button" tabindex="0">
+      <article class="deck-card project-card ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" tabindex="0">
         <div>
           <div class="project-card__badge-row">
             <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
             <span class="project-card__status ${statusClass}">${escapeHtml(p.status)}</span>
           </div>
-          <h3 class="project-card__title">${escapeHtml(p.title)}</h3>
+          <h3 class="project-card__title" data-action="preview" title="Нажмите для открытия превью">${escapeHtml(p.title)}</h3>
           <p class="project-card__desc">${escapeHtml(p.shortDesc)}</p>
         </div>
 
-        <div class="project-card__tags">
-          ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+        <div>
+          <div class="project-card__tags">
+            ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+          </div>
+          <div class="project-card__footer">
+            <button class="project-card__preview-btn" type="button" data-action="preview" aria-label="Открыть превью ${escapeHtml(p.title)}">
+              <span>Смотреть превью</span>
+              <svg viewBox="0 0 20 20" width="13" height="13" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg>
+            </button>
+          </div>
         </div>
       </article>
     `;
@@ -305,8 +313,10 @@ function initDeckInteractions() {
 
   let isPointerDown = false;
   let isDragging = false;
+  let hasMoved = false;
   let startX = 0;
   let startY = 0;
+  let startScrollY = 0;
   let currentTranslate = 0;
   let dragDiff = 0;
   let pointerDownTime = 0;
@@ -320,16 +330,17 @@ function initDeckInteractions() {
 
   // Pointer Down (Mouse or Touch)
   deckStage.addEventListener('pointerdown', (e) => {
-    if (e.button !== 0 && e.pointerType === 'mouse') return; // only left click
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
     isPointerDown = true;
     isDragging = false;
+    hasMoved = false;
     startX = e.clientX;
     startY = e.clientY;
+    startScrollY = window.scrollY;
     dragDiff = 0;
     pointerDownTime = Date.now();
     capturedPointerId = e.pointerId;
     currentTranslate = getCurrentTranslate();
-    // Do NOT capture pointer here: this allows clean clicks/taps to reach elements
   });
 
   // Pointer Move
@@ -337,8 +348,12 @@ function initDeckInteractions() {
     if (!isPointerDown) return;
     const diffX = e.clientX - startX;
     const diffY = e.clientY - startY;
+    const dist = Math.hypot(diffX, diffY);
 
-    // Only activate drag mode when movement exceeds threshold
+    if (dist > 6) {
+      hasMoved = true;
+    }
+
     if (!isDragging) {
       if (Math.abs(diffX) > 8 && Math.abs(diffX) > Math.abs(diffY)) {
         isDragging = true;
@@ -371,7 +386,6 @@ function initDeckInteractions() {
     }
 
     if (wasDragging) {
-      // User dragged: slide to next/prev card
       if (Math.abs(dragDiff) > 40) {
         if (dragDiff < 0) {
           goToCard(activeDeckIndex + 1);
@@ -382,17 +396,26 @@ function initDeckInteractions() {
         goToCard(activeDeckIndex);
       }
     } else {
-      // Pure click / tap!
-      const elapsed = Date.now() - pointerDownTime;
-      if (elapsed < 600 && Math.abs(dragDiff) <= 8) {
-        const card = e.target.closest('.deck-card') || document.elementFromPoint(e.clientX, e.clientY)?.closest('.deck-card');
-        if (card) {
-          const idx = parseInt(card.dataset.index, 10);
-          if (idx === activeDeckIndex) {
-            openModal(PROJECTS[idx]);
-          } else {
-            goToCard(idx);
-          }
+      // If user moved finger during scroll or drag, ignore!
+      const totalDist = Math.hypot(e.clientX - startX, e.clientY - startY);
+      const scrollDiff = Math.abs(window.scrollY - startScrollY);
+      if (hasMoved || totalDist > 6 || scrollDiff > 2) {
+        return;
+      }
+
+      // Check click target
+      const card = e.target.closest('.deck-card') || document.elementFromPoint(e.clientX, e.clientY)?.closest('.deck-card');
+      if (!card) return;
+
+      const idx = parseInt(card.dataset.index, 10);
+      if (idx !== activeDeckIndex) {
+        // Clicking a side card safely switches to it
+        goToCard(idx);
+      } else {
+        // On active card: open modal ONLY if deliberate action clicked (button or title)
+        const isPreviewAction = e.target.closest('[data-action="preview"]');
+        if (isPreviewAction) {
+          openModal(PROJECTS[idx]);
         }
       }
     }
@@ -401,21 +424,30 @@ function initDeckInteractions() {
   deckStage.addEventListener('pointerup', handlePointerEnd);
   deckStage.addEventListener('pointercancel', handlePointerEnd);
 
-  // Card click handler (fallback and direct click support)
+  // Card click & double click handlers
   deckTrack.querySelectorAll('.deck-card').forEach((card) => {
     card.addEventListener('click', (e) => {
-      if (isDragging || Math.abs(dragDiff) > 8) return;
+      if (hasMoved || isDragging || Math.abs(dragDiff) > 6) return;
       const idx = parseInt(card.dataset.index, 10);
-      if (idx === activeDeckIndex) {
-        // Direct click opens preview modal with smooth zoom inflation!
-        openModal(PROJECTS[idx]);
-      } else {
-        // Click on side card slides it into active view!
+      if (idx !== activeDeckIndex) {
         goToCard(idx);
+        return;
+      }
+      const isPreviewAction = e.target.closest('[data-action="preview"]');
+      if (isPreviewAction) {
+        openModal(PROJECTS[idx]);
       }
     });
 
-    // Keyboard support
+    // Double-click shortcut on active card also opens preview
+    card.addEventListener('dblclick', (e) => {
+      const idx = parseInt(card.dataset.index, 10);
+      if (idx === activeDeckIndex) {
+        openModal(PROJECTS[idx]);
+      }
+    });
+
+    // Keyboard support: Enter / Space
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -429,24 +461,7 @@ function initDeckInteractions() {
     });
   });
 
-  // Prev / Next button listeners (if present)
-  if (deckPrev) {
-    deckPrev.onclick = () => goToCard(activeDeckIndex - 1);
-  }
-  if (deckNext) {
-    deckNext.onclick = () => goToCard(activeDeckIndex + 1);
-  }
-
-  // Keyboard navigation
-  deckStage.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
-      goToCard(activeDeckIndex - 1);
-    } else if (e.key === 'ArrowRight') {
-      goToCard(activeDeckIndex + 1);
-    }
-  });
-
-  // Window resize re-centering
+  // Window resize
   window.addEventListener('resize', () => {
     goToCard(activeDeckIndex, false);
   }, { passive: true });
