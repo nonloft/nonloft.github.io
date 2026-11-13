@@ -470,3 +470,23 @@ renderProjects();
 attachCardGlow();
 initScrollReveal();
 fetchGitHubStats();
+
+// Ensure background video plays reliably
+const bgVideo = document.querySelector('.video-bg');
+if (bgVideo) {
+  bgVideo.muted = true;
+  bgVideo.defaultMuted = true;
+  const playPromise = bgVideo.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      bgVideo.muted = true;
+      const playOnTouch = () => {
+        bgVideo.play().catch(() => {});
+        window.removeEventListener('pointerdown', playOnTouch);
+        window.removeEventListener('keydown', playOnTouch);
+      };
+      window.addEventListener('pointerdown', playOnTouch, { once: true });
+      window.addEventListener('keydown', playOnTouch, { once: true });
+    });
+  }
+}
