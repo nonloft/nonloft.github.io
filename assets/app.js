@@ -22,6 +22,8 @@ const LANG_COLORS = {
   Go: '#00ADD8',
   PowerShell: '#5391FE',
   Electron: '#47848F',
+  Lua: '#000080',
+  QML: '#41cd52',
 };
 
 const FALLBACK = [
@@ -58,6 +60,75 @@ const FALLBACK = [
   },
 ];
 
+const REPO_DESC = {
+  'DeepSeek-Harness-Desktop': 'Десктопная оболочка (Electron) для агента DeepSeek Harness — агент в отдельном окне, со своим установщиком.',
+  'EaveVPN-App': 'VPN-клиент на Flutter (Dart).',
+  'FlClash-Mod': 'Модификация FlClash.',
+};
+
+const LOCAL_PROJECTS = [
+  {
+    name: 'island',
+    status: 'в разработке',
+    description: 'Динамический десктопный ассистент для Windows: управление аудио и медиа-клавишами, оверлей, Discord RPC, Telegram call/reply, горячие клавиши, OSD громкости и системные метрики.',
+    languages: ['Python'],
+    wip: true,
+  },
+  {
+    name: 'Extralest',
+    status: 'активен',
+    description: 'Форк AyuGram Desktop с системой Python-плагинов (.plugin) и моделью разрешений — ghost mode, анти-отзыв, история удалений.',
+    languages: ['C++', 'Python'],
+  },
+  {
+    name: 'eaveVPN (Qt)',
+    status: 'активен',
+    description: 'VPN-клиент для ядра mihomo/Clash Meta на Python + Qt6 (PySide6): профили по ссылке, проверка задержек узлов, журнал, тёмная/светлая темы.',
+    languages: ['Python'],
+  },
+  {
+    name: 'EavePay',
+    status: 'активен',
+    description: 'Фронтенд для пополнения Steam, смены региона и подарочных игр — Next.js.',
+    languages: ['TypeScript'],
+  },
+  {
+    name: 'AnxFlow',
+    status: 'заморожен',
+    description: 'Музыкальный плеер на C#/WPF.',
+    languages: ['C#'],
+  },
+  {
+    name: 'PlotterGRBL',
+    status: 'заморожен',
+    description: 'Контроллер GRBL-плоттера/лазера на Python: контуры, текст и трейсинг в G-code.',
+    languages: ['Python'],
+  },
+  {
+    name: 'Timer MD3',
+    status: 'завершён',
+    description: 'Таймер в стиле Material Design 3 на Flet.',
+    languages: ['Python'],
+  },
+];
+
+const SKILLS = [
+  { lang: 'Python', level: 4, note: 'PySide6 · aiogram · Flet · GRBL' },
+  { lang: 'C++', level: 3, note: 'форк Telegram Desktop / AyuGram' },
+  { lang: 'C#', level: 3, note: 'WPF' },
+  { lang: 'Dart / Flutter', level: 3, note: 'EaveVPN-App, FlClash-Mod' },
+  { lang: 'JavaScript / TypeScript', level: 3, note: 'Next.js · Electron' },
+  { lang: 'PowerShell', level: 3, note: 'автоматизация, сборка NSIS' },
+  { lang: 'Lua / Luau', level: 2, note: 'игровые скрипты' },
+  { lang: 'HTML / CSS', level: 3, note: 'этот сайт' },
+];
+
+const STACK = [
+  'Python', 'C++', 'C#', 'Dart', 'Flutter', 'TypeScript', 'JavaScript', 'Lua',
+  'PowerShell', 'PySide6', 'Flet', 'WPF', 'Next.js', 'Electron', 'aiogram',
+  'mihomo', 'GRBL', 'PyInstaller', 'NSIS', 'GitHub Actions', 'REST API', 'Docker',
+];
+
 const root = document.documentElement;
 const wave = document.getElementById('wave');
 const themeBtn = document.getElementById('themeBtn');
@@ -77,14 +148,16 @@ function formatDate(iso) {
   return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
+function langColor(lang) {
+  return LANG_COLORS[lang] || '#8b95a5';
+}
+
 /* ---------- reveal on scroll ---------- */
 const revealEls = document.querySelectorAll('.reveal');
 const io = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        const delay = entry.target.dataset.delay || 0;
-        entry.target.style.transitionDelay = delay + 'ms';
         entry.target.classList.add('in');
         io.unobserve(entry.target);
       }
@@ -117,7 +190,6 @@ function waveTheme(next) {
     window.setTimeout(() => {
       wave.style.transition = 'none';
       wave.style.transform = 'translate3d(0, 106%, 0)';
-      // force reflow so the reset position is applied without animating
       void wave.offsetWidth;
       wave.style.transition = '';
       themeBusy = false;
@@ -130,17 +202,13 @@ themeBtn.addEventListener('click', () => {
   waveTheme(next);
 });
 
-/* ---------- repos ---------- */
+/* ---------- GitHub repos ---------- */
 const reposEl = document.getElementById('repos');
-
-function langColor(lang) {
-  return LANG_COLORS[lang] || '#8b95a5';
-}
 
 function cardTemplate(repo) {
   const color = langColor(repo.language);
   const featured = repo.featured ? ' card--featured' : '';
-  const desc = repo.description || 'Описание отсутствует.';
+  const desc = REPO_DESC[repo.name] || repo.description || 'Описание отсутствует.';
   const lang = repo.language
     ? `<span class="lang"><span class="lang__dot" style="background:${color}"></span>${escapeHtml(repo.language)}</span>`
     : '';
@@ -161,13 +229,8 @@ function cardTemplate(repo) {
     </article>`;
 }
 
-function renderRepos(repos) {
-  reposEl.innerHTML = repos.map(cardTemplate).join('');
-  attachCardGlow();
-}
-
-function attachCardGlow() {
-  reposEl.querySelectorAll('.card').forEach((card) => {
+function attachCardGlow(scope) {
+  scope.querySelectorAll('.card').forEach((card) => {
     card.addEventListener('pointermove', (e) => {
       const rect = card.getBoundingClientRect();
       card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
@@ -181,6 +244,11 @@ function attachCardGlow() {
   });
 }
 
+function renderRepos(repos) {
+  reposEl.innerHTML = repos.map(cardTemplate).join('');
+  attachCardGlow(reposEl);
+}
+
 async function loadRepos() {
   reposEl.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>';
   try {
@@ -189,7 +257,6 @@ async function loadRepos() {
     let repos = await res.json();
     repos = repos.filter((r) => !r.fork && r.name !== `${USER}.github.io`);
     if (repos.length === 0) repos = FALLBACK;
-    // featured first, then by pushed date
     repos.sort((a, b) => (Number(Boolean(b.featured)) - Number(Boolean(a.featured))) || new Date(b.updated_at) - new Date(a.updated_at));
     updateStats(repos);
     renderRepos(repos);
@@ -207,9 +274,44 @@ function updateStats(repos) {
   document.getElementById('statLang').textContent = langs.size;
 }
 
-/* ---------- stack marquee + chips ---------- */
-const STACK = ['Flutter', 'Dart', 'Electron', 'Node.js', 'JavaScript', 'NSIS', 'PowerShell', 'GitHub Actions', 'REST API', 'Docker'];
+/* ---------- local projects ---------- */
+function localCard(p) {
+  const langs = (p.languages || [])
+    .map((l) => `<span class="lang"><span class="lang__dot" style="background:${langColor(l)}"></span>${escapeHtml(l)}</span>`)
+    .join('');
+  const badge = p.wip ? ' card__badge--wip' : '';
+  return `
+    <article class="card">
+      <div class="card__top">
+        <h3 class="card__name">${escapeHtml(p.name)}</h3>
+        <span class="card__badge${badge}">${escapeHtml(p.status)}</span>
+      </div>
+      <p class="card__desc">${escapeHtml(p.description)}</p>
+      <div class="card__meta">${langs}</div>
+    </article>`;
+}
 
+function renderLocal() {
+  const el = document.getElementById('localProjects');
+  el.innerHTML = LOCAL_PROJECTS.map(localCard).join('');
+  attachCardGlow(el);
+}
+
+/* ---------- skills ---------- */
+function renderSkills() {
+  const el = document.getElementById('skillBars');
+  el.innerHTML = SKILLS.map((s) => `
+    <div class="skill">
+      <div class="skill__head">
+        <span class="skill__name">${escapeHtml(s.lang)}</span>
+        <span class="skill__note">${escapeHtml(s.note)}</span>
+        <span class="skill__lvl">${s.level}/5</span>
+      </div>
+      <div class="skill__bar"><span class="skill__fill" style="--w:${s.level * 20}%"></span></div>
+    </div>`).join('');
+}
+
+/* ---------- stack marquee + chips ---------- */
 const marqueeTrack = document.getElementById('marqueeTrack');
 marqueeTrack.innerHTML = STACK.concat(STACK).map((s) => `<span class="marquee__item">${s}</span>`).join('');
 
@@ -226,10 +328,11 @@ window.addEventListener('scroll', () => {
   progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
 }, { passive: true });
 
-/* restore saved theme on first paint (no wave) */
 try {
   const saved = localStorage.getItem('theme');
   if (saved === 'light' || saved === 'dark') applyTheme(saved);
 } catch (_) { /* ignore */ }
 
+renderLocal();
+renderSkills();
 loadRepos();
