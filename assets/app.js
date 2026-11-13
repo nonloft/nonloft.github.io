@@ -640,3 +640,183 @@ if (bgVideo) {
     });
   }
 }
+
+
+/* -------------------------------------------------------------
+   Programming Languages Knowledge Data & Modal Logic
+   ------------------------------------------------------------- */
+const LANG_KNOWLEDGE = [
+  {
+    id: 'python',
+    name: 'Python',
+    badge: 'Основной стек / GUI & Win32',
+    level: 'Глубокий практический опыт',
+    desc: 'Ключевой язык для создания настольных утилит под Windows, фоновых служб, OSD-ассистентов и скриптов автоматизации.',
+    highlights: [
+      'Глубокая интеграция с Win32 API и ctypes: глобальный перехват хоткеев, прямое управление системным микшером звука, невидимые OSD-окна поверх всех приложений без потери фокуса активного окна.',
+      'Разработка нативных десктопных интерфейсов на PyQt6 и PySide6 с чистым треем, контекстными меню и кастомными полупрозрачными виджетами.',
+      'Асинхронная архитектура на asyncio для одновременной фоновой обработки сетевых сокетов, событий Discord RPC и Telegram API.',
+      'Сборка автономных бинарных дистрибутивов через PyInstaller с оптимизацией веса, сокрытием консоли и чистым стартом.'
+    ],
+    tags: ['PyQt6', 'PySide6', 'Win32 API', 'ctypes', 'asyncio', 'PyInstaller', 'WebSockets', 'Requests']
+  },
+  {
+    id: 'dart',
+    name: 'Dart (Flutter)',
+    badge: 'Основной стек / Cross-platform',
+    level: 'Production-ready',
+    desc: 'Основной инструмент для создания высокопроизводительных кроссплатформенных приложений и VPN-клиентов с плавной работой в 120 FPS.',
+    highlights: [
+      'Построение сложных отзывчивых интерфейсов на Flutter под Windows и Android с высокой кадровой частотой и адаптивной версткой.',
+      'Интеграция сетевых прокси-ядер (mihomo / Clash Meta, VLESS, Shadowsocks): парсинг кастомных профилей, динамическая маршрутизация и замеры RTT-задержки.',
+      'Чистая архитектура с разделением состояния, изоляцией логики в фоновые Isolate-потоки для предотвращения зависаний интерфейса.',
+      'Взаимодействие с платформенным кодом через MethodChannel и нативными C-библиотеками через Dart FFI.'
+    ],
+    tags: ['Flutter', 'Dart FFI', 'MethodChannel', 'Clash Meta', 'State Management', 'Isolates', '120 FPS']
+  },
+  {
+    id: 'cpp',
+    name: 'C++',
+    badge: 'Системный уровень',
+    level: 'Уверенная практическая база',
+    desc: 'Написание системных модулей, низкоуровневых библиотек и интеграция критичной к производительности логики.',
+    highlights: [
+      'Понимание управления памятью, указателей, ссылок и принципа RAII для безопасной работы без утечек ресурсов.',
+      'Прямое взаимодействие с операционной системой через Win32 API: обработка оконных процедур (WndProc), системные хуки, создание динамических библиотек (DLL).',
+      'Интеграция C++ компонентов в проекты на Qt, связка с Python через нативные C-биндинги.',
+      'Оптимизация ресурсоемких алгоритмов и работа с сетевыми потоками ввода-вывода.'
+    ],
+    tags: ['Modern C++', 'Win32 API', 'Memory Management', 'DLL Interop', 'STL', 'Qt C++']
+  },
+  {
+    id: 'csharp',
+    name: 'C# (.NET)',
+    badge: 'Windows Desktop',
+    level: 'Практический опыт',
+    desc: 'Разработка классического Windows-софта, служебных инструментов и графических оболочек.',
+    highlights: [
+      'Построение настольных интерфейсов на WPF и XAML с разделением разметки и логики.',
+      'Использование асинхронного программирования (async/await, Task Parallel Library) для отзывчивости GUI.',
+      'Интеграция с Win32 через механизм P/Invoke для вызова системных функций Windows.',
+      'Работа со службами Windows, реестром и локальным хранилищем конфигураций.'
+    ],
+    tags: ['.NET', 'WPF', 'XAML', 'P/Invoke', 'Task Parallel Library', 'Windows Services']
+  },
+  {
+    id: 'js',
+    name: 'JavaScript / TypeScript',
+    badge: 'Desktop & Tooling',
+    level: 'Уверенный практический опыт',
+    desc: 'Создание автономных десктопных оболочек на Electron, Node.js процессов и веб-интерфейсов.',
+    highlights: [
+      'Архитектура приложений на Electron: безопасный IPC-мост между Main и Renderer процессами, contextIsolation, управление жизненным циклом фоновых Node.js воркеров.',
+      'Создание быстрых и компактных интерфейсов на чистом современном JS (ES6+) без лишней нагрузки и громоздких библиотек.',
+      'Работа с асинхронными операциями, потоками Node.js (fs/streams), REST API и WebSocket.',
+      'Интеграция и сборка проекта с нативными установщиками Windows.'
+    ],
+    tags: ['Electron', 'Node.js', 'TypeScript', 'IPC Bridge', 'Async/Await', 'DOM API']
+  },
+  {
+    id: 'powershell',
+    name: 'PowerShell & Bash',
+    badge: 'Автоматизация & Скрипты',
+    level: 'Регулярная практика',
+    desc: 'Автоматизация системного администрирования, пайплайнов CI/CD и сборки готовых инсталляторов.',
+    highlights: [
+      'Написание скриптов автоматизации для подготовки окружения, конфигурации прав доступа и настройки сетевых адаптеров.',
+      'Управление DNS, правилами маршрутизации и проксированием сетевого трафика в Windows и Linux.',
+      'Интеграция со скриптами установщиков NSIS для сборки чистых установщиков в один клик.',
+      'Автоматизация релизных сборок в GitHub Actions.'
+    ],
+    tags: ['PowerShell', 'Bash', 'NSIS Scripts', 'Windows Registry', 'GitHub Actions', 'Automation']
+  }
+];
+
+const langModal = document.getElementById('langModal');
+const langModalBackdrop = document.getElementById('langModalBackdrop');
+const langModalClose = document.getElementById('langModalClose');
+const langModalCloseBtn = document.getElementById('langModalCloseBtn');
+const langTabs = document.getElementById('langTabs');
+const langCardsList = document.getElementById('langCardsList');
+const langStackCard = document.getElementById('langStackCard');
+
+function renderLangCards(activeFilter = 'all') {
+  if (!langCardsList) return;
+  const filtered = activeFilter === 'all' 
+    ? LANG_KNOWLEDGE 
+    : LANG_KNOWLEDGE.filter(item => item.id === activeFilter);
+
+  langCardsList.innerHTML = filtered.map(lang => `
+    <div class="lang-detail-card" data-lang="${lang.id}">
+      <div class="lang-detail-card__header">
+        <h4 class="lang-detail-card__title">${escapeHtml(lang.name)}</h4>
+        <span class="lang-detail-card__badge">${escapeHtml(lang.badge)}</span>
+      </div>
+      <p class="lang-detail-card__desc">${escapeHtml(lang.desc)}</p>
+      <ul class="lang-detail-card__list">
+        ${lang.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('')}
+      </ul>
+      <div class="lang-detail-card__tags">
+        ${lang.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  if (langTabs) {
+    langTabs.querySelectorAll('.lang-tab').forEach(tab => {
+      tab.classList.toggle('is-active', tab.dataset.filter === activeFilter);
+    });
+  }
+}
+
+function openLangModal(filter = 'all') {
+  if (!langModal) return;
+  renderLangCards(filter);
+  langModal.classList.add('is-open');
+  langModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLangModal() {
+  if (!langModal) return;
+  langModal.classList.remove('is-open');
+  langModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+if (langModalClose) langModalClose.addEventListener('click', closeLangModal);
+if (langModalCloseBtn) langModalCloseBtn.addEventListener('click', closeLangModal);
+if (langModalBackdrop) langModalBackdrop.addEventListener('click', closeLangModal);
+
+if (langStackCard) {
+  langStackCard.addEventListener('click', (e) => {
+    const tagBtn = e.target.closest('.tag--interactive');
+    if (tagBtn) {
+      e.stopPropagation();
+      openLangModal(tagBtn.dataset.lang || 'all');
+    } else {
+      openLangModal('all');
+    }
+  });
+
+  langStackCard.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openLangModal('all');
+    }
+  });
+}
+
+if (langTabs) {
+  langTabs.querySelectorAll('.lang-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      renderLangCards(btn.dataset.filter || 'all');
+    });
+  });
+}
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && langModal && langModal.classList.contains('is-open')) {
+    closeLangModal();
+  }
+});
