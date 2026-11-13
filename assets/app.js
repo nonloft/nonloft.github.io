@@ -303,10 +303,14 @@ function goToCard(index, animate = true) {
 function initDeckInteractions() {
   if (!deckStage || !deckTrack) return;
 
+  let isPointerDown = false;
   let isDragging = false;
   let startX = 0;
+  let startY = 0;
   let currentTranslate = 0;
   let dragDiff = 0;
+  let pointerDownTime = 0;
+  let capturedPointerId = null;
 
   function getCurrentTranslate() {
     const style = window.getComputedStyle(deckTrack);
@@ -317,48 +321,90 @@ function initDeckInteractions() {
   // Pointer Down (Mouse or Touch)
   deckStage.addEventListener('pointerdown', (e) => {
     if (e.button !== 0 && e.pointerType === 'mouse') return; // only left click
-    isDragging = true;
+    isPointerDown = true;
+    isDragging = false;
     startX = e.clientX;
+    startY = e.clientY;
     dragDiff = 0;
+    pointerDownTime = Date.now();
+    capturedPointerId = e.pointerId;
     currentTranslate = getCurrentTranslate();
-    deckStage.classList.add('is-dragging');
-    deckStage.setPointerCapture(e.pointerId);
+    // Do NOT capture pointer here: this allows clean clicks/taps to reach elements
   });
 
   // Pointer Move
   deckStage.addEventListener('pointermove', (e) => {
-    if (!isDragging) return;
-    dragDiff = e.clientX - startX;
+    if (!isPointerDown) return;
+    const diffX = e.clientX - startX;
+    const diffY = e.clientY - startY;
+
+    // Only activate drag mode when movement exceeds threshold
+    if (!isDragging) {
+      if (Math.abs(diffX) > 8 && Math.abs(diffX) > Math.abs(diffY)) {
+        isDragging = true;
+        deckStage.classList.add('is-dragging');
+        try {
+          deckStage.setPointerCapture(capturedPointerId);
+        } catch (_) {}
+      } else {
+        return;
+      }
+    }
+
+    dragDiff = diffX;
     deckTrack.style.transform = `translateX(${currentTranslate + dragDiff}px)`;
   });
 
   // Pointer Up / Cancel
   const handlePointerEnd = (e) => {
-    if (!isDragging) return;
+    if (!isPointerDown) return;
+    const wasDragging = isDragging;
+    isPointerDown = false;
     isDragging = false;
     deckStage.classList.remove('is-dragging');
-    try { deckStage.releasePointerCapture(e.pointerId); } catch (_) {}
 
-    // Check drag threshold
-    if (Math.abs(dragDiff) > 50) {
-      if (dragDiff < 0) {
-        goToCard(activeDeckIndex + 1);
+    if (capturedPointerId !== null) {
+      try {
+        deckStage.releasePointerCapture(capturedPointerId);
+      } catch (_) {}
+      capturedPointerId = null;
+    }
+
+    if (wasDragging) {
+      // User dragged: slide to next/prev card
+      if (Math.abs(dragDiff) > 40) {
+        if (dragDiff < 0) {
+          goToCard(activeDeckIndex + 1);
+        } else {
+          goToCard(activeDeckIndex - 1);
+        }
       } else {
-        goToCard(activeDeckIndex - 1);
+        goToCard(activeDeckIndex);
       }
     } else {
-      // Small drag or click: snap back to current
-      goToCard(activeDeckIndex);
+      // Pure click / tap!
+      const elapsed = Date.now() - pointerDownTime;
+      if (elapsed < 600 && Math.abs(dragDiff) <= 8) {
+        const card = e.target.closest('.deck-card') || document.elementFromPoint(e.clientX, e.clientY)?.closest('.deck-card');
+        if (card) {
+          const idx = parseInt(card.dataset.index, 10);
+          if (idx === activeDeckIndex) {
+            openModal(PROJECTS[idx]);
+          } else {
+            goToCard(idx);
+          }
+        }
+      }
     }
   };
 
   deckStage.addEventListener('pointerup', handlePointerEnd);
   deckStage.addEventListener('pointercancel', handlePointerEnd);
 
-  // Card click handler (open preview or switch)
+  // Card click handler (fallback and direct click support)
   deckTrack.querySelectorAll('.deck-card').forEach((card) => {
-    card.addEventListener('click', () => {
-      if (Math.abs(dragDiff) > 10) return; // ignore if was dragging
+    card.addEventListener('click', (e) => {
+      if (isDragging || Math.abs(dragDiff) > 8) return;
       const idx = parseInt(card.dataset.index, 10);
       if (idx === activeDeckIndex) {
         // Direct click opens preview modal with smooth zoom inflation!
@@ -368,9 +414,22 @@ function initDeckInteractions() {
         goToCard(idx);
       }
     });
+
+    // Keyboard support
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const idx = parseInt(card.dataset.index, 10);
+        if (idx === activeDeckIndex) {
+          openModal(PROJECTS[idx]);
+        } else {
+          goToCard(idx);
+        }
+      }
+    });
   });
 
-  // Prev / Next button listeners
+  // Prev / Next button listeners (if present)
   if (deckPrev) {
     deckPrev.onclick = () => goToCard(activeDeckIndex - 1);
   }
@@ -519,7 +578,8 @@ function escapeHtml(value) {
 /* -------------------------------------------------------------
    Initialization
    ------------------------------------------------------------- */
-document.getElementById('year').textContent = new Date().getFullYear();
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 // Check saved theme
 try {
