@@ -56,17 +56,18 @@ html[data-theme="light"] {
 }
 
 html {
+  background-color: var(--bg);
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background-color: var(--bg);
+  background: transparent !important;
   color: var(--fg);
   line-height: 1.6;
   overflow-x: hidden;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  position: relative;
 }
 
 a {
@@ -90,35 +91,40 @@ a {
 .video-bg-container {
   position: fixed;
   inset: 0;
-  z-index: -4;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
   overflow: hidden;
   pointer-events: none;
 }
 
 .video-bg {
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: cover;
-  opacity: 0.55;
-  filter: saturate(1.15) contrast(1.05);
-  transition: opacity 0.5s ease;
+  opacity: 0.85;
+  filter: contrast(1.05) brightness(0.92);
 }
 
 .video-bg__overlay {
   position: absolute;
   inset: 0;
-  background: color-mix(in srgb, var(--bg) 75%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  transition: background 0.5s ease;
+  background: rgba(9, 13, 20, 0.42);
+  pointer-events: none;
 }
 
 html[data-theme="light"] .video-bg {
-  opacity: 0.35;
+  opacity: 0.65;
 }
 
 html[data-theme="light"] .video-bg__overlay {
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  background: rgba(248, 250, 252, 0.45);
 }
 
 /* Background grid pattern */
