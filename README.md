@@ -1,4 +1,4 @@
-# Kirillo4ka.github.io
+# nonloft.github.io
 
 Персональный сайт-портфолио **nonloft** на GitHub Pages.
 
