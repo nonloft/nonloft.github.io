@@ -8,8 +8,8 @@
    ------------------------------------------------------------- */
 
 const GITHUB_USER = 'Kirillo4ka';
-const DARK_BG = '#090d14';
-const LIGHT_BG = '#f8fafc';
+const DARK_BG = '#000000';
+const LIGHT_BG = '#ffffff';
 
 // Catalog of curated projects with technical depth
 const PROJECTS = [
