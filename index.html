@@ -7,17 +7,36 @@
   <meta name="description" content="Портфолио nonloft: нативные десктопные приложения на Flutter, Qt/Python и Electron, VPN-клиенты и сетевые инструменты.">
   <meta name="theme-color" content="#090d14">
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113_4">
 </head>
-<body>
+<body style="background: transparent !important; background-color: transparent !important;">
 
   <!-- Fullscreen Background Video & Overlay -->
   <div class="video-bg-container" aria-hidden="true">
-    <video class="video-bg" autoplay loop muted playsinline preload="auto">
+    <video id="bgVideo" class="video-bg" autoplay loop muted playsinline webkit-playsinline preload="auto">
       <source src="assets/bg.mp4" type="video/mp4">
     </video>
     <div class="video-bg__overlay"></div>
   </div>
+  <script>
+    (function() {
+      var v = document.getElementById('bgVideo');
+      if (v) {
+        v.muted = true;
+        v.defaultMuted = true;
+        v.volume = 0;
+        var p = v.play();
+        if (p && p.catch) {
+          p.catch(function() {
+            var play = function() { v.muted = true; v.play().catch(function(){}); };
+            ['pointerdown', 'pointermove', 'scroll', 'click'].forEach(function(e) {
+              window.addEventListener(e, play, { once: true, passive: true });
+            });
+          });
+        }
+      }
+    })();
+  </script>
 
   <!-- Top scroll progress bar -->
   <div class="progress" id="progress" aria-hidden="true"></div>
@@ -316,6 +335,6 @@
     </div>
   </footer>
 
-  <script src="assets/app.js"></script>
+  <script src="assets/app.js?v=20261113_4"></script>
 </body>
 </html>
