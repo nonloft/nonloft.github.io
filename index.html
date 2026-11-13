@@ -7,14 +7,14 @@
   <meta name="description" content="Портфолио nonloft: нативные десктопные приложения на Flutter, Qt/Python и Electron, VPN-клиенты и сетевые инструменты.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="assets/styles.css?v=20261113_21">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113_22">
 </head>
 <body style="background: transparent !important; background-color: transparent !important;">
 
   <!-- Fullscreen Background Video & Overlay -->
   <div class="video-bg-container" aria-hidden="true">
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline webkit-playsinline preload="auto">
-      <source src="assets/bg.mp4?v=20261113_17" type="video/mp4">
+      <source src="assets/bg.mp4?v=20261113_22" type="video/mp4">
     </video>
     <div class="video-bg__overlay"></div>
   </div>
@@ -151,19 +151,22 @@
           </div>
         </div>
 
-        <div class="stack-card reveal">
+        <div class="stack-card stack-card--interactive reveal" id="langStackCard" role="button" tabindex="0" aria-label="Открыть подробные познания в языках программирования">
           <div class="stack-card__icon-wrap">
             <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           </div>
-          <h3 class="stack-card__title">Языки программирования</h3>
+          <div class="stack-card__header-row">
+            <h3 class="stack-card__title">Языки программирования</h3>
+            <span class="stack-card__pill">Подробнее &rarr;</span>
+          </div>
           <p class="stack-card__desc">Основной рабочий инструментарий для написания логики, системных хуков и скриптов.</p>
           <div class="stack-card__tags">
-            <span class="tag">Python</span>
-            <span class="tag">Dart</span>
-            <span class="tag">C++</span>
-            <span class="tag">C#</span>
-            <span class="tag">JavaScript / TS</span>
-            <span class="tag">PowerShell</span>
+            <button class="tag tag--interactive" type="button" data-lang="python">Python</button>
+            <button class="tag tag--interactive" type="button" data-lang="dart">Dart</button>
+            <button class="tag tag--interactive" type="button" data-lang="cpp">C++</button>
+            <button class="tag tag--interactive" type="button" data-lang="csharp">C#</button>
+            <button class="tag tag--interactive" type="button" data-lang="js">JavaScript / TS</button>
+            <button class="tag tag--interactive" type="button" data-lang="powershell">PowerShell</button>
           </div>
         </div>
 
@@ -262,6 +265,45 @@
     </div>
   </div>
 
+  
+
+  <!-- Interactive Programming Languages Modal -->
+  <div class="modal" id="langModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__backdrop" id="langModalBackdrop"></div>
+    <div class="modal__dialog modal__dialog--wide">
+      <button class="modal__close" id="langModalClose" aria-label="Закрыть окно языков">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+
+      <div class="modal__header">
+        <div class="modal__headings">
+          <div class="modal__sub">Инженерный стек</div>
+          <h3 class="modal__title">Познания в языках программирования</h3>
+        </div>
+        <div class="modal__meta-badges">
+          <span class="modal__version-pill" id="langCountBadge">6 языков</span>
+          <span class="modal__status project-card__status--active">Практика</span>
+        </div>
+      </div>
+
+      <div class="lang-tabs" id="langTabs" role="tablist" aria-label="Фильтр языков программирования">
+        <button class="lang-tab is-active" type="button" data-filter="all">Все</button>
+        <button class="lang-tab" type="button" data-filter="python">Python</button>
+        <button class="lang-tab" type="button" data-filter="dart">Dart</button>
+        <button class="lang-tab" type="button" data-filter="cpp">C++</button>
+        <button class="lang-tab" type="button" data-filter="csharp">C#</button>
+        <button class="lang-tab" type="button" data-filter="js">JavaScript / TS</button>
+        <button class="lang-tab" type="button" data-filter="powershell">PowerShell</button>
+      </div>
+
+      <div class="lang-cards-list" id="langCardsList"></div>
+
+      <div class="modal__actions" style="margin-top: 24px;">
+        <button class="btn btn--secondary" id="langModalCloseBtn" type="button">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="footer">
     <div class="footer__container reveal">
@@ -272,6 +314,6 @@
     </div>
   </footer>
 
-  <script src="assets/app.js?v=20261113_21"></script>
+  <script src="assets/app.js?v=20261113_22"></script>
 </body>
 </html>
