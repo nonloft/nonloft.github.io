@@ -7,7 +7,7 @@
   <meta name="description" content="Портфолио nonloft: нативные десктопные приложения на Flutter, Qt/Python и Electron, VPN-клиенты и сетевые инструменты.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="assets/styles.css?v=20261113_8">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113_9">
 </head>
 <body style="background: transparent !important; background-color: transparent !important;">
 
@@ -37,9 +37,6 @@
       }
     })();
   </script>
-
-  <!-- Top scroll progress bar -->
-  <div class="progress" id="progress" aria-hidden="true"></div>
 
   <!-- Ambient grid & subtle background lighting -->
   <div class="bg-grid" aria-hidden="true"></div>
@@ -259,9 +256,6 @@
       </button>
 
       <div class="modal__header">
-        <div class="modal__icon" id="modalIcon">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-        </div>
         <div class="modal__headings">
           <div class="modal__sub" id="modalCategory">Десктопное приложение</div>
           <h3 class="modal__title" id="modalTitle">Название проекта</h3>
@@ -291,41 +285,6 @@
     </div>
   </div>
 
-  <!-- Dynamic Real Liquid Water Wave Overlay -->
-  <div class="water-wave" id="wave" aria-hidden="true">
-    <div class="water-wave__crests">
-      <!-- Deep ocean ripple -->
-      <svg class="water-svg water-svg--deep" viewBox="0 0 1440 180" preserveAspectRatio="none">
-        <path d="M0,85 C220,145 440,25 660,85 C880,145 1100,25 1320,85 C1380,105 1420,95 1440,85 L1440,180 L0,180 Z" fill="url(#waveDeepGrad)"/>
-      </svg>
-      <!-- Mid turquoise ripple -->
-      <svg class="water-svg water-svg--mid" viewBox="0 0 1440 180" preserveAspectRatio="none">
-        <path d="M0,60 C200,15 420,120 640,60 C860,15 1080,120 1300,60 C1370,40 1410,50 1440,60 L1440,180 L0,180 Z" fill="url(#waveMidGrad)"/>
-      </svg>
-      <!-- Front dark water wave with white foam crest line -->
-      <svg class="water-svg water-svg--front" viewBox="0 0 1440 180" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="waveDeepGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#18181b" stop-opacity="0.95"/>
-            <stop offset="100%" stop-color="#000000" stop-opacity="0.99"/>
-          </linearGradient>
-          <linearGradient id="waveMidGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#27272a" stop-opacity="0.92"/>
-            <stop offset="100%" stop-color="#09090b" stop-opacity="0.98"/>
-          </linearGradient>
-          <linearGradient id="waveFrontGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#3f3f46" stop-opacity="0.95"/>
-            <stop offset="100%" stop-color="#000000" stop-opacity="0.99"/>
-          </linearGradient>
-        </defs>
-        <path d="M0,70 C180,125 360,20 540,70 C720,125 900,20 1080,70 C1260,125 1380,35 1440,70 L1440,180 L0,180 Z" fill="url(#waveFrontGrad)"/>
-        <!-- White water foam line along crest -->
-        <path d="M0,70 C180,125 360,20 540,70 C720,125 900,20 1080,70 C1260,125 1380,35 1440,70" fill="none" stroke="rgba(255, 255, 255, 0.88)" stroke-width="4" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="water-wave__body"></div>
-  </div>
-
   <!-- Footer -->
   <footer class="footer">
     <div class="footer__container reveal">
@@ -342,6 +301,6 @@
     </div>
   </footer>
 
-  <script src="assets/app.js?v=20261113_8"></script>
+  <script src="assets/app.js?v=20261113_9"></script>
 </body>
 </html>
