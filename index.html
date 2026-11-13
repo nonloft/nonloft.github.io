@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>nonloft (Kirill) — Desktop & Systems Developer</title>
+  <title>nonloft — Desktop & Systems Developer</title>
   <meta name="description" content="Портфолио nonloft: нативные десктопные приложения на Flutter, Qt/Python и Electron, VPN-клиенты и сетевые инструменты.">
   <meta name="theme-color" content="#090d14">
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="assets/styles.css?v=20261113_5">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113_7">
 </head>
 <body style="background: transparent !important; background-color: transparent !important;">
 
@@ -46,37 +46,39 @@
   <div class="glow-orb glow-orb--1" aria-hidden="true"></div>
   <div class="glow-orb glow-orb--2" aria-hidden="true"></div>
 
-  <!-- Header / Navigation -->
-  <header class="nav">
-    <div class="nav__container">
-      <a class="brand" href="#top" aria-label="Наверх">nonloft</a>
+  <!-- Header / Navigation (Docked at top, floating pill on scroll) -->
+  <div class="nav-wrapper" id="navWrapper">
+    <header class="nav">
+      <div class="nav__container">
+        <a class="brand" href="#top" aria-label="Наверх">nonloft</a>
 
-      <nav class="nav__links" aria-label="Основная навигация">
-        <a href="#projects">Проекты</a>
-        <a href="#stack">Стек</a>
-        <a href="#about">Обо мне</a>
-        <a href="https://github.com/Kirillo4ka" target="_blank" rel="noopener" class="nav__external">
-          GitHub
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M3.75 2h8.5a.75.75 0 0 1 .75.75v8.5a.75.75 0 0 1-1.5 0V4.56L2.53 13.53a.75.75 0 0 1-1.06-1.06L10.44 3.5H3.75a.75.75 0 0 1 0-1.5z"/></svg>
-        </a>
-      </nav>
+        <nav class="nav__links" aria-label="Основная навигация">
+          <a href="#projects">Проекты</a>
+          <a href="#stack">Стек</a>
+          <a href="#about">Обо мне</a>
+          <a href="https://github.com/Kirillo4ka" target="_blank" rel="noopener" class="nav__external">
+            GitHub
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M3.75 2h8.5a.75.75 0 0 1 .75.75v8.5a.75.75 0 0 1-1.5 0V4.56L2.53 13.53a.75.75 0 0 1-1.06-1.06L10.44 3.5H3.75a.75.75 0 0 1 0-1.5z"/></svg>
+          </a>
+        </nav>
 
-      <button class="theme-toggle" id="themeBtn" type="button" aria-label="Сменить тему" title="Сменить тему">
-        <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
-          <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
-          <g stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
-            <line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/>
-            <line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/>
-            <line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/>
-            <line x1="19.1" y1="4.9" x2="17.3" y2="6.7"/><line x1="6.7" y1="17.3" x2="4.9" y2="19.1"/>
-          </g>
-        </svg>
-        <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
-  </header>
+        <button class="theme-toggle" id="themeBtn" type="button" aria-label="Сменить тему" title="Сменить тему">
+          <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <g stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+              <line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/>
+              <line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/>
+              <line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/>
+              <line x1="19.1" y1="4.9" x2="17.3" y2="6.7"/><line x1="6.7" y1="17.3" x2="4.9" y2="19.1"/>
+            </g>
+          </svg>
+          <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+  </div>
 
   <main>
     <!-- Hero Section -->
@@ -87,7 +89,7 @@
 
       <p class="hero__lead reveal">
         Пишу на <strong>Flutter / Dart</strong>, <strong>Qt / Python</strong> и <strong>Electron</strong>.
-        Разрабатываю клиенты обхода блокировок, упаковываю софт в нативные установщики и строю удобные интерфейсы без лишнего оверхеда.
+        Разрабатываю клиенты обхода блокировок, упаковываю софт в нативные установщики и строю удобные и быстрые интерфейсы.
       </p>
 
       <div class="hero__actions reveal">
@@ -100,24 +102,6 @@
           <span>GitHub профиль</span>
         </a>
       </div>
-
-      <!-- Quick Metrics Bar -->
-      <div class="hero__metrics reveal">
-        <div class="metric-item">
-          <span class="metric-num" id="statRepos">8</span>
-          <span class="metric-label">публичных репозиториев</span>
-        </div>
-        <div class="metric-sep"></div>
-        <div class="metric-item">
-          <span class="metric-num">3+</span>
-          <span class="metric-label">VPN & сетевых ядра</span>
-        </div>
-        <div class="metric-sep"></div>
-        <div class="metric-item">
-          <span class="metric-num">Windows</span>
-          <span class="metric-label">основная платформа</span>
-        </div>
-      </div>
     </section>
 
     <!-- Projects Section -->
@@ -127,21 +111,29 @@
           <span class="section__eyebrow">Портфолио & Разработки</span>
           <h2 class="section__title">Проекты</h2>
           <p class="section__desc">
-            Нажмите на карточку любого проекта, чтобы открыть интерактивное превью с деталями архитектуры и ссылками.
+            Перетаскивайте карточки влево-вправо или переключайте стрелками. Нажмите на проект для открытия подробного превью.
           </p>
         </div>
 
-        <!-- Project Filters -->
-        <div class="filter-tabs" role="tablist" aria-label="Фильтр проектов">
-          <button class="filter-btn is-active" data-filter="all" type="button">Все</button>
-          <button class="filter-btn" data-filter="desktop" type="button">Десктоп & UI</button>
-          <button class="filter-btn" data-filter="vpn" type="button">VPN & Сети</button>
-          <button class="filter-btn" data-filter="tools" type="button">Утилиты & Инструменты</button>
+        <!-- Deck Controls -->
+        <div class="deck-controls">
+          <button class="deck-nav-btn" id="deckPrev" type="button" aria-label="Предыдущий проект">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span class="deck-counter" id="deckCounter">01 / 07</span>
+          <button class="deck-nav-btn" id="deckNext" type="button" aria-label="Следующий проект">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
         </div>
       </div>
 
-      <!-- Projects Grid -->
-      <div class="projects-grid" id="projectsGrid" aria-live="polite"></div>
+      <!-- Draggable Card Deck / Carousel -->
+      <div class="deck-stage reveal" id="deckStage" tabindex="0" role="region" aria-label="Карусель проектов: перетаскивайте влево или вправо">
+        <div class="deck-track" id="deckTrack"></div>
+      </div>
+
+      <!-- Pagination dots -->
+      <div class="deck-dots" id="deckDots"></div>
     </section>
 
     <!-- Tech Stack Section (Realistic & Professional, No Fake AI Progress Bars) -->
@@ -238,7 +230,7 @@
       <div class="about-card reveal">
         <div class="about-content">
           <p class="about-lead">
-            Привет! Я <strong>Кирилл (nonloft)</strong> — разработчик прикладного софта, системных утилит и сетевых инструментов.
+            Привет! Я <strong>nonloft</strong> — разработчик прикладного софта, системных утилит и сетевых инструментов.
           </p>
           <p>
             В разработке ценю простоту для конечного пользователя: приложение должно ставиться за один клик (без нужды вручную настраивать Python или Node.js), моментально запускаться и надежно выполнять свою задачу.
@@ -299,22 +291,46 @@
     </div>
   </div>
 
-  <!-- Dynamic Wave Transition Overlay -->
-  <div class="wave" id="wave" aria-hidden="true">
-    <svg class="wave__svg wave__svg--back" viewBox="0 0 1440 130" preserveAspectRatio="none">
-      <path d="M0,84 C160,40 320,120 480,84 C640,40 800,120 960,84 C1120,40 1280,120 1440,84 L1440,130 L0,130 Z"/>
-    </svg>
-    <svg class="wave__svg wave__svg--front" viewBox="0 0 1440 130" preserveAspectRatio="none">
-      <path d="M0,66 C120,110 240,20 360,66 C480,110 600,20 720,66 C840,110 960,20 1080,66 C1200,110 1320,20 1440,66 L1440,130 L0,130 Z"/>
-    </svg>
-    <div class="wave__fill"></div>
+  <!-- Dynamic Real Liquid Water Wave Overlay -->
+  <div class="water-wave" id="wave" aria-hidden="true">
+    <div class="water-wave__crests">
+      <!-- Deep ocean ripple -->
+      <svg class="water-svg water-svg--deep" viewBox="0 0 1440 180" preserveAspectRatio="none">
+        <path d="M0,85 C220,145 440,25 660,85 C880,145 1100,25 1320,85 C1380,105 1420,95 1440,85 L1440,180 L0,180 Z" fill="url(#waveDeepGrad)"/>
+      </svg>
+      <!-- Mid turquoise ripple -->
+      <svg class="water-svg water-svg--mid" viewBox="0 0 1440 180" preserveAspectRatio="none">
+        <path d="M0,60 C200,15 420,120 640,60 C860,15 1080,120 1300,60 C1370,40 1410,50 1440,60 L1440,180 L0,180 Z" fill="url(#waveMidGrad)"/>
+      </svg>
+      <!-- Front dark water wave with white foam crest line -->
+      <svg class="water-svg water-svg--front" viewBox="0 0 1440 180" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="waveDeepGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0b111a" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#020617" stop-opacity="0.99"/>
+          </linearGradient>
+          <linearGradient id="waveMidGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1e293b" stop-opacity="0.92"/>
+            <stop offset="100%" stop-color="#0f172a" stop-opacity="0.98"/>
+          </linearGradient>
+          <linearGradient id="waveFrontGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#334155" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#090d14" stop-opacity="0.99"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,70 C180,125 360,20 540,70 C720,125 900,20 1080,70 C1260,125 1380,35 1440,70 L1440,180 L0,180 Z" fill="url(#waveFrontGrad)"/>
+        <!-- White water foam line along crest -->
+        <path d="M0,70 C180,125 360,20 540,70 C720,125 900,20 1080,70 C1260,125 1380,35 1440,70" fill="none" stroke="rgba(255, 255, 255, 0.88)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="water-wave__body"></div>
   </div>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer__container">
+    <div class="footer__container reveal">
       <div class="footer__brand">
-        <strong>nonloft</strong> · Kirill
+        <strong>nonloft</strong>
       </div>
       <p class="footer__copy">
         © <span id="year"></span> · Создано для комфорта и скорости. GitHub Pages.
@@ -326,6 +342,6 @@
     </div>
   </footer>
 
-  <script src="assets/app.js?v=20261113_5"></script>
+  <script src="assets/app.js?v=20261113_7"></script>
 </body>
 </html>
