@@ -2,7 +2,9 @@
 
 /* -------------------------------------------------------------
    nonloft portfolio — Interactive Application Logic
-   Clean Developer Aesthetic (Zero Emojis)
+   - Draggable & Switchable Card Deck
+   - Floating & Docking Navbar
+   - Real Liquid Water Wave & Gradient Theme Transition
    ------------------------------------------------------------- */
 
 const GITHUB_USER = 'Kirillo4ka';
@@ -24,7 +26,7 @@ const PROJECTS = [
       'Полная изоляция рабочего окна и удобный GUI вместо командной строки',
       'Собственный NSIS-установщик с ярлыками и чистым деинсталлятором',
       'Автоматическое управление жизненным циклом фоновых Node.js процессов',
-      'Минимальный оверхед и оптимизированное потребление ресурсов'
+      'Высокая скорость работы и оптимизированное потребление ресурсов'
     ],
     tags: ['Electron', 'NSIS', 'JavaScript', 'Node.js', 'Desktop'],
     url: 'https://github.com/Kirillo4ka/DeepSeek-Harness-Desktop',
@@ -151,7 +153,7 @@ const STACK_ITEMS = [
   'NSIS', 'GitHub Actions', 'Docker', 'VLESS', 'Shadowsocks', 'REST API'
 ];
 
-// Clean SVGs by category (no emojis)
+// Clean SVGs by category
 function getCategorySvg(category) {
   switch (category) {
     case 'desktop':
@@ -169,58 +171,61 @@ function getCategorySvg(category) {
 const root = document.documentElement;
 const wave = document.getElementById('wave');
 const themeBtn = document.getElementById('themeBtn');
-const projectsGrid = document.getElementById('projectsGrid');
-const filterBtns = document.querySelectorAll('.filter-btn');
+const deckTrack = document.getElementById('deckTrack');
+const deckStage = document.getElementById('deckStage');
+const deckPrev = document.getElementById('deckPrev');
+const deckNext = document.getElementById('deckNext');
+const deckCounter = document.getElementById('deckCounter');
+const deckDots = document.getElementById('deckDots');
 const tickerTrack = document.getElementById('tickerTrack');
 const projectModal = document.getElementById('projectModal');
 const modalBackdrop = document.getElementById('modalBackdrop');
 const modalClose = document.getElementById('modalClose');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
 const progress = document.getElementById('progress');
+const navWrapper = document.getElementById('navWrapper');
 
 let isWaveBusy = false;
-let currentFilter = 'all';
+let activeDeckIndex = 0;
 
 /* -------------------------------------------------------------
-   Dynamic Wave Transition Engine
+   True Liquid Water Wave Transition Engine
+   Surges from the bottom as a realistic fluid water wave,
+   smoothly transforming the theme and content like a gradient!
    ------------------------------------------------------------- */
-function triggerWave({ color, callback }) {
+function triggerWave({ callback } = {}) {
   if (isWaveBusy) {
     if (callback) callback();
     return;
   }
   isWaveBusy = true;
 
-  const currentTheme = root.getAttribute('data-theme') || 'dark';
-  const waveColor = color || (currentTheme === 'dark' ? '#0f172a' : '#e2e8f0');
-  wave.style.setProperty('--wave-c', waveColor);
+  // Fluid surge from bottom
+  wave.style.transition = 'transform 0.65s cubic-bezier(0.4, 0, 0.15, 1)';
+  wave.style.transform = 'translate3d(0, 0%, 0)';
 
-  // Smooth upward sweep
-  wave.style.transition = 'transform 0.58s cubic-bezier(0.65, 0, 0.35, 1)';
-  wave.style.transform = 'translate3d(0, 0, 0)';
-
-  // Peak moment (everything is covered)
   window.setTimeout(() => {
+    // Peak water crest moment: switch theme / open modal
     if (callback) {
       try { callback(); } catch (e) { console.error(e); }
     }
 
-    // Continue sweeping off to the top
-    wave.style.transform = 'translate3d(0, -106%, 0)';
+    // Water rolls away off the top
+    wave.style.transform = 'translate3d(0, -108%, 0)';
 
-    // Reset back to bottom silently
+    // Reset silently to bottom
     window.setTimeout(() => {
       wave.style.transition = 'none';
-      wave.style.transform = 'translate3d(0, 106%, 0)';
+      wave.style.transform = 'translate3d(0, 108%, 0)';
       void wave.offsetWidth; // force reflow
       wave.style.transition = '';
       isWaveBusy = false;
-    }, 600);
-  }, 580);
+    }, 650);
+  }, 650);
 }
 
 /* -------------------------------------------------------------
-   Theme Management
+   Theme Management with Water Wave Gradient Transition
    ------------------------------------------------------------- */
 function applyTheme(next) {
   root.setAttribute('data-theme', next);
@@ -234,28 +239,48 @@ function applyTheme(next) {
 themeBtn.addEventListener('click', () => {
   const current = root.getAttribute('data-theme') || 'dark';
   const next = current === 'dark' ? 'light' : 'dark';
+  // Wave surges with realistic liquid water and transforms theme
   triggerWave({
-    color: next === 'dark' ? DARK_BG : LIGHT_BG,
     callback: () => applyTheme(next)
   });
 });
 
 /* -------------------------------------------------------------
-   Project Cards Rendering & Filtering
+   Floating & Docking Navbar
+   - Docked to top at scroll position 0
+   - Smoothly detaches as a floating pill on scroll
+   - Reattaches seamlessly when returning to top
    ------------------------------------------------------------- */
-function renderProjects(filter = 'all') {
-  currentFilter = filter;
-  const filtered = filter === 'all' 
-    ? PROJECTS 
-    : PROJECTS.filter(p => p.category === filter);
+function initFloatingNav() {
+  if (!navWrapper) return;
+  let isFloating = false;
 
-  projectsGrid.innerHTML = filtered.map(p => {
+  const handleScroll = () => {
+    const shouldFloat = window.scrollY > 25;
+    if (shouldFloat !== isFloating) {
+      isFloating = shouldFloat;
+      navWrapper.classList.toggle('is-floating', isFloating);
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
+}
+
+/* -------------------------------------------------------------
+   Interactive Draggable & Switchable Card Deck
+   ------------------------------------------------------------- */
+function renderDeck() {
+  if (!deckTrack) return;
+
+  // Render cards
+  deckTrack.innerHTML = PROJECTS.map((p, idx) => {
     const statusClass = p.statusType === 'active' 
       ? 'project-card__status--active' 
       : 'project-card__status--wip';
 
     return `
-      <article class="project-card reveal in" data-id="${p.id}">
+      <article class="deck-card project-card ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}">
         <div>
           <div class="project-card__top">
             <div class="project-card__icon-wrap">
@@ -289,42 +314,160 @@ function renderProjects(filter = 'all') {
     `;
   }).join('');
 
-  // Attach click listeners to cards
-  projectsGrid.querySelectorAll('.project-card').forEach(card => {
+  // Render pagination dots
+  if (deckDots) {
+    deckDots.innerHTML = PROJECTS.map((_, idx) => `
+      <button class="deck-dot ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" type="button" aria-label="Перейти к проекту ${idx + 1}"></button>
+    `).join('');
+
+    deckDots.querySelectorAll('.deck-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        goToCard(parseInt(dot.dataset.index, 10));
+      });
+    });
+  }
+
+  attachCardGlow();
+  initDeckInteractions();
+  goToCard(activeDeckIndex, false);
+}
+
+function goToCard(index, animate = true) {
+  if (index < 0) index = PROJECTS.length - 1;
+  if (index >= PROJECTS.length) index = 0;
+  activeDeckIndex = index;
+
+  const cards = deckTrack.querySelectorAll('.deck-card');
+  const dots = deckDots ? deckDots.querySelectorAll('.deck-dot') : [];
+
+  cards.forEach((card, idx) => {
+    card.classList.toggle('is-active', idx === activeDeckIndex);
+  });
+
+  dots.forEach((dot, idx) => {
+    dot.classList.toggle('is-active', idx === activeDeckIndex);
+  });
+
+  if (deckCounter) {
+    const currentNum = String(activeDeckIndex + 1).padStart(2, '0');
+    const totalNum = String(PROJECTS.length).padStart(2, '0');
+    deckCounter.textContent = `${currentNum} / ${totalNum}`;
+  }
+
+  // Calculate track position to center active card
+  if (cards.length > 0) {
+    const card = cards[activeDeckIndex];
+    const stageWidth = deckStage.offsetWidth;
+    const cardWidth = card.offsetWidth;
+    const cardLeft = card.offsetLeft;
+    const targetOffset = (stageWidth / 2) - (cardWidth / 2) - cardLeft;
+
+    if (!animate) {
+      deckTrack.style.transition = 'none';
+      deckTrack.style.transform = `translateX(${targetOffset}px)`;
+      void deckTrack.offsetWidth;
+      deckTrack.style.transition = '';
+    } else {
+      deckTrack.style.transform = `translateX(${targetOffset}px)`;
+    }
+  }
+}
+
+function initDeckInteractions() {
+  if (!deckStage || !deckTrack) return;
+
+  let isDragging = false;
+  let startX = 0;
+  let currentTranslate = 0;
+  let dragDiff = 0;
+
+  function getCurrentTranslate() {
+    const style = window.getComputedStyle(deckTrack);
+    const matrix = new WebKitCSSMatrix(style.transform);
+    return matrix.m41;
+  }
+
+  // Pointer Down (Mouse or Touch)
+  deckStage.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return; // only left click
+    isDragging = true;
+    startX = e.clientX;
+    dragDiff = 0;
+    currentTranslate = getCurrentTranslate();
+    deckStage.classList.add('is-dragging');
+    deckStage.setPointerCapture(e.pointerId);
+  });
+
+  // Pointer Move
+  deckStage.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    dragDiff = e.clientX - startX;
+    deckTrack.style.transform = `translateX(${currentTranslate + dragDiff}px)`;
+  });
+
+  // Pointer Up / Cancel
+  const handlePointerEnd = (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    deckStage.classList.remove('is-dragging');
+    try { deckStage.releasePointerCapture(e.pointerId); } catch (_) {}
+
+    // Check drag threshold
+    if (Math.abs(dragDiff) > 50) {
+      if (dragDiff < 0) {
+        goToCard(activeDeckIndex + 1);
+      } else {
+        goToCard(activeDeckIndex - 1);
+      }
+    } else {
+      // Small drag or click: snap back to current
+      goToCard(activeDeckIndex);
+    }
+  };
+
+  deckStage.addEventListener('pointerup', handlePointerEnd);
+  deckStage.addEventListener('pointercancel', handlePointerEnd);
+
+  // Card click handler (open preview or switch)
+  deckTrack.querySelectorAll('.deck-card').forEach((card) => {
     card.addEventListener('click', (e) => {
-      const id = card.dataset.id;
-      const project = PROJECTS.find(p => p.id === id);
-      if (project) {
-        // Trigger the signature wave effect upon project preview click!
+      if (Math.abs(dragDiff) > 10) return; // ignore if was dragging
+      const idx = parseInt(card.dataset.index, 10);
+      if (idx === activeDeckIndex) {
+        // Click on active card opens Project Preview Modal with liquid water wave!
+        const project = PROJECTS[idx];
         triggerWave({
-          color: root.getAttribute('data-theme') === 'dark' ? '#111827' : '#e2e8f0',
           callback: () => openModal(project)
         });
+      } else {
+        // Click on side card slides it into active view!
+        goToCard(idx);
       }
     });
   });
 
-  attachCardGlow();
-}
+  // Prev / Next button listeners
+  if (deckPrev) {
+    deckPrev.onclick = () => goToCard(activeDeckIndex - 1);
+  }
+  if (deckNext) {
+    deckNext.onclick = () => goToCard(activeDeckIndex + 1);
+  }
 
-function attachCardGlow() {
-  document.querySelectorAll('.project-card, .stack-card').forEach(card => {
-    card.addEventListener('pointermove', (e) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
-      card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
-    });
+  // Keyboard navigation
+  deckStage.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      goToCard(activeDeckIndex - 1);
+    } else if (e.key === 'ArrowRight') {
+      goToCard(activeDeckIndex + 1);
+    }
   });
-}
 
-// Filter tabs listener
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    renderProjects(btn.dataset.filter);
-  });
-});
+  // Window resize re-centering
+  window.addEventListener('resize', () => {
+    goToCard(activeDeckIndex, false);
+  }, { passive: true });
+}
 
 /* -------------------------------------------------------------
    Interactive Project Preview Modal
@@ -353,7 +496,6 @@ function openModal(p) {
       e.preventDefault();
       // Wave transition before opening external project link!
       triggerWave({
-        color: '#0284c7',
         callback: () => {
           window.open(p.url, '_blank', 'noopener');
         }
@@ -388,9 +530,23 @@ window.addEventListener('keydown', (e) => {
 });
 
 /* -------------------------------------------------------------
+   Mouse Cursor Card Glow
+   ------------------------------------------------------------- */
+function attachCardGlow() {
+  document.querySelectorAll('.deck-card, .stack-card').forEach(card => {
+    card.addEventListener('pointermove', (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+    });
+  });
+}
+
+/* -------------------------------------------------------------
    Tech Ticker Track
    ------------------------------------------------------------- */
 function initTicker() {
+  if (!tickerTrack) return;
   const repeated = STACK_ITEMS.concat(STACK_ITEMS);
   tickerTrack.innerHTML = repeated
     .map(item => `<span class="ticker-pill">${escapeHtml(item)}</span>`)
@@ -409,7 +565,10 @@ function initScrollReveal() {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
 
   revealElements.forEach(el => observer.observe(el));
 }
@@ -465,9 +624,9 @@ try {
   }
 } catch (_) {}
 
+initFloatingNav();
 initTicker();
-renderProjects();
-attachCardGlow();
+renderDeck();
 initScrollReveal();
 fetchGitHubStats();
 
