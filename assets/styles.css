@@ -100,17 +100,15 @@ a {
   width: auto;
   height: auto;
   object-fit: cover;
-  opacity: 0.94;
-  filter: url(#video-sharpen) contrast(1.1) brightness(0.96) saturate(1.06);
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  opacity: 0.92;
+  filter: contrast(1.04) brightness(0.96);
   display: block;
 }
 
 .video-bg__overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.58) 100%);
+  background: rgba(0, 0, 0, 0.4);
   pointer-events: none;
 }
 
