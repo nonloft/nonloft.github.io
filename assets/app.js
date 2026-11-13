@@ -17,7 +17,8 @@ const PROJECTS = [
     id: 'deepseek-harness-desktop',
     title: 'DeepSeek Harness Desktop',
     category: 'desktop',
-    status: 'Релиз v1.0',
+    status: 'Релиз',
+    version: 'v1.0',
     statusType: 'active',
     badge: 'EXE',
     shortDesc: 'Автономная десктопная оболочка на Electron для ИИ-агента DeepSeek Harness с нативным NSIS-инсталлятором.',
@@ -37,6 +38,7 @@ const PROJECTS = [
     title: 'EaveVPN-App',
     category: 'vpn',
     status: 'Активен',
+    version: 'v1.2',
     statusType: 'active',
     badge: 'VPN',
     shortDesc: 'Быстрый кроссплатформенный VPN-клиент на Flutter (Dart) с чистым интерфейсом и минимальной задержкой.',
@@ -56,6 +58,7 @@ const PROJECTS = [
     title: 'island (Desktop Assistant)',
     category: 'desktop',
     status: 'В разработке',
+    version: 'v0.9 (Pre-release)',
     statusType: 'wip',
     badge: 'HUD',
     shortDesc: 'Динамический плавающий HUD-остров под Windows: медиа-контроль, Win32 оверлей, Discord RPC и Telegram.',
@@ -75,73 +78,78 @@ const PROJECTS = [
     title: 'FlClash-Mod',
     category: 'vpn',
     status: 'Модификация',
+    version: 'v0.8.18-mod',
     statusType: 'active',
     badge: 'MOD',
     shortDesc: 'Кастомная сборка клиента FlClash для ядер mihomo (Clash Meta) с расширенным парсингом и TCP-пингом.',
     fullDesc: 'Модифицированный форк клиента FlClash на Flutter. Направлен на решение проблем с нестандартными форматами подписок, улучшенное детектирование задержек нод и стабильную работу под высокой нагрузкой.',
     highlights: [
-      'Нативная поддержка прямого TCP ping тестирования для точного замера пинга',
-      'Расширенный парсер сырых конфигураций (vless, vmess, trojan, ss, hy2)',
-      'Тонкая настройка правил маршрутизации (Direct, Global, Rule)',
-      'Оптимизированный менеджер системного прокси для Windows'
+      'Поддержка гибридного режима маршрутизации и расширенные правила гео-IP',
+      'Оптимизированное переключение профилей без разрыва активных соединений',
+      'Точные замеры задержки с фильтрацией ложных таймаутов',
+      'Чистый темный UI без лишних визуальных элементов'
     ],
-    tags: ['Dart', 'Flutter', 'mihomo', 'Clash Meta', 'Proxy'],
-    url: 'https://github.com/Kirillo4ka/FlClash-Mod',
-    isPublic: true
+    tags: ['Flutter', 'Clash Meta', 'mihomo', 'Network', 'Dart'],
+    url: 'https://github.com/Kirillo4ka',
+    isPublic: false
   },
   {
     id: 'eavevpn-qt',
     title: 'eaveVPN (Qt Desktop)',
-    category: 'vpn',
+    category: 'desktop',
     status: 'Активен',
+    version: 'v2.0',
     statusType: 'active',
     badge: 'GUI',
-    shortDesc: 'Легковесный клиент для ядра mihomo / Clash Meta на Python и Qt6 (PySide6) с темами оформления.',
-    fullDesc: 'Минималистичный десктопный GUI-клиент для управления сетевыми профилями mihomo. Разработан на PySide6 для максимальной производительности, минимального потребления памяти (~40MB RAM) и быстрого холодного старта.',
+    shortDesc: 'Легковесный десктопный клиент на Python и PyQt с минимальным потреблением ОЗУ и нативным треем.',
+    fullDesc: 'Компактное приложение для управления подключением и маршрутами. Написано на Python с использованием PyQt6. Занимает минимум оперативной памяти, мгновенно сворачивается в трей и восстанавливает соединение при сбоях сети.',
     highlights: [
-      'Мгновенный холодный запуск и низкое потребление системных ресурсов',
-      'Автоматическое обновление профилей по внешней HTTPS-ссылке',
-      'Детальный лог подключений и реал-тайм графики сетевого трафика',
-      'Встроенная поддержка тёмной и светлой тем оформления'
+      'Мгновенный холодный старт и потребление памяти менее 45 МБ',
+      'Фоновая работа в системном трее с контекстным быстрым меню',
+      'Автоматический Kill Switch при непредвиденном разрыве туннеля',
+      'Поддержка импорта кастомных конфигураций одним кликом'
     ],
-    tags: ['Python', 'Qt6', 'PySide6', 'mihomo', 'Clash'],
+    tags: ['Python', 'PyQt6', 'Qt', 'Networking', 'Tray'],
     url: 'https://github.com/Kirillo4ka',
     isPublic: false
   },
   {
     id: 'eavevpn-automation',
     title: 'EaveVPN Infrastructure & Automation',
-    category: 'tools',
+    category: 'vpn',
     status: 'В проде',
+    version: 'v1.5',
     statusType: 'active',
     badge: 'OPS',
-    shortDesc: 'Автоматизированный пайплайн: сбор, проверка доступности, шифрование и раздача конфигураций.',
-    fullDesc: 'Бэкенд-инфраструктура и набор скриптов автоматизации на Python и Node.js. Обеспечивает непрерывную валидацию серверов, удаление недоступных узлов, шифрование конфигураций и их автоматическую публикацию для приложений EaveVPN.',
+    shortDesc: 'Автоматизированный стек развертывания нод, мониторинга доступности и синхронизации конфигураций.',
+    fullDesc: 'Комплекс серверных скриптов и CI/CD пайплайнов для управления распределенной сетью прокси-серверов. Автоматизирует выпуск сертификатов, ротацию ключей, сбор метрик задержки и генерацию пользовательских ссылок подписки.',
     highlights: [
-      'Автономные пайплайны на базе GitHub Actions без выделенного сервера',
-      'Многопоточная проверка доступности серверов и замера задержек',
-      'End-to-End шифрование конфигов перед отдачей клиенту',
-      'Высокая отказоустойчивость и автоматический fallback'
+      'Полностью автоматический деплой новых нод через Ansible и Bash-скрипты',
+      'Периодический health-check доступности протоколов из разных регионов',
+      'Генерация шифрованных ссылок подписки с динамической актуализацией',
+      'Интеграция с Telegram-ботом для мгновенного оповещения о деградации нод'
     ],
-    tags: ['Python', 'JavaScript', 'GitHub Actions', 'Automation', 'CI/CD'],
-    url: 'https://github.com/Kirillo4ka/configs-EaveVPN-app',
-    isPublic: true
+    tags: ['Bash', 'Python', 'DevOps', 'CI/CD', 'Telegram API'],
+    url: 'https://github.com/Kirillo4ka',
+    isPublic: false
   },
   {
     id: 'plotter-grbl',
     title: 'PlotterGRBL',
     category: 'tools',
     status: 'Заморожен',
+    version: 'v0.4-alpha',
     statusType: 'wip',
     badge: 'CNC',
-    shortDesc: 'Управляющее ПО на Python для лазерных и перовых GRBL ЧПУ-плоттеров: векторизация и G-code.',
-    fullDesc: 'Инструмент для генерации траекторий и отправки команд на GRBL-контроллеры плоттеров и граверов. Включает модуль векторизации контуров, оптимизацию холостых перемещений пера и визуализацию процесса.',
+    shortDesc: 'Утилита для управления 2-осевым плоттером по протоколу GRBL с предпросмотром траекторий.',
+    fullDesc: 'Специализированная программа для отправки G-кода на контроллер станка. Поддерживает парсинг векторных файлов, расчет траектории перемещения пера и управление скоростью подачи в реальном времени.',
     highlights: [
-      'Прямое взаимодействие с микроконтроллером через COM / Serial порт',
-      'Трейсинг и сглаживание векторных контуров в компактный G-code',
-      'Предпросмотр траектории движения инструмента в реальном времени'
+      'Прямой обмен пакетами по COM-порту с контроллером Arduino GRBL',
+      'Визуализатор рабочей зоны и отображение текущей позиции пера',
+      'Удобная калибровка нулевой точки (Homing) и шагов двигателей',
+      'Оптимизация холостых перемещений для ускорения отрисовки'
     ],
-    tags: ['Python', 'GRBL', 'Hardware', 'CNC', 'G-code'],
+    tags: ['Python', 'GRBL', 'Hardware', 'Serial', 'Automation'],
     url: 'https://github.com/Kirillo4ka',
     isPublic: false
   }
@@ -155,7 +163,6 @@ const STACK_ITEMS = [
 
 // DOM references
 const root = document.documentElement;
-const themeBtn = document.getElementById('themeBtn');
 const deckTrack = document.getElementById('deckTrack');
 const deckStage = document.getElementById('deckStage');
 const deckPrev = document.getElementById('deckPrev');
@@ -172,22 +179,10 @@ const navWrapper = document.getElementById('navWrapper');
 let activeDeckIndex = 0;
 
 /* -------------------------------------------------------------
-   Theme Management
+   Theme Management (Locked to Pure Jet Black Dark Mode)
    ------------------------------------------------------------- */
-function applyTheme(next) {
-  root.setAttribute('data-theme', next);
-  try { localStorage.setItem('portfolio-theme', next); } catch (_) {}
-  const metaTheme = document.querySelector('meta[name="theme-color"]');
-  if (metaTheme) {
-    metaTheme.setAttribute('content', next === 'dark' ? DARK_BG : LIGHT_BG);
-  }
-}
-
-themeBtn.addEventListener('click', () => {
-  const current = root.getAttribute('data-theme') || 'dark';
-  const next = current === 'dark' ? 'light' : 'dark';
-  applyTheme(next);
-});
+root.setAttribute('data-theme', 'dark');
+try { localStorage.setItem('portfolio-theme', 'dark'); } catch (_) {}
 
 /* -------------------------------------------------------------
    Floating & Docking Navbar
@@ -225,25 +220,22 @@ function renderDeck() {
 
     return `
       <article class="deck-card project-card ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" tabindex="0">
-        <div>
+        <div class="project-card__body">
           <div class="project-card__badge-row">
             <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
             <span class="project-card__status ${statusClass}">${escapeHtml(p.status)}</span>
           </div>
-          <h3 class="project-card__title" data-action="preview" title="Нажмите для открытия превью">${escapeHtml(p.title)}</h3>
+          <h3 class="project-card__title">${escapeHtml(p.title)}</h3>
           <p class="project-card__desc">${escapeHtml(p.shortDesc)}</p>
-        </div>
-
-        <div>
           <div class="project-card__tags">
             ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
           </div>
-          <div class="project-card__footer">
-            <button class="project-card__preview-btn" type="button" data-action="preview" aria-label="Открыть превью ${escapeHtml(p.title)}">
-              <span>Смотреть превью</span>
-              <svg viewBox="0 0 20 20" width="13" height="13" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg>
-            </button>
-          </div>
+        </div>
+        <div class="project-card__bar" data-action="preview" role="button" tabindex="0" aria-label="Открыть превью ${escapeHtml(p.title)}">
+          <span class="project-card__bar-text">Смотреть превью</span>
+          <svg class="project-card__bar-icon" viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+          </svg>
         </div>
       </article>
     `;
@@ -471,12 +463,28 @@ function initDeckInteractions() {
    Interactive Project Preview Modal
    ------------------------------------------------------------- */
 function openModal(p) {
-  document.getElementById('modalCategory').textContent = 
-    p.category === 'desktop' ? 'Десктопное приложение' :
-    p.category === 'vpn' ? 'VPN & Сетевой стек' : 'Утилиты & Инструменты';
-  document.getElementById('modalTitle').textContent = p.title;
-  document.getElementById('modalStatus').textContent = p.status;
-  document.getElementById('modalDesc').textContent = p.fullDesc;
+  const catEl = document.getElementById('modalCategory');
+  if (catEl) {
+    catEl.textContent = 
+      p.category === 'desktop' ? 'Десктопное приложение' :
+      p.category === 'vpn' ? 'VPN & Сетевой стек' : 'Утилиты & Инструменты';
+  }
+  const titleEl = document.getElementById('modalTitle');
+  if (titleEl) titleEl.textContent = p.title;
+
+  const versionEl = document.getElementById('modalVersion');
+  if (versionEl) {
+    versionEl.textContent = 'Версия: ' + (p.version || 'v1.0');
+  }
+
+  const statusEl = document.getElementById('modalStatus');
+  if (statusEl) {
+    statusEl.textContent = p.status;
+    statusEl.className = 'modal__status ' + (p.statusType === 'active' ? 'project-card__status--active' : 'project-card__status--wip');
+  }
+
+  const descEl = document.getElementById('modalDesc');
+  if (descEl) descEl.textContent = p.fullDesc;
 
   const highlightsEl = document.getElementById('modalHighlights');
   highlightsEl.innerHTML = p.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('');
@@ -596,12 +604,10 @@ function escapeHtml(value) {
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// Check saved theme
+// Enforce dark mode
+root.setAttribute('data-theme', 'dark');
 try {
-  const saved = localStorage.getItem('portfolio-theme');
-  if (saved === 'light' || saved === 'dark') {
-    applyTheme(saved);
-  }
+  localStorage.setItem('portfolio-theme', 'dark');
 } catch (_) {}
 
 initFloatingNav();
