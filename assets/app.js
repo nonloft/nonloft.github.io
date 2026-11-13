@@ -153,23 +153,8 @@ const STACK_ITEMS = [
   'NSIS', 'GitHub Actions', 'Docker', 'VLESS', 'Shadowsocks', 'REST API'
 ];
 
-// Clean SVGs by category
-function getCategorySvg(category) {
-  switch (category) {
-    case 'desktop':
-      return `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`;
-    case 'vpn':
-      return `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
-    case 'tools':
-      return `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`;
-    default:
-      return `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`;
-  }
-}
-
 // DOM references
 const root = document.documentElement;
-const wave = document.getElementById('wave');
 const themeBtn = document.getElementById('themeBtn');
 const deckTrack = document.getElementById('deckTrack');
 const deckStage = document.getElementById('deckStage');
@@ -182,50 +167,12 @@ const projectModal = document.getElementById('projectModal');
 const modalBackdrop = document.getElementById('modalBackdrop');
 const modalClose = document.getElementById('modalClose');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
-const progress = document.getElementById('progress');
 const navWrapper = document.getElementById('navWrapper');
 
-let isWaveBusy = false;
 let activeDeckIndex = 0;
 
 /* -------------------------------------------------------------
-   True Liquid Water Wave Transition Engine
-   Surges from the bottom as a realistic fluid water wave,
-   smoothly transforming the theme and content like a gradient!
-   ------------------------------------------------------------- */
-function triggerWave({ callback } = {}) {
-  if (isWaveBusy) {
-    if (callback) callback();
-    return;
-  }
-  isWaveBusy = true;
-
-  // Fluid surge from bottom
-  wave.style.transition = 'transform 0.65s cubic-bezier(0.4, 0, 0.15, 1)';
-  wave.style.transform = 'translate3d(0, 0%, 0)';
-
-  window.setTimeout(() => {
-    // Peak water crest moment: switch theme / open modal
-    if (callback) {
-      try { callback(); } catch (e) { console.error(e); }
-    }
-
-    // Water rolls away off the top
-    wave.style.transform = 'translate3d(0, -108%, 0)';
-
-    // Reset silently to bottom
-    window.setTimeout(() => {
-      wave.style.transition = 'none';
-      wave.style.transform = 'translate3d(0, 108%, 0)';
-      void wave.offsetWidth; // force reflow
-      wave.style.transition = '';
-      isWaveBusy = false;
-    }, 650);
-  }, 650);
-}
-
-/* -------------------------------------------------------------
-   Theme Management with Water Wave Gradient Transition
+   Theme Management
    ------------------------------------------------------------- */
 function applyTheme(next) {
   root.setAttribute('data-theme', next);
@@ -239,10 +186,7 @@ function applyTheme(next) {
 themeBtn.addEventListener('click', () => {
   const current = root.getAttribute('data-theme') || 'dark';
   const next = current === 'dark' ? 'light' : 'dark';
-  // Wave surges with realistic liquid water and transforms theme
-  triggerWave({
-    callback: () => applyTheme(next)
-  });
+  applyTheme(next);
 });
 
 /* -------------------------------------------------------------
@@ -280,35 +224,18 @@ function renderDeck() {
       : 'project-card__status--wip';
 
     return `
-      <article class="deck-card project-card ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}">
+      <article class="deck-card project-card ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" role="button" tabindex="0">
         <div>
-          <div class="project-card__top">
-            <div class="project-card__icon-wrap">
-              ${getCategorySvg(p.category)}
-            </div>
-            <div class="project-card__badge-row">
-              <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
-              <span class="project-card__status ${statusClass}">${escapeHtml(p.status)}</span>
-            </div>
+          <div class="project-card__badge-row">
+            <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
+            <span class="project-card__status ${statusClass}">${escapeHtml(p.status)}</span>
           </div>
           <h3 class="project-card__title">${escapeHtml(p.title)}</h3>
           <p class="project-card__desc">${escapeHtml(p.shortDesc)}</p>
         </div>
 
-        <div>
-          <div class="project-card__tags">
-            ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
-          </div>
-
-          <div class="project-card__bottom">
-            <span class="project-card__preview-btn">
-              <span>Смотреть превью</span>
-              <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06z"/></svg>
-            </span>
-            <span class="project-card__link-icon" title="${p.isPublic ? 'Репозиторий на GitHub' : 'Локальный проект'}">
-              ${p.isPublic ? 'GitHub ↗' : 'В разработке'}
-            </span>
-          </div>
+        <div class="project-card__tags">
+          ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
         </div>
       </article>
     `;
@@ -430,15 +357,12 @@ function initDeckInteractions() {
 
   // Card click handler (open preview or switch)
   deckTrack.querySelectorAll('.deck-card').forEach((card) => {
-    card.addEventListener('click', (e) => {
+    card.addEventListener('click', () => {
       if (Math.abs(dragDiff) > 10) return; // ignore if was dragging
       const idx = parseInt(card.dataset.index, 10);
       if (idx === activeDeckIndex) {
-        // Click on active card opens Project Preview Modal with liquid water wave!
-        const project = PROJECTS[idx];
-        triggerWave({
-          callback: () => openModal(project)
-        });
+        // Direct click opens preview modal with smooth zoom inflation!
+        openModal(PROJECTS[idx]);
       } else {
         // Click on side card slides it into active view!
         goToCard(idx);
@@ -473,7 +397,6 @@ function initDeckInteractions() {
    Interactive Project Preview Modal
    ------------------------------------------------------------- */
 function openModal(p) {
-  document.getElementById('modalIcon').innerHTML = getCategorySvg(p.category);
   document.getElementById('modalCategory').textContent = 
     p.category === 'desktop' ? 'Десктопное приложение' :
     p.category === 'vpn' ? 'VPN & Сетевой стек' : 'Утилиты & Инструменты';
@@ -492,15 +415,7 @@ function openModal(p) {
     linkBtn.href = p.url;
     linkBtn.style.display = 'inline-flex';
     linkBtn.querySelector('span').textContent = 'Открыть на GitHub';
-    linkBtn.onclick = (e) => {
-      e.preventDefault();
-      // Wave transition before opening external project link!
-      triggerWave({
-        callback: () => {
-          window.open(p.url, '_blank', 'noopener');
-        }
-      });
-    };
+    linkBtn.onclick = null;
   } else {
     linkBtn.href = 'https://github.com/Kirillo4ka';
     linkBtn.style.display = 'inline-flex';
@@ -572,16 +487,6 @@ function initScrollReveal() {
 
   revealElements.forEach(el => observer.observe(el));
 }
-
-/* -------------------------------------------------------------
-   Scroll Progress
-   ------------------------------------------------------------- */
-window.addEventListener('scroll', () => {
-  const h = document.documentElement;
-  const max = h.scrollHeight - h.clientHeight;
-  const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
-  progress.style.width = pct + '%';
-}, { passive: true });
 
 /* -------------------------------------------------------------
    Live GitHub Stats
