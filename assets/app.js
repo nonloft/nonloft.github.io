@@ -1,114 +1,436 @@
 'use strict';
 
-const USER = 'Kirillo4ka';
-const DARK_BG = '#0a0d14';
-const LIGHT_BG = '#f6f8fc';
+/* -------------------------------------------------------------
+   nonloft portfolio — Interactive Application Logic
+   Clean Developer Aesthetic (Zero Emojis)
+   ------------------------------------------------------------- */
 
-const LANG_COLORS = {
-  Dart: '#00B4AB',
-  NSIS: '#3D5A80',
-  JavaScript: '#f1e05a',
-  TypeScript: '#3178c6',
-  Python: '#3572A5',
-  HTML: '#e34c26',
-  CSS: '#563d7c',
-  Shell: '#89e051',
-  'C++': '#f34b7d',
-  'C#': '#178600',
-  Kotlin: '#A97BFF',
-  Swift: '#F05138',
-  Java: '#b07219',
-  Rust: '#dea584',
-  Go: '#00ADD8',
-  PowerShell: '#5391FE',
-  Electron: '#47848F',
-  Lua: '#000080',
-  QML: '#41cd52',
-};
+const GITHUB_USER = 'Kirillo4ka';
+const DARK_BG = '#090d14';
+const LIGHT_BG = '#f8fafc';
 
-const FALLBACK = [
+// Catalog of curated projects with technical depth
+const PROJECTS = [
   {
-    name: 'DeepSeek-Harness-Desktop',
-    full_name: 'Kirillo4ka/DeepSeek-Harness-Desktop',
-    description: 'Десктопная оболочка (Electron) для агента DeepSeek Harness — двойной клик и агент в отдельном окне.',
-    language: 'NSIS',
-    stargazers_count: 0,
-    forks_count: 0,
-    html_url: 'https://github.com/Kirillo4ka/DeepSeek-Harness-Desktop',
-    updated_at: '2026-11-13T15:43:17Z',
-    featured: true,
+    id: 'deepseek-harness-desktop',
+    title: 'DeepSeek Harness Desktop',
+    category: 'desktop',
+    status: 'Релиз v1.0',
+    statusType: 'active',
+    badge: 'EXE',
+    shortDesc: 'Автономная десктопная оболочка на Electron для ИИ-агента DeepSeek Harness с нативным NSIS-инсталлятором.',
+    fullDesc: 'Полноценное настольное приложение для комфортной работы с автономным агентом DeepSeek Harness. Позволяет запускать агента в отдельном окне без возни с консолями и ручной настройки окружения. Включает готовый установщик Windows.',
+    highlights: [
+      'Полная изоляция рабочего окна и удобный GUI вместо командной строки',
+      'Собственный NSIS-установщик с ярлыками и чистым деинсталлятором',
+      'Автоматическое управление жизненным циклом фоновых Node.js процессов',
+      'Минимальный оверхед и оптимизированное потребление ресурсов'
+    ],
+    tags: ['Electron', 'NSIS', 'JavaScript', 'Node.js', 'Desktop'],
+    url: 'https://github.com/Kirillo4ka/DeepSeek-Harness-Desktop',
+    isPublic: true
   },
   {
-    name: 'EaveVPN-App',
-    full_name: 'Kirillo4ka/EaveVPN-App',
-    description: 'VPN-клиент на Flutter.',
-    language: 'Dart',
-    stargazers_count: 1,
-    forks_count: 0,
-    html_url: 'https://github.com/Kirillo4ka/EaveVPN-App',
-    updated_at: '2026-08-31T20:30:22Z',
+    id: 'eavevpn-app',
+    title: 'EaveVPN-App',
+    category: 'vpn',
+    status: 'Активен',
+    statusType: 'active',
+    badge: 'VPN',
+    shortDesc: 'Быстрый кроссплатформенный VPN-клиент на Flutter (Dart) с чистым интерфейсом и минимальной задержкой.',
+    fullDesc: 'Современный клиент для безопасного подключения к зашифрованным прокси и VPN-серверам. Написан на Flutter для плавной работы интерфейса в 120 FPS. Поддерживает динамическое получение зашифрованных профилей и умную фильтрацию.',
+    highlights: [
+      'Плавный отзывчивый UI на Flutter под мобильные и десктопные платформы',
+      'Автоматический выбор оптимальной ноды по реальной задержке (RTT / TCP ping)',
+      'Интеграция с облачной инфраструктурой динамических конфигов',
+      'Поддержка раздельного туннелирования (Split Tunneling)'
+    ],
+    tags: ['Flutter', 'Dart', 'VPN', 'Proxy', 'Cross-platform'],
+    url: 'https://github.com/Kirillo4ka/EaveVPN-App',
+    isPublic: true
   },
   {
-    name: 'FlClash-Mod',
-    full_name: 'Kirillo4ka/FlClash-Mod',
-    description: 'Модификация FlClash.',
-    language: 'Dart',
-    stargazers_count: 0,
-    forks_count: 0,
-    html_url: 'https://github.com/Kirillo4ka/FlClash-Mod',
-    updated_at: '2026-08-26T18:18:01Z',
+    id: 'island',
+    title: 'island (Desktop Assistant)',
+    category: 'desktop',
+    status: 'В разработке',
+    statusType: 'wip',
+    badge: 'HUD',
+    shortDesc: 'Динамический плавающий HUD-остров под Windows: медиа-контроль, Win32 оверлей, Discord RPC и Telegram.',
+    fullDesc: 'Интерактивный десктопный ассистент для Windows на Python. Реализует концепцию динамического островка (Dynamic Island): плавный всплывающий оверлей поверх окон, OSD-индикация громкости, хоткеи управления аудио, Discord Rich Presence и уведомления.',
+    highlights: [
+      'Плавная анимация всплывающего HUD-острова без потери фокуса активного окна',
+      'Прямой перехват медиа-клавиш и управление системным звуком через Win32 API',
+      'Глубокая интеграция с Discord RPC (текущий трек, статус) и Telegram-событиями',
+      'Миниатюрные системные метрики (CPU / RAM) прямо на рабочем столе'
+    ],
+    tags: ['Python', 'Win32 API', 'Overlay', 'Discord RPC', 'Hotkeys'],
+    url: 'https://github.com/Kirillo4ka',
+    isPublic: false
   },
+  {
+    id: 'flclash-mod',
+    title: 'FlClash-Mod',
+    category: 'vpn',
+    status: 'Модификация',
+    statusType: 'active',
+    badge: 'MOD',
+    shortDesc: 'Кастомная сборка клиента FlClash для ядер mihomo (Clash Meta) с расширенным парсингом и TCP-пингом.',
+    fullDesc: 'Модифицированный форк клиента FlClash на Flutter. Направлен на решение проблем с нестандартными форматами подписок, улучшенное детектирование задержек нод и стабильную работу под высокой нагрузкой.',
+    highlights: [
+      'Нативная поддержка прямого TCP ping тестирования для точного замера пинга',
+      'Расширенный парсер сырых конфигураций (vless, vmess, trojan, ss, hy2)',
+      'Тонкая настройка правил маршрутизации (Direct, Global, Rule)',
+      'Оптимизированный менеджер системного прокси для Windows'
+    ],
+    tags: ['Dart', 'Flutter', 'mihomo', 'Clash Meta', 'Proxy'],
+    url: 'https://github.com/Kirillo4ka/FlClash-Mod',
+    isPublic: true
+  },
+  {
+    id: 'eavevpn-qt',
+    title: 'eaveVPN (Qt Desktop)',
+    category: 'vpn',
+    status: 'Активен',
+    statusType: 'active',
+    badge: 'GUI',
+    shortDesc: 'Легковесный клиент для ядра mihomo / Clash Meta на Python и Qt6 (PySide6) с темами оформления.',
+    fullDesc: 'Минималистичный десктопный GUI-клиент для управления сетевыми профилями mihomo. Разработан на PySide6 для максимальной производительности, минимального потребления памяти (~40MB RAM) и быстрого холодного старта.',
+    highlights: [
+      'Мгновенный холодный запуск и низкое потребление системных ресурсов',
+      'Автоматическое обновление профилей по внешней HTTPS-ссылке',
+      'Детальный лог подключений и реал-тайм графики сетевого трафика',
+      'Встроенная поддержка тёмной и светлой тем оформления'
+    ],
+    tags: ['Python', 'Qt6', 'PySide6', 'mihomo', 'Clash'],
+    url: 'https://github.com/Kirillo4ka',
+    isPublic: false
+  },
+  {
+    id: 'eavevpn-automation',
+    title: 'EaveVPN Infrastructure & Automation',
+    category: 'tools',
+    status: 'В проде',
+    statusType: 'active',
+    badge: 'OPS',
+    shortDesc: 'Автоматизированный пайплайн: сбор, проверка доступности, шифрование и раздача конфигураций.',
+    fullDesc: 'Бэкенд-инфраструктура и набор скриптов автоматизации на Python и Node.js. Обеспечивает непрерывную валидацию серверов, удаление недоступных узлов, шифрование конфигураций и их автоматическую публикацию для приложений EaveVPN.',
+    highlights: [
+      'Автономные пайплайны на базе GitHub Actions без выделенного сервера',
+      'Многопоточная проверка доступности серверов и замера задержек',
+      'End-to-End шифрование конфигов перед отдачей клиенту',
+      'Высокая отказоустойчивость и автоматический fallback'
+    ],
+    tags: ['Python', 'JavaScript', 'GitHub Actions', 'Automation', 'CI/CD'],
+    url: 'https://github.com/Kirillo4ka/configs-EaveVPN-app',
+    isPublic: true
+  },
+  {
+    id: 'plotter-grbl',
+    title: 'PlotterGRBL',
+    category: 'tools',
+    status: 'Заморожен',
+    statusType: 'wip',
+    badge: 'CNC',
+    shortDesc: 'Управляющее ПО на Python для лазерных и перовых GRBL ЧПУ-плоттеров: векторизация и G-code.',
+    fullDesc: 'Инструмент для генерации траекторий и отправки команд на GRBL-контроллеры плоттеров и граверов. Включает модуль векторизации контуров, оптимизацию холостых перемещений пера и визуализацию процесса.',
+    highlights: [
+      'Прямое взаимодействие с микроконтроллером через COM / Serial порт',
+      'Трейсинг и сглаживание векторных контуров в компактный G-code',
+      'Предпросмотр траектории движения инструмента в реальном времени'
+    ],
+    tags: ['Python', 'GRBL', 'Hardware', 'CNC', 'G-code'],
+    url: 'https://github.com/Kirillo4ka',
+    isPublic: false
+  }
 ];
 
-const REPO_DESC = {
-  'DeepSeek-Harness-Desktop': 'Десктопная оболочка (Electron) для агента DeepSeek Harness — агент в отдельном окне, со своим установщиком.',
-  'EaveVPN-App': 'VPN-клиент на Flutter (Dart).',
-  'FlClash-Mod': 'Модификация FlClash.',
-};
-
-const LOCAL_PROJECTS = [
-  {
-    name: 'island',
-    status: 'в разработке',
-    description: 'Динамический десктопный ассистент для Windows: управление аудио и медиа-клавишами, оверлей, Discord RPC, Telegram call/reply, горячие клавиши, OSD громкости и системные метрики.',
-    languages: ['Python'],
-    wip: true,
-  },
-  {
-    name: 'eaveVPN (Qt)',
-    status: 'активен',
-    description: 'VPN-клиент для ядра mihomo/Clash Meta на Python + Qt6 (PySide6): профили по ссылке, проверка задержек узлов, журнал, тёмная/светлая темы.',
-    languages: ['Python'],
-  },
-  {
-    name: 'PlotterGRBL',
-    status: 'заморожен',
-    description: 'Контроллер GRBL-плоттера/лазера на Python: контуры, текст и трейсинг в G-code.',
-    languages: ['Python'],
-  },
+const STACK_ITEMS = [
+  'Flutter', 'Dart', 'Python', 'Qt6', 'PySide6', 'Electron', 'Node.js',
+  'C++', 'C#', 'WPF', 'Win32 API', 'PowerShell', 'mihomo', 'Clash Meta',
+  'NSIS', 'GitHub Actions', 'Docker', 'VLESS', 'Shadowsocks', 'REST API'
 ];
 
-const SKILLS = [
-  { lang: 'Python', level: 4, note: 'PySide6 · aiogram · Flet · GRBL' },
-  { lang: 'C++', level: 3, note: 'форк Telegram Desktop / AyuGram' },
-  { lang: 'C#', level: 3, note: 'WPF' },
-  { lang: 'Dart / Flutter', level: 3, note: 'EaveVPN-App, FlClash-Mod' },
-  { lang: 'JavaScript / TypeScript', level: 3, note: 'Next.js · Electron' },
-  { lang: 'PowerShell', level: 3, note: 'автоматизация, сборка NSIS' },
-  { lang: 'Lua / Luau', level: 2, note: 'игровые скрипты' },
-  { lang: 'HTML / CSS', level: 3, note: 'этот сайт' },
-];
+// Clean SVGs by category (no emojis)
+function getCategorySvg(category) {
+  switch (category) {
+    case 'desktop':
+      return `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`;
+    case 'vpn':
+      return `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+    case 'tools':
+      return `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>`;
+    default:
+      return `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`;
+  }
+}
 
-const STACK = [
-  'Python', 'C++', 'C#', 'Dart', 'Flutter', 'TypeScript', 'JavaScript', 'Lua',
-  'PowerShell', 'PySide6', 'Flet', 'WPF', 'Next.js', 'Electron', 'aiogram',
-  'mihomo', 'GRBL', 'PyInstaller', 'NSIS', 'GitHub Actions', 'REST API', 'Docker',
-];
-
+// DOM references
 const root = document.documentElement;
 const wave = document.getElementById('wave');
 const themeBtn = document.getElementById('themeBtn');
+const projectsGrid = document.getElementById('projectsGrid');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const tickerTrack = document.getElementById('tickerTrack');
+const projectModal = document.getElementById('projectModal');
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalClose = document.getElementById('modalClose');
+const modalCloseBtn = document.getElementById('modalCloseBtn');
+const progress = document.getElementById('progress');
 
+let isWaveBusy = false;
+let currentFilter = 'all';
+
+/* -------------------------------------------------------------
+   Dynamic Wave Transition Engine
+   ------------------------------------------------------------- */
+function triggerWave({ color, callback }) {
+  if (isWaveBusy) {
+    if (callback) callback();
+    return;
+  }
+  isWaveBusy = true;
+
+  const currentTheme = root.getAttribute('data-theme') || 'dark';
+  const waveColor = color || (currentTheme === 'dark' ? '#0f172a' : '#e2e8f0');
+  wave.style.setProperty('--wave-c', waveColor);
+
+  // Smooth upward sweep
+  wave.style.transition = 'transform 0.58s cubic-bezier(0.65, 0, 0.35, 1)';
+  wave.style.transform = 'translate3d(0, 0, 0)';
+
+  // Peak moment (everything is covered)
+  window.setTimeout(() => {
+    if (callback) {
+      try { callback(); } catch (e) { console.error(e); }
+    }
+
+    // Continue sweeping off to the top
+    wave.style.transform = 'translate3d(0, -106%, 0)';
+
+    // Reset back to bottom silently
+    window.setTimeout(() => {
+      wave.style.transition = 'none';
+      wave.style.transform = 'translate3d(0, 106%, 0)';
+      void wave.offsetWidth; // force reflow
+      wave.style.transition = '';
+      isWaveBusy = false;
+    }, 600);
+  }, 580);
+}
+
+/* -------------------------------------------------------------
+   Theme Management
+   ------------------------------------------------------------- */
+function applyTheme(next) {
+  root.setAttribute('data-theme', next);
+  try { localStorage.setItem('portfolio-theme', next); } catch (_) {}
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  if (metaTheme) {
+    metaTheme.setAttribute('content', next === 'dark' ? DARK_BG : LIGHT_BG);
+  }
+}
+
+themeBtn.addEventListener('click', () => {
+  const current = root.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  triggerWave({
+    color: next === 'dark' ? DARK_BG : LIGHT_BG,
+    callback: () => applyTheme(next)
+  });
+});
+
+/* -------------------------------------------------------------
+   Project Cards Rendering & Filtering
+   ------------------------------------------------------------- */
+function renderProjects(filter = 'all') {
+  currentFilter = filter;
+  const filtered = filter === 'all' 
+    ? PROJECTS 
+    : PROJECTS.filter(p => p.category === filter);
+
+  projectsGrid.innerHTML = filtered.map(p => {
+    const statusClass = p.statusType === 'active' 
+      ? 'project-card__status--active' 
+      : 'project-card__status--wip';
+
+    return `
+      <article class="project-card reveal in" data-id="${p.id}">
+        <div>
+          <div class="project-card__top">
+            <div class="project-card__icon-wrap">
+              ${getCategorySvg(p.category)}
+            </div>
+            <div class="project-card__badge-row">
+              <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
+              <span class="project-card__status ${statusClass}">${escapeHtml(p.status)}</span>
+            </div>
+          </div>
+          <h3 class="project-card__title">${escapeHtml(p.title)}</h3>
+          <p class="project-card__desc">${escapeHtml(p.shortDesc)}</p>
+        </div>
+
+        <div>
+          <div class="project-card__tags">
+            ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+          </div>
+
+          <div class="project-card__bottom">
+            <span class="project-card__preview-btn">
+              <span>Смотреть превью</span>
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06z"/></svg>
+            </span>
+            <span class="project-card__link-icon" title="${p.isPublic ? 'Репозиторий на GitHub' : 'Локальный проект'}">
+              ${p.isPublic ? 'GitHub ↗' : 'В разработке'}
+            </span>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  // Attach click listeners to cards
+  projectsGrid.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      const id = card.dataset.id;
+      const project = PROJECTS.find(p => p.id === id);
+      if (project) {
+        // Trigger the signature wave effect upon project preview click!
+        triggerWave({
+          color: root.getAttribute('data-theme') === 'dark' ? '#111827' : '#e2e8f0',
+          callback: () => openModal(project)
+        });
+      }
+    });
+  });
+}
+
+// Filter tabs listener
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    renderProjects(btn.dataset.filter);
+  });
+});
+
+/* -------------------------------------------------------------
+   Interactive Project Preview Modal
+   ------------------------------------------------------------- */
+function openModal(p) {
+  document.getElementById('modalIcon').innerHTML = getCategorySvg(p.category);
+  document.getElementById('modalCategory').textContent = 
+    p.category === 'desktop' ? 'Десктопное приложение' :
+    p.category === 'vpn' ? 'VPN & Сетевой стек' : 'Утилиты & Инструменты';
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalStatus').textContent = p.status;
+  document.getElementById('modalDesc').textContent = p.fullDesc;
+
+  const highlightsEl = document.getElementById('modalHighlights');
+  highlightsEl.innerHTML = p.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('');
+
+  const stackEl = document.getElementById('modalStack');
+  stackEl.innerHTML = p.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+
+  const linkBtn = document.getElementById('modalLink');
+  if (p.isPublic && p.url) {
+    linkBtn.href = p.url;
+    linkBtn.style.display = 'inline-flex';
+    linkBtn.querySelector('span').textContent = 'Открыть на GitHub';
+    linkBtn.onclick = (e) => {
+      e.preventDefault();
+      // Wave transition before opening external project link!
+      triggerWave({
+        color: '#0284c7',
+        callback: () => {
+          window.open(p.url, '_blank', 'noopener');
+        }
+      });
+    };
+  } else {
+    linkBtn.href = 'https://github.com/Kirillo4ka';
+    linkBtn.style.display = 'inline-flex';
+    linkBtn.querySelector('span').textContent = 'GitHub профиль';
+    linkBtn.onclick = null;
+  }
+
+  projectModal.classList.add('is-open');
+  projectModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  projectModal.classList.remove('is-open');
+  projectModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+modalCloseBtn.addEventListener('click', closeModal);
+modalBackdrop.addEventListener('click', closeModal);
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && projectModal.classList.contains('is-open')) {
+    closeModal();
+  }
+});
+
+/* -------------------------------------------------------------
+   Tech Ticker Track
+   ------------------------------------------------------------- */
+function initTicker() {
+  const repeated = STACK_ITEMS.concat(STACK_ITEMS);
+  tickerTrack.innerHTML = repeated
+    .map(item => `<span class="ticker-pill">${escapeHtml(item)}</span>`)
+    .join('');
+}
+
+/* -------------------------------------------------------------
+   Scroll Reveal Observer
+   ------------------------------------------------------------- */
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealElements.forEach(el => observer.observe(el));
+}
+
+/* -------------------------------------------------------------
+   Scroll Progress
+   ------------------------------------------------------------- */
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const max = h.scrollHeight - h.clientHeight;
+  const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+  progress.style.width = pct + '%';
+}, { passive: true });
+
+/* -------------------------------------------------------------
+   Live GitHub Stats
+   ------------------------------------------------------------- */
+async function fetchGitHubStats() {
+  try {
+    const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100`);
+    if (!res.ok) return;
+    const repos = await res.json();
+    if (Array.isArray(repos)) {
+      const valid = repos.filter(r => !r.fork);
+      const el = document.getElementById('statRepos');
+      if (el) el.textContent = valid.length || '8';
+    }
+  } catch (_) {}
+}
+
+/* -------------------------------------------------------------
+   Utilities
+   ------------------------------------------------------------- */
 function escapeHtml(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -118,213 +440,20 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
-function formatDate(iso) {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return '';
-  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' });
-}
-
-function langColor(lang) {
-  return LANG_COLORS[lang] || '#8b95a5';
-}
-
-/* ---------- reveal on scroll ---------- */
-const revealEls = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.12 },
-);
-revealEls.forEach((el) => io.observe(el));
-
-/* ---------- theme with wave transition ---------- */
-let themeBusy = false;
-
-function applyTheme(next) {
-  root.setAttribute('data-theme', next);
-  try { localStorage.setItem('theme', next); } catch (_) { /* ignore */ }
-  document.querySelector('meta[name="theme-color"]').setAttribute('content', next === 'dark' ? DARK_BG : LIGHT_BG);
-}
-
-function waveTheme(next) {
-  if (themeBusy) return;
-  themeBusy = true;
-  wave.style.setProperty('--wave-c', next === 'dark' ? DARK_BG : LIGHT_BG);
-
-  wave.style.transition = 'transform 0.62s cubic-bezier(0.7, 0, 0.25, 1)';
-  wave.style.transform = 'translate3d(0, 0, 0)';
-
-  window.setTimeout(() => {
-    applyTheme(next);
-    wave.style.transform = 'translate3d(0, -106%, 0)';
-    window.setTimeout(() => {
-      wave.style.transition = 'none';
-      wave.style.transform = 'translate3d(0, 106%, 0)';
-      void wave.offsetWidth;
-      wave.style.transition = '';
-      themeBusy = false;
-    }, 640);
-  }, 640);
-}
-
-themeBtn.addEventListener('click', () => {
-  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  waveTheme(next);
-});
-
-/* ---------- GitHub repos ---------- */
-const reposEl = document.getElementById('repos');
-
-function cardTemplate(repo) {
-  const color = langColor(repo.language);
-  const featured = repo.featured ? ' card--featured' : '';
-  const desc = REPO_DESC[repo.name] || repo.description || 'Описание отсутствует.';
-  const lang = repo.language
-    ? `<span class="lang"><span class="lang__dot" style="background:${color}"></span>${escapeHtml(repo.language)}</span>`
-    : '';
-  const updated = repo.updated_at ? `<span>обновлено ${escapeHtml(formatDate(repo.updated_at))}</span>` : '';
-  return `
-    <article class="card${featured}" data-url="${escapeHtml(repo.html_url)}">
-      <div class="card__top">
-        <h3 class="card__name"><a href="${escapeHtml(repo.html_url)}" target="_blank" rel="noopener">${escapeHtml(repo.name)}</a></h3>
-        ${featured ? '<span class="card__badge">featured</span>' : ''}
-      </div>
-      <p class="card__desc">${escapeHtml(desc)}</p>
-      <div class="card__meta">
-        ${lang}
-        <span class="card__star">★ ${repo.stargazers_count ?? 0}</span>
-        ${updated}
-      </div>
-      <span class="card__arrow">→</span>
-    </article>`;
-}
-
-function attachCardGlow(scope) {
-  scope.querySelectorAll('.card').forEach((card) => {
-    card.addEventListener('pointermove', (e) => {
-      const rect = card.getBoundingClientRect();
-      card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
-      card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
-    });
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('a')) return;
-      const url = card.dataset.url;
-      if (url) window.open(url, '_blank', 'noopener');
-    });
-  });
-}
-
-function renderRepos(repos) {
-  reposEl.innerHTML = repos.map(cardTemplate).join('');
-  attachCardGlow(reposEl);
-}
-
-async function loadRepos() {
-  reposEl.innerHTML = '<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>';
-  try {
-    const res = await fetch(`https://api.github.com/users/${USER}/repos?per_page=100&sort=updated`);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    let repos = await res.json();
-    repos = repos.filter((r) => !r.fork && r.name !== `${USER}.github.io`);
-    if (repos.length === 0) repos = FALLBACK;
-    repos.sort((a, b) => (Number(Boolean(b.featured)) - Number(Boolean(a.featured))) || new Date(b.updated_at) - new Date(a.updated_at));
-    updateStats(repos);
-    renderRepos(repos);
-  } catch (_) {
-    updateStats(FALLBACK);
-    renderRepos(FALLBACK);
-  }
-}
-
-function updateStats(repos) {
-  const stars = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0);
-  const langs = new Set(repos.map((r) => r.language).filter(Boolean));
-  document.getElementById('statRepos').textContent = repos.length;
-  document.getElementById('statStars').textContent = stars;
-  document.getElementById('statLang').textContent = langs.size;
-}
-
-/* ---------- local projects ---------- */
-function localCard(p) {
-  const langs = (p.languages || [])
-    .map((l) => `<span class="lang"><span class="lang__dot" style="background:${langColor(l)}"></span>${escapeHtml(l)}</span>`)
-    .join('');
-  const badge = p.wip ? ' card__badge--wip' : '';
-  return `
-    <article class="card">
-      <div class="card__top">
-        <h3 class="card__name">${escapeHtml(p.name)}</h3>
-        <span class="card__badge${badge}">${escapeHtml(p.status)}</span>
-      </div>
-      <p class="card__desc">${escapeHtml(p.description)}</p>
-      <div class="card__meta">${langs}</div>
-    </article>`;
-}
-
-function renderLocal() {
-  const el = document.getElementById('localProjects');
-  el.innerHTML = LOCAL_PROJECTS.map(localCard).join('');
-  attachCardGlow(el);
-}
-
-/* ---------- skills ---------- */
-function renderSkills() {
-  const el = document.getElementById('skillBars');
-  el.innerHTML = SKILLS.map((s) => `
-    <div class="skill">
-      <div class="skill__head">
-        <span class="skill__name">${escapeHtml(s.lang)}</span>
-        <span class="skill__note">${escapeHtml(s.note)}</span>
-        <span class="skill__lvl">${s.level}/5</span>
-      </div>
-      <div class="skill__bar"><span class="skill__fill" style="--w:${s.level * 20}%"></span></div>
-    </div>`).join('');
-}
-
-/* ---------- stack marquee + chips ---------- */
-const marqueeTrack = document.getElementById('marqueeTrack');
-marqueeTrack.innerHTML = STACK.concat(STACK).map((s) => `<span class="marquee__item">${s}</span>`).join('');
-
-const chipsEl = document.getElementById('chips');
-chipsEl.innerHTML = STACK.map((s) => `<li>${s}</li>`).join('');
-
-/* ---------- misc ---------- */
+/* -------------------------------------------------------------
+   Initialization
+   ------------------------------------------------------------- */
 document.getElementById('year').textContent = new Date().getFullYear();
 
-const progress = document.getElementById('progress');
-window.addEventListener('scroll', () => {
-  const h = document.documentElement;
-  const max = h.scrollHeight - h.clientHeight;
-  progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
-}, { passive: true });
+// Check saved theme
+try {
+  const saved = localStorage.getItem('portfolio-theme');
+  if (saved === 'light' || saved === 'dark') {
+    applyTheme(saved);
+  }
+} catch (_) {}
 
-const params = new URLSearchParams(location.search);
-// `?shot=1` forces every reveal-able element visible (used for headless previews)
-if (params.has('shot')) {
-  document.querySelectorAll('.reveal').forEach((e) => e.classList.add('in'));
-}
-const qTheme = params.get('theme');
-if (qTheme === 'light' || qTheme === 'dark') {
-  applyTheme(qTheme);
-} else {
-  try {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light' || saved === 'dark') applyTheme(saved);
-  } catch (_) { /* ignore */ }
-}
-// `?scroll=<id>` scrolls to a section (used for headless previews)
-const scrollTo = params.get('scroll');
-if (scrollTo) {
-  const target = document.getElementById(scrollTo);
-  if (target) setTimeout(() => target.scrollIntoView({ block: 'start', behavior: 'instant' }), 120);
-}
-
-renderLocal();
-renderSkills();
-loadRepos();
+initTicker();
+renderProjects();
+initScrollReveal();
+fetchGitHubStats();
