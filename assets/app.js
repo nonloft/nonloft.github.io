@@ -7,7 +7,7 @@
    - Real Liquid Water Wave & Gradient Theme Transition
    ------------------------------------------------------------- */
 
-const GITHUB_USER = 'Kirillo4ka';
+const GITHUB_USER = 'nonloft';
 const DARK_BG = '#000000';
 const LIGHT_BG = '#ffffff';
 
@@ -30,7 +30,7 @@ const PROJECTS = [
       'Высокая скорость работы и оптимизированное потребление ресурсов'
     ],
     tags: ['Electron', 'NSIS', 'JavaScript', 'Node.js', 'Desktop'],
-    url: 'https://github.com/Kirillo4ka/DeepSeek-Harness-Desktop',
+    url: 'https://github.com/nonloft/DeepSeek-Harness-Desktop',
     isPublic: true
   },
   {
@@ -50,7 +50,7 @@ const PROJECTS = [
       'Поддержка раздельного туннелирования (Split Tunneling)'
     ],
     tags: ['Flutter', 'Dart', 'VPN', 'Proxy', 'Cross-platform'],
-    url: 'https://github.com/Kirillo4ka/EaveVPN-App',
+    url: 'https://github.com/nonloft/EaveVPN-App',
     isPublic: true
   },
   {
@@ -70,7 +70,7 @@ const PROJECTS = [
       'Миниатюрные системные метрики (CPU / RAM) прямо на рабочем столе'
     ],
     tags: ['Python', 'Win32 API', 'Overlay', 'Discord RPC', 'Hotkeys'],
-    url: 'https://github.com/Kirillo4ka',
+    url: 'https://github.com/nonloft',
     isPublic: false
   },
   {
@@ -90,7 +90,7 @@ const PROJECTS = [
       'Чистый темный UI без лишних визуальных элементов'
     ],
     tags: ['Flutter', 'Clash Meta', 'mihomo', 'Network', 'Dart'],
-    url: 'https://github.com/Kirillo4ka',
+    url: 'https://github.com/nonloft',
     isPublic: false
   },
   {
@@ -110,7 +110,7 @@ const PROJECTS = [
       'Поддержка импорта кастомных конфигураций одним кликом'
     ],
     tags: ['Python', 'PyQt6', 'Qt', 'Networking', 'Tray'],
-    url: 'https://github.com/Kirillo4ka',
+    url: 'https://github.com/nonloft',
     isPublic: false
   },
   {
@@ -130,7 +130,7 @@ const PROJECTS = [
       'Интеграция с Telegram-ботом для мгновенного оповещения о деградации нод'
     ],
     tags: ['Bash', 'Python', 'DevOps', 'CI/CD', 'Telegram API'],
-    url: 'https://github.com/Kirillo4ka',
+    url: 'https://github.com/nonloft',
     isPublic: false
   },
   {
@@ -150,7 +150,7 @@ const PROJECTS = [
       'Оптимизация холостых перемещений для ускорения отрисовки'
     ],
     tags: ['Python', 'GRBL', 'Hardware', 'Serial', 'Automation'],
-    url: 'https://github.com/Kirillo4ka',
+    url: 'https://github.com/nonloft',
     isPublic: false
   }
 ];
@@ -499,7 +499,7 @@ function openModal(p) {
     linkBtn.querySelector('span').textContent = 'Открыть на GitHub';
     linkBtn.onclick = null;
   } else {
-    linkBtn.href = 'https://github.com/Kirillo4ka';
+    linkBtn.href = 'https://github.com/nonloft';
     linkBtn.style.display = 'inline-flex';
     linkBtn.querySelector('span').textContent = 'GitHub профиль';
     linkBtn.onclick = null;
