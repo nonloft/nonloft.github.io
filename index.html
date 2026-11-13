@@ -7,7 +7,7 @@
   <meta name="description" content="Портфолио nonloft: нативные десктопные приложения на Flutter, Qt/Python и Electron, VPN-клиенты и сетевые инструменты.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="assets/styles.css?v=20261113_17">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113_19">
 </head>
 <body style="background: transparent !important; background-color: transparent !important;">
 
@@ -58,21 +58,6 @@
             <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M3.75 2h8.5a.75.75 0 0 1 .75.75v8.5a.75.75 0 0 1-1.5 0V4.56L2.53 13.53a.75.75 0 0 1-1.06-1.06L10.44 3.5H3.75a.75.75 0 0 1 0-1.5z"/></svg>
           </a>
         </nav>
-
-        <button class="theme-toggle" id="themeBtn" type="button" aria-label="Сменить тему" title="Сменить тему">
-          <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
-            <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
-            <g stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
-              <line x1="12" y1="2" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22"/>
-              <line x1="2" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22" y2="12"/>
-              <line x1="4.9" y1="4.9" x2="6.7" y2="6.7"/><line x1="17.3" y1="17.3" x2="19.1" y2="19.1"/>
-              <line x1="19.1" y1="4.9" x2="17.3" y2="6.7"/><line x1="6.7" y1="17.3" x2="4.9" y2="19.1"/>
-            </g>
-          </svg>
-          <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
-          </svg>
-        </button>
       </div>
     </header>
   </div>
@@ -249,7 +234,10 @@
           <div class="modal__sub" id="modalCategory">Десктопное приложение</div>
           <h3 class="modal__title" id="modalTitle">Название проекта</h3>
         </div>
-        <span class="modal__status" id="modalStatus">В разработке</span>
+        <div class="modal__meta-badges">
+          <span class="modal__version-pill" id="modalVersion">Версия v1.0</span>
+          <span class="modal__status" id="modalStatus">В разработке</span>
+        </div>
       </div>
 
       <p class="modal__desc" id="modalDesc">Подробное описание архитектуры и возможностей проекта...</p>
@@ -284,6 +272,6 @@
     </div>
   </footer>
 
-  <script src="assets/app.js?v=20261113_17"></script>
+  <script src="assets/app.js?v=20261113_19"></script>
 </body>
 </html>
