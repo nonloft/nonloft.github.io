@@ -75,6 +75,36 @@ html {
   user-select: none;
 }
 
+/* Custom Sleek Scrollbar */
+html, body, * {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) #000000;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+::-webkit-scrollbar-corner {
+  background: #000000;
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -297,49 +327,6 @@ html[data-theme="light"] .nav-wrapper.is-floating .nav {
 .nav__external {
   color: var(--fg) !important;
   font-weight: 600;
-}
-
-/* Theme toggle - clean icon with zero background and zero border */
-.theme-toggle {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  color: var(--fg);
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.2s, color 0.2s;
-  padding: 0;
-}
-
-.theme-toggle:hover {
-  transform: scale(1.12);
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.theme-icon {
-  position: absolute;
-  transition: opacity 0.3s, transform 0.3s;
-}
-
-.theme-icon--moon {
-  opacity: 0;
-  transform: rotate(-90deg) scale(0.6);
-}
-
-html[data-theme="dark"] .theme-icon--sun {
-  opacity: 0;
-  transform: rotate(90deg) scale(0.6);
-}
-
-html[data-theme="dark"] .theme-icon--moon {
-  opacity: 1;
-  transform: rotate(0deg) scale(1);
 }
 
 /* Main Container & Sections */
@@ -618,12 +605,11 @@ html[data-theme="light"] .btn--primary:hover {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 20px;
-  padding: 26px;
+  padding: 26px 26px 0 26px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 18px;
-  cursor: pointer;
+  gap: 0;
   overflow: hidden;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
               opacity 0.4s ease,
@@ -800,53 +786,72 @@ html[data-theme="light"] .deck-card.is-active {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 12px;
+  margin-top: auto;
+  padding-top: 14px;
 }
 
-.project-card__footer {
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+.project-card__body {
+  padding-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+/* Full-width interactive strip below divider */
+.project-card__bar {
+  margin: 0 -26px;
+  padding: 16px 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-}
-
-html[data-theme="light"] .project-card__footer {
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.project-card__preview-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: var(--fg);
-  font-size: 12.5px;
-  font-weight: 500;
-  padding: 6px 14px;
-  border-radius: 999px;
+  justify-content: space-between;
   cursor: pointer;
-  transition: all 0.2s ease;
   user-select: none;
+  border-bottom-left-radius: 19px;
+  border-bottom-right-radius: 19px;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 
-.project-card__preview-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.35);
-  transform: translateY(-1px);
+.project-card__bar:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
-html[data-theme="light"] .project-card__preview-btn {
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.12);
+.project-card__bar-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--fg-muted);
+  letter-spacing: -0.2px;
+  transition: color 0.2s ease;
+}
+
+.project-card__bar:hover .project-card__bar-text {
+  color: #ffffff;
+}
+
+.project-card__bar-icon {
+  color: var(--fg-muted);
+  transition: transform 0.25s ease, color 0.2s ease;
+}
+
+.project-card__bar:hover .project-card__bar-icon {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+html[data-theme="light"] .project-card__bar {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+html[data-theme="light"] .project-card__bar:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="light"] .project-card__bar:hover .project-card__bar-text,
+html[data-theme="light"] .project-card__bar:hover .project-card__bar-icon {
   color: #000000;
-}
-
-html[data-theme="light"] .project-card__preview-btn:hover {
-  background: rgba(0, 0, 0, 0.1);
-  border-color: rgba(0, 0, 0, 0.25);
 }
 
 .tag {
@@ -1133,6 +1138,26 @@ html[data-theme="light"] .about-card {
   margin: 4px 0 0 0;
 }
 
+.modal__meta-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-self: flex-start;
+}
+
+.modal__version-pill {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--fg);
+  letter-spacing: 0.3px;
+}
+
 .modal__status {
   font-size: 12px;
   font-weight: 600;
@@ -1141,7 +1166,6 @@ html[data-theme="light"] .about-card {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--success);
-  align-self: flex-start;
 }
 
 .modal__desc {
@@ -1260,7 +1284,16 @@ html[data-theme="light"] .footer {
 /* Responsive */
 @media (max-width: 768px) {
   .nav__links {
-    display: none;
+    display: none !important;
+  }
+  .nav__container {
+    justify-content: center !important;
+    text-align: center !important;
+  }
+  .brand {
+    margin: 0 auto !important;
+    text-align: center !important;
+    justify-content: center !important;
   }
   .hero__title {
     font-size: 36px;
