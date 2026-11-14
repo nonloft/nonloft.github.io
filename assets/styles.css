@@ -137,7 +137,7 @@ a {
   inset: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -10;
+  z-index: -1;
   overflow: hidden;
   pointer-events: none;
   background: #000000;
@@ -176,53 +176,7 @@ html[data-theme="light"] .video-bg__overlay {
   background: rgba(255, 255, 255, 0.45);
 }
 
-/* Background grid pattern */
-.bg-grid {
-  position: fixed;
-  inset: 0;
-  z-index: -3;
-  pointer-events: none;
-  background-image: 
-    linear-gradient(to right, var(--border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-  background-size: 48px 48px;
-  opacity: 0.22;
-  mask-image: radial-gradient(ellipse at 50% 20%, #000 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 20%, #000 30%, transparent 80%);
-}
 
-/* Ambient dynamic drifting glows */
-.glow-orb {
-  display: none !important;
-}
-
-.glow-orb--1 {
-  width: 520px;
-  height: 520px;
-  top: -120px;
-  right: -80px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.07), transparent 70%);
-  animation: driftOrb1 18s ease-in-out infinite alternate;
-}
-
-.glow-orb--2 {
-  width: 480px;
-  height: 480px;
-  bottom: 8%;
-  left: -120px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.04), transparent 70%);
-  animation: driftOrb2 22s ease-in-out infinite alternate;
-}
-
-@keyframes driftOrb1 {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-60px, 80px) scale(1.15); }
-}
-
-@keyframes driftOrb2 {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(70px, -60px) scale(1.12); }
-}
 
 /* Navigation: Docked at top by default, floating pill when scrolled with smooth animation */
 .nav-wrapper {
@@ -242,7 +196,8 @@ html[data-theme="light"] .video-bg__overlay {
   max-width: 100%;
   margin: 0 auto;
   background: rgba(0, 0, 0, 0.88);
-  /* edge blur handled via mask-image */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid transparent;
   border-radius: 0;
   box-shadow: 0 0 0 0 transparent;
@@ -501,30 +456,7 @@ html[data-theme="light"] .btn--primary:hover {
   mask-image: linear-gradient(to right, transparent 0%, black 70px, black calc(100% - 70px), transparent 100%);
 }
 
-/* Atmospheric edge blur vignettes replacing harsh slice */
-.deck-stage::before,
-.deck-stage::after {
-  content: "";
-  position: absolute;
-  top: 25px;
-  bottom: 85px;
-  width: 80px;
-  pointer-events: none;
-  z-index: 10;
-  /* edge blur handled via mask-image */
-}
 
-.deck-stage::before {
-  left: 0;
-  -webkit-mask-image: linear-gradient(to right, black 25%, transparent 100%);
-  mask-image: linear-gradient(to right, black 25%, transparent 100%);
-}
-
-.deck-stage::after {
-  right: 0;
-  -webkit-mask-image: linear-gradient(to left, black 25%, transparent 100%);
-  mask-image: linear-gradient(to left, black 25%, transparent 100%);
-}
 
 .deck-stage.is-dragging {
   cursor: grabbing;
@@ -1217,10 +1149,7 @@ html[data-theme="light"] .footer {
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 45px, black calc(100% - 45px), transparent 100%) !important;
     mask-image: linear-gradient(to right, transparent 0%, black 45px, black calc(100% - 45px), transparent 100%) !important;
   }
-  .deck-stage::before,
-  .deck-stage::after {
-    width: 50px !important;
-  }
+  
   .nav__container {
     justify-content: center !important;
     text-align: center !important;
