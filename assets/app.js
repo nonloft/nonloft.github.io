@@ -220,6 +220,7 @@ function renderDeck() {
 
     return `
       <article class="deck-card project-card ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" tabindex="0">
+        <div class="liquid-glass-fx" aria-hidden="true"></div>
         <div class="project-card__body">
           <div class="project-card__badge-row">
             <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
@@ -748,6 +749,7 @@ function renderLangCards(activeFilter = 'all') {
 
   langCardsList.innerHTML = filtered.map(lang => `
     <div class="lang-detail-card" data-lang="${lang.id}">
+      <div class="liquid-glass-fx" aria-hidden="true"></div>
       <div class="lang-detail-card__header">
         <h4 class="lang-detail-card__title">${escapeHtml(lang.name)}</h4>
         <span class="lang-detail-card__badge">${escapeHtml(lang.badge)}</span>

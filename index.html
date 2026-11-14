@@ -7,14 +7,14 @@
   <meta name="description" content="Портфолио nonloft: нативные десктопные приложения на Flutter, Qt/Python и Electron, VPN-клиенты и сетевые инструменты.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="assets/styles.css?v=20261114_03">
+  <link rel="stylesheet" href="assets/styles.css?v=20261114_04">
 </head>
 <body style="background: transparent !important; background-color: transparent !important;">
 
   <!-- Fullscreen Background Video & Overlay -->
   <div class="video-bg-container" aria-hidden="true">
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline webkit-playsinline preload="auto">
-      <source src="assets/bg.mp4?v=20261114_03" type="video/mp4">
+      <source src="assets/bg.mp4?v=20261114_04" type="video/mp4">
     </video>
     <div class="video-bg__overlay"></div>
   </div>
@@ -43,9 +43,27 @@
   <div class="glow-orb glow-orb--1" aria-hidden="true"></div>
   <div class="glow-orb glow-orb--2" aria-hidden="true"></div>
 
+  <!-- Liquid Glass SVG Displacement Filters (inspired by Mael-667/Liquid-Glass-CSS) -->
+  <svg class="liquid-glass-filters" aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;">
+    <defs>
+      <!-- Filter for larger surfaces (cards, modals) -->
+      <filter id="liquidGlassFilter" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+        <feTurbulence type="fractalNoise" baseFrequency="0.009 0.011" numOctaves="2" seed="8" stitchTiles="stitch" x="0%" y="0%" width="100%" height="100%" result="turbulence"/>
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="35" xChannelSelector="R" yChannelSelector="B" x="0%" y="0%" width="100%" height="100%" result="displacementMap1"/>
+      </filter>
+      <!-- Filter for compact/pill elements (navbar, tags, buttons) -->
+      <filter id="liquidGlassFilter2" color-interpolation-filters="linearRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+        <feBlend mode="screen" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" in2="SourceGraphic" result="blend"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.019 0.008" numOctaves="5" seed="8" stitchTiles="stitch" x="0%" y="0%" width="100%" height="100%" result="turbulence"/>
+        <feDisplacementMap in="blend" in2="turbulence" scale="6" xChannelSelector="R" yChannelSelector="B" x="0%" y="0%" width="100%" height="100%" result="displacementMap1"/>
+      </filter>
+    </defs>
+  </svg>
+
   <!-- Header / Navigation (Docked at top, floating pill on scroll) -->
   <div class="nav-wrapper" id="navWrapper">
     <header class="nav">
+      <div class="liquid-glass-fx" aria-hidden="true"></div>
       <div class="nav__container">
         <a class="brand" href="#top" aria-label="Наверх">nonloft</a>
 
@@ -122,6 +140,7 @@
 
       <div class="stack-grid">
         <div class="stack-card reveal">
+          <div class="liquid-glass-fx" aria-hidden="true"></div>
           <div class="stack-card__icon-wrap">
             <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </div>
@@ -137,6 +156,7 @@
         </div>
 
         <div class="stack-card reveal">
+          <div class="liquid-glass-fx" aria-hidden="true"></div>
           <div class="stack-card__icon-wrap">
             <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           </div>
@@ -152,6 +172,7 @@
         </div>
 
         <div class="stack-card stack-card--interactive reveal" id="langStackCard" role="button" tabindex="0" aria-label="Открыть подробные познания в языках программирования">
+          <div class="liquid-glass-fx" aria-hidden="true"></div>
           <div class="stack-card__icon-wrap">
             <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           </div>
@@ -171,6 +192,7 @@
         </div>
 
         <div class="stack-card reveal">
+          <div class="liquid-glass-fx" aria-hidden="true"></div>
           <div class="stack-card__icon-wrap">
             <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
           </div>
@@ -202,6 +224,7 @@
       </div>
 
       <div class="about-card reveal">
+        <div class="liquid-glass-fx" aria-hidden="true"></div>
         <div class="about-content">
           <p class="about-lead">
             Привет! Я <strong>nonloft</strong> — разработчик прикладного софта, системных утилит и сетевых инструментов.
@@ -228,6 +251,7 @@
   <div class="modal" id="projectModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal__backdrop" id="modalBackdrop"></div>
     <div class="modal__dialog">
+      <div class="liquid-glass-fx" aria-hidden="true"></div>
       <button class="modal__close" id="modalClose" aria-label="Закрыть превью">
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
@@ -271,6 +295,7 @@
   <div class="modal" id="langModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal__backdrop" id="langModalBackdrop"></div>
     <div class="modal__dialog modal__dialog--wide">
+      <div class="liquid-glass-fx" aria-hidden="true"></div>
       <button class="modal__close" id="langModalClose" aria-label="Закрыть окно языков">
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
@@ -314,6 +339,6 @@
     </div>
   </footer>
 
-  <script src="assets/app.js?v=20261114_03"></script>
+  <script src="assets/app.js?v=20261114_04"></script>
 </body>
 </html>
