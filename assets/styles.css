@@ -592,6 +592,27 @@ html[data-theme="light"] .deck-card {
   opacity: 1;
 }
 
+/* Selected Active Deck Card: Crystal Sharp (Zero Blur) with Kokonut Liquid Glass Depth */
+.deck-card.is-active {
+  z-index: 2;
+  opacity: 1 !important;
+  transform: scale(1.02) !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  background: rgba(12, 13, 18, 0.85) !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 
+    0 0 8px rgba(0, 0, 0, 0.03),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 2px 2px 0.5px -2.5px rgba(255, 255, 255, 0.25),
+    inset -2px -2px 0.5px -2.5px rgba(255, 255, 255, 0.65),
+    inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.55),
+    inset 0 0 6px 6px rgba(255, 255, 255, 0.04),
+    0 24px 55px -12px rgba(0, 0, 0, 0.95);
+}
+
 
 
 html[data-theme="light"] .deck-card.is-active {
@@ -1478,21 +1499,7 @@ html[data-theme="light"] .footer {
   }
 }
 
-/* Kokonut UI: Liquid Glass Layering for Active Deck Cards */
-.deck-card.is-active {
-  background: rgba(12, 13, 18, 0.78) !important;
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.22) !important;
-  box-shadow: 
-    0 0 8px rgba(0, 0, 0, 0.03),
-    0 4px 16px rgba(0, 0, 0, 0.4),
-    inset 2px 2px 0.5px -2.5px rgba(255, 255, 255, 0.25),
-    inset -2px -2px 0.5px -2.5px rgba(255, 255, 255, 0.65),
-    inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.55),
-    inset 0 0 6px 6px rgba(255, 255, 255, 0.04),
-    0 24px 55px -12px rgba(0, 0, 0, 0.95);
-}
+
 
 /* Floating Navigation Liquid Glass Bevel */
 .nav-wrapper.is-floating .nav {
