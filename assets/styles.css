@@ -1498,3 +1498,105 @@ html[data-theme="light"] .footer {
   flex-wrap: wrap;
   gap: 6px;
 }
+
+/* =============================================================
+   Kokonut UI & Motion.dev Suite (Video 1 & 2 Integration)
+   ============================================================= */
+
+/* Kokonut UI: Shimmer Text */
+.shimmer-text {
+  background: linear-gradient(110deg, #ffffff 30%, rgba(255, 255, 255, 0.45) 50%, #ffffff 70%);
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: kokonutShimmer 6.5s ease-in-out infinite;
+}
+
+@keyframes kokonutShimmer {
+  0%, 100% { background-position: 180% 0; }
+  50% { background-position: -180% 0; }
+}
+
+/* Motion.dev: Spring Physics Micro-interactions */
+.btn,
+.deck-btn,
+.modal__close,
+.lang-tab,
+.filter-chip,
+.project-card__bar {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.25s ease,
+              color 0.2s ease;
+}
+
+.btn:hover,
+.deck-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn:active,
+.deck-btn:active,
+.modal__close:active,
+.lang-tab:active,
+.filter-chip:active {
+  transform: translateY(1px) scale(0.95);
+  transition-duration: 0.1s;
+}
+
+/* Kokonut UI: Particle Button Burst */
+.micro-particle {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 40%, rgba(255, 255, 255, 0.4) 80%, transparent);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.85);
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  animation: particleBurst 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes particleBurst {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.2);
+  }
+}
+
+/* Kokonut UI: Liquid Glass Layering for Active Deck Cards */
+.deck-card.is-active {
+  background: rgba(12, 13, 18, 0.78) !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 
+    0 0 8px rgba(0, 0, 0, 0.03),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 2px 2px 0.5px -2.5px rgba(255, 255, 255, 0.25),
+    inset -2px -2px 0.5px -2.5px rgba(255, 255, 255, 0.65),
+    inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.55),
+    inset 0 0 6px 6px rgba(255, 255, 255, 0.04),
+    0 24px 55px -12px rgba(0, 0, 0, 0.95);
+}
+
+/* Floating Navigation Liquid Glass Bevel */
+.nav-wrapper.is-floating .nav {
+  max-width: 860px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(10, 11, 16, 0.78);
+  backdrop-filter: blur(24px) saturate(190%) brightness(1.05);
+  -webkit-backdrop-filter: blur(24px) saturate(190%) brightness(1.05);
+  box-shadow: 
+    0 0 8px rgba(0, 0, 0, 0.03),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    inset 1.5px 1.5px 0.5px -1.5px rgba(255, 255, 255, 0.35),
+    inset -1.5px -1.5px 0.5px -1.5px rgba(255, 255, 255, 0.6),
+    inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.5),
+    0 16px 40px -8px rgba(0, 0, 0, 0.9);
+}
