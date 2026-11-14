@@ -280,10 +280,6 @@ function renderDeck() {
   attachCardGlow();
   initDeckInteractions();
   goToCard(activeDeckIndex, false);
-  deckTrack.querySelectorAll('.liquid-glass').forEach(card => {
-    redrawGlass(card);
-    if (globalGlassObserver) globalGlassObserver.observe(card);
-  });
 }
 
 function goToCard(index, animate = true) {
@@ -587,19 +583,25 @@ function initTicker() {
    Scroll Reveal Observer
    ------------------------------------------------------------- */
 function initScrollReveal() {
-  const revealElements = document.querySelectorAll('.reveal');
+  // Immediately reveal hero elements
+  document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('in'));
+
+  const revealElements = document.querySelectorAll('.reveal:not(.in)');
+  if (!('IntersectionObserver' in window)) {
+    revealElements.forEach(el => el.classList.add('in'));
+    return;
+  }
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('in');
         observer.unobserve(entry.target);
-
-        // Revealed smoothly without JS layout thrashing
       }
     });
   }, {
-    threshold: 0.08,
-    rootMargin: '0px 0px -20px 0px'
+    threshold: 0.05,
+    rootMargin: '50px 0px 50px 0px'
   });
 
   revealElements.forEach(el => observer.observe(el));
@@ -809,11 +811,6 @@ function renderLangCards(activeFilter = 'all') {
       tab.classList.toggle('is-active', tab.dataset.filter === activeFilter);
     });
   }
-
-  langCardsList.querySelectorAll('.liquid-glass').forEach(card => {
-    redrawGlass(card);
-    if (globalGlassObserver) globalGlassObserver.observe(card);
-  });
 }
 
 function openLangModal(filter = 'all') {
