@@ -820,3 +820,69 @@ window.addEventListener('keydown', (e) => {
     closeLangModal();
   }
 });
+
+/* =============================================================
+   Kokonut UI Particle Burst & Anime.js Orchestration
+   ============================================================= */
+function createParticleBurst(e, btn) {
+  var rect = btn.getBoundingClientRect();
+  var originX = (e && e.clientX) ? e.clientX : (rect.left + rect.width / 2);
+  var originY = (e && e.clientY) ? e.clientY : (rect.top + rect.height / 2);
+
+  var particleCount = 14;
+  for (var i = 0; i < particleCount; i++) {
+    var p = document.createElement('span');
+    p.className = 'micro-particle';
+    var angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.5;
+    var distance = 25 + Math.random() * 45;
+    var dx = Math.cos(angle) * distance;
+    var dy = Math.sin(angle) * distance;
+    var size = 3 + Math.random() * 3;
+
+    p.style.left = originX + 'px';
+    p.style.top = originY + 'px';
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.setProperty('--dx', dx + 'px');
+    p.style.setProperty('--dy', dy + 'px');
+
+    document.body.appendChild(p);
+    (function(el) {
+      setTimeout(function() {
+        if (el && el.parentNode) {
+          el.parentNode.removeChild(el);
+        }
+      }, 650);
+    })(p);
+  }
+}
+
+function initParticleButtons() {
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.particle-btn, .btn--primary, .deck-btn, .project-card__bar');
+    if (btn) {
+      createParticleBurst(e, btn);
+    }
+  });
+}
+
+function initAnimeAnimations() {
+  if (typeof anime === 'undefined') return;
+
+  try {
+    anime({
+      targets: '.hero__title, .hero__lead, .hero__actions .btn',
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 850,
+      delay: anime.stagger(100, { start: 150 }),
+      easing: 'easeOutCubic'
+    });
+  } catch (err) {
+    // Graceful fallback if anime is unavailable
+  }
+}
+
+// Initialize video 1 features
+initParticleButtons();
+window.addEventListener('DOMContentLoaded', initAnimeAnimations);
