@@ -7,14 +7,14 @@
   <meta name="description" content="Портфолио nonloft: нативные десктопные приложения на Flutter, Qt/Python и Electron, VPN-клиенты и сетевые инструменты.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="assets/styles.css?v=20261114_06">
+  <link rel="stylesheet" href="assets/styles.css?v=20261114_07">
 </head>
 <body style="background: transparent !important; background-color: transparent !important;">
 
   <!-- Fullscreen Background Video & Overlay -->
   <div class="video-bg-container" aria-hidden="true">
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline webkit-playsinline preload="auto">
-      <source src="assets/bg.mp4?v=20261114_06" type="video/mp4">
+      <source src="assets/bg.mp4?v=20261114_07" type="video/mp4">
     </video>
     <div class="video-bg__overlay"></div>
   </div>
@@ -43,14 +43,43 @@
   <div class="glow-orb glow-orb--1" aria-hidden="true"></div>
   <div class="glow-orb glow-orb--2" aria-hidden="true"></div>
 
-  <!-- Nik Delvin Dynamic Liquid Glass Engine (iOS 26 / VisionOS Refraction) -->
+    <!-- Hardware-Accelerated Liquid Glass Chromatic Aberration Filter Engine (iOS 26 / VisionOS) -->
+  <svg class="liquid-glass-filters" aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;">
+    <defs>
+      <!-- Chromatic Aberration Liquid Glass Filter for Cards & Panels -->
+      <filter id="liquidGlassFilter" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.006" numOctaves="2" seed="5" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="16" xChannelSelector="R" yChannelSelector="G" result="displacedR" />
+        <feColorMatrix in="displacedR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="channelR" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="13" xChannelSelector="R" yChannelSelector="G" result="displacedG" />
+        <feColorMatrix in="displacedG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="channelG" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G" result="displacedB" />
+        <feColorMatrix in="displacedB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="channelB" />
+        <feBlend in="channelR" in2="channelG" mode="screen" result="blendRG" />
+        <feBlend in="blendRG" in2="channelB" mode="screen" result="finalGlass" />
+      </filter>
+
+      <!-- Chromatic Aberration Liquid Glass Filter for Floating Nav Pill & Buttons -->
+      <filter id="liquidGlassFilterPill" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.006" numOctaves="2" seed="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" result="displacedR" />
+        <feColorMatrix in="displacedR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="channelR" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="9.5" xChannelSelector="R" yChannelSelector="G" result="displacedG" />
+        <feColorMatrix in="displacedG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="channelG" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" result="displacedB" />
+        <feColorMatrix in="displacedB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="channelB" />
+        <feBlend in="channelR" in2="channelG" mode="screen" result="blendRG" />
+        <feBlend in="blendRG" in2="channelB" mode="screen" result="finalGlass" />
+      </filter>
+    </defs>
+  </svg>
 
   <!-- Header / Navigation (Docked at top, floating pill on scroll) -->
   <div class="nav-wrapper" id="navWrapper">
     <header class="nav liquid-glass">
       <div class="lg-overlay-bg" aria-hidden="true"></div>
       <div class="lg-filter-layer" aria-hidden="true">
-        <div class="glass-box" data-blur="0" data-cab="2" data-depth="8" data-strength="22" data-saturate="1.35" data-brightness="1.12"></div>
+        <div class="glass-box" aria-hidden="true"></div>
       </div>
       <div class="lg-content nav__container">
         <a class="brand" href="#top" aria-label="Наверх">nonloft</a>
@@ -130,7 +159,7 @@
         <div class="stack-card liquid-glass reveal">
           <div class="lg-overlay-bg" aria-hidden="true"></div>
           <div class="lg-filter-layer" aria-hidden="true">
-            <div class="glass-box" data-blur="0" data-cab="2" data-depth="10" data-strength="24" data-saturate="1.4" data-brightness="1.12"></div>
+            <div class="glass-box" aria-hidden="true"></div>
           </div>
           <div class="lg-content stack-card__content">
             <div class="stack-card__icon-wrap">
@@ -151,7 +180,7 @@
         <div class="stack-card liquid-glass reveal">
           <div class="lg-overlay-bg" aria-hidden="true"></div>
           <div class="lg-filter-layer" aria-hidden="true">
-            <div class="glass-box" data-blur="0" data-cab="2" data-depth="10" data-strength="24" data-saturate="1.4" data-brightness="1.12"></div>
+            <div class="glass-box" aria-hidden="true"></div>
           </div>
           <div class="lg-content stack-card__content">
             <div class="stack-card__icon-wrap">
@@ -172,7 +201,7 @@
         <div class="stack-card stack-card--interactive liquid-glass reveal" id="langStackCard" role="button" tabindex="0" aria-label="Открыть подробные познания в языках программирования">
           <div class="lg-overlay-bg" aria-hidden="true"></div>
           <div class="lg-filter-layer" aria-hidden="true">
-            <div class="glass-box" data-blur="0" data-cab="2" data-depth="10" data-strength="24" data-saturate="1.4" data-brightness="1.12"></div>
+            <div class="glass-box" aria-hidden="true"></div>
           </div>
           <div class="lg-content stack-card__content">
             <div class="stack-card__icon-wrap">
@@ -197,7 +226,7 @@
         <div class="stack-card liquid-glass reveal">
           <div class="lg-overlay-bg" aria-hidden="true"></div>
           <div class="lg-filter-layer" aria-hidden="true">
-            <div class="glass-box" data-blur="0" data-cab="2" data-depth="10" data-strength="24" data-saturate="1.4" data-brightness="1.12"></div>
+            <div class="glass-box" aria-hidden="true"></div>
           </div>
           <div class="lg-content stack-card__content">
             <div class="stack-card__icon-wrap">
@@ -234,7 +263,7 @@
       <div class="about-card liquid-glass reveal">
         <div class="lg-overlay-bg" aria-hidden="true"></div>
         <div class="lg-filter-layer" aria-hidden="true">
-          <div class="glass-box" data-blur="0" data-cab="2" data-depth="12" data-strength="24" data-saturate="1.4" data-brightness="1.12"></div>
+          <div class="glass-box" aria-hidden="true"></div>
         </div>
         <div class="lg-content about-content">
           <p class="about-lead">
@@ -264,7 +293,7 @@
     <div class="modal__dialog liquid-glass">
       <div class="lg-overlay-bg" aria-hidden="true"></div>
       <div class="lg-filter-layer" aria-hidden="true">
-        <div class="glass-box" data-blur="0" data-cab="2" data-depth="14" data-strength="24" data-saturate="1.4" data-brightness="1.12"></div>
+        <div class="glass-box" aria-hidden="true"></div>
       </div>
       <div class="lg-content modal__dialog-content">
         <button class="modal__close" id="modalClose" aria-label="Закрыть превью">
@@ -312,7 +341,7 @@
     <div class="modal__dialog modal__dialog--wide liquid-glass">
       <div class="lg-overlay-bg" aria-hidden="true"></div>
       <div class="lg-filter-layer" aria-hidden="true">
-        <div class="glass-box" data-blur="0" data-cab="2" data-depth="14" data-strength="24" data-saturate="1.4" data-brightness="1.12"></div>
+        <div class="glass-box" aria-hidden="true"></div>
       </div>
       <div class="lg-content modal__dialog-content">
         <button class="modal__close" id="langModalClose" aria-label="Закрыть окно языков">
@@ -358,6 +387,6 @@
     </div>
   </footer>
 
-  <script src="assets/app.js?v=20261114_06"></script>
+  <script src="assets/app.js?v=20261114_07"></script>
 </body>
 </html>

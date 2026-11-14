@@ -208,8 +208,8 @@ a {
 }
 
 /* =============================================================
-   Authentic Liquid Glass Engine (nikdelvin/liquid-glass)
-   iOS 26 / VisionOS Dynamic Vector Refraction & Chromatic Aberration
+   Authentic Liquid Glass Engine (iOS 26 / VisionOS)
+   Hardware-Accelerated In-DOM Optical Refraction & Chromatic Aberration
    ============================================================= */
 .liquid-glass {
   position: relative;
@@ -226,7 +226,7 @@ a {
   z-index: 1;
   pointer-events: none;
   border-radius: inherit;
-  background: rgba(8, 9, 13, 0.28);
+  background: rgba(10, 12, 18, 0.26);
   transition: background 0.3s ease;
 }
 
@@ -241,16 +241,39 @@ a {
 
 .glass-box {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  box-shadow: inset 0 0 4px 0px rgba(255, 255, 255, 0.45);
-  background: transparent;
-  will-change: backdrop-filter;
-  transition: box-shadow 0.3s ease;
+  backdrop-filter: blur(0.5px) url(#liquidGlassFilter) brightness(1.12) saturate(1.4);
+  -webkit-backdrop-filter: blur(0.5px) url(#liquidGlassFilter) brightness(1.12) saturate(1.4);
+  /* Optical specular bevel: bright top light catch, soft volume glow, deep bottom shadow */
+  box-shadow: 
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 0 16px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Prismatic chromatic aberration highlight along the glass border */
+.glass-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 1px;
+  background: linear-gradient(135deg, 
+    rgba(255, 80, 180, 0.4) 0%, 
+    rgba(80, 220, 255, 0.4) 30%, 
+    rgba(120, 255, 180, 0.3) 60%, 
+    rgba(255, 200, 80, 0.4) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.55;
+  transition: opacity 0.3s ease;
 }
 
 .lg-content {
@@ -306,12 +329,20 @@ a {
 }
 
 .nav .lg-overlay-bg {
-  background: rgba(0, 0, 0, 0.85);
-  transition: background 0.38s ease, border-radius 0.38s ease;
+  background: rgba(0, 0, 0, 0.88);
+  transition: background 0.38s ease;
 }
 
 .nav .glass-box {
-  box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+}
+
+.nav .glass-box::before {
+  opacity: 0;
 }
 
 .nav__container {
@@ -341,11 +372,21 @@ a {
 }
 
 .nav-wrapper.is-floating .nav .lg-overlay-bg {
-  background: rgba(8, 9, 13, 0.72);
+  background: rgba(8, 9, 13, 0.75);
 }
 
 .nav-wrapper.is-floating .nav .glass-box {
-  box-shadow: inset 0 0 4px 0px rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(0.5px) url(#liquidGlassFilterPill) brightness(1.15) saturate(1.4);
+  -webkit-backdrop-filter: blur(0.5px) url(#liquidGlassFilterPill) brightness(1.15) saturate(1.4);
+  box-shadow: 
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 0 12px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.nav-wrapper.is-floating .nav .glass-box::before {
+  opacity: 0.6;
 }
 
 .nav-wrapper.is-floating .nav__container {
@@ -733,12 +774,27 @@ main {
     0 0 25px rgba(255, 255, 255, 0.05);
 }
 
-.deck-card.is-active .glass-box {
-  box-shadow: inset 0 0 6px 0px rgba(255, 255, 255, 0.65);
+.deck-card.is-active .glass-box,
+.deck-card:hover .glass-box,
+.stack-card:hover .glass-box,
+.about-card:hover .glass-box {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 
+    inset 0 2px 1.5px 0 rgba(255, 255, 255, 0.8),
+    inset 0 0 20px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -2px 3px 0 rgba(0, 0, 0, 0.65),
+    0 24px 60px -8px rgba(0, 0, 0, 0.9);
+}
+
+.deck-card.is-active .glass-box::before,
+.deck-card:hover .glass-box::before,
+.stack-card:hover .glass-box::before,
+.about-card:hover .glass-box::before {
+  opacity: 0.85;
 }
 
 .deck-card.is-active .lg-overlay-bg {
-  background: rgba(8, 9, 13, 0.22);
+  background: rgba(8, 9, 13, 0.18);
 }
 
 .deck-card:hover:not(.is-active) {
