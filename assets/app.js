@@ -274,11 +274,11 @@ function redrawGlass(glass) {
     if (width < 8 || height < 8) return;
 
     const blur = parseFloat(glassBox.dataset.blur || '0');
-    const chromaticAberration = parseFloat(glassBox.dataset.cab || '2.5');
+    const chromaticAberration = parseFloat(glassBox.dataset.cab || '2');
     const depth = parseFloat(glassBox.dataset.depth || '10');
-    const strength = parseFloat(glassBox.dataset.strength || '85');
-    const saturate = parseFloat(glassBox.dataset.saturate || '1.45');
-    const brightness = parseFloat(glassBox.dataset.brightness || '1.15');
+    const strength = parseFloat(glassBox.dataset.strength || '24');
+    const saturate = parseFloat(glassBox.dataset.saturate || '1.4');
+    const brightness = parseFloat(glassBox.dataset.brightness || '1.12');
 
     const computedStyle = window.getComputedStyle(glass);
     let radius = parseFloat(computedStyle.borderRadius || '0');
@@ -373,7 +373,7 @@ function renderDeck() {
       <article class="deck-card project-card liquid-glass ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" tabindex="0">
         <div class="lg-overlay-bg" aria-hidden="true"></div>
         <div class="lg-filter-layer" aria-hidden="true">
-          <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="12" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
+          <div class="glass-box" data-blur="0" data-cab="2" data-depth="10" data-strength="24" data-saturate="1.4" data-brightness="1.12"></div>
         </div>
         <div class="lg-content project-card__content">
           <div class="project-card__body">
@@ -457,6 +457,11 @@ function goToCard(index, animate = true) {
       deckTrack.style.transition = '';
     } else {
       deckTrack.style.transform = `translateX(${targetOffset}px)`;
+      const activeCard = cards[activeDeckIndex];
+      if (activeCard) {
+        redrawGlass(activeCard);
+        setTimeout(() => redrawGlass(activeCard), 450);
+      }
     }
   }
 }
@@ -726,11 +731,21 @@ function initScrollReveal() {
       if (entry.isIntersecting) {
         entry.target.classList.add('in');
         observer.unobserve(entry.target);
+
+        // Re-evaluate liquid glass filters when elements transition into final layout
+        if (entry.target.classList.contains('liquid-glass')) {
+          redrawGlass(entry.target);
+          setTimeout(() => redrawGlass(entry.target), 300);
+        }
+        entry.target.querySelectorAll('.liquid-glass').forEach(glass => {
+          redrawGlass(glass);
+          setTimeout(() => redrawGlass(glass), 300);
+        });
       }
     });
   }, {
-    threshold: 0.12,
-    rootMargin: '0px 0px -40px 0px'
+    threshold: 0.08,
+    rootMargin: '0px 0px -20px 0px'
   });
 
   revealElements.forEach(el => observer.observe(el));
@@ -917,7 +932,7 @@ function renderLangCards(activeFilter = 'all') {
     <div class="lang-detail-card liquid-glass" data-lang="${lang.id}">
       <div class="lg-overlay-bg" aria-hidden="true"></div>
       <div class="lg-filter-layer" aria-hidden="true">
-        <div class="glass-box" data-blur="0" data-cab="2" data-depth="10" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
+        <div class="glass-box" data-blur="0" data-cab="2" data-depth="8" data-strength="22" data-saturate="1.4" data-brightness="1.12"></div>
       </div>
       <div class="lg-content lang-detail-card__content">
         <div class="lang-detail-card__header">

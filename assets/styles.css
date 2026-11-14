@@ -341,7 +341,7 @@ a {
 }
 
 .nav-wrapper.is-floating .nav .lg-overlay-bg {
-  background: rgba(8, 9, 13, 0.42);
+  background: rgba(8, 9, 13, 0.72);
 }
 
 .nav-wrapper.is-floating .nav .glass-box {
@@ -639,34 +639,29 @@ main {
   -webkit-user-select: none;
   touch-action: pan-y;
   outline: none;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 70px, black calc(100% - 70px), transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 70px, black calc(100% - 70px), transparent 100%);
+  /* Removed mask-image to avoid isolating backdrop-filter in Chromium */
 }
 
-/* Atmospheric edge blur vignettes replacing harsh slice */
+/* Atmospheric edge fade vignettes without backdrop root isolation */
 .deck-stage::before,
 .deck-stage::after {
   content: "";
   position: absolute;
-  top: 25px;
-  bottom: 85px;
-  width: 80px;
+  top: 0;
+  bottom: 0;
+  width: 60px;
   pointer-events: none;
-  z-index: 10;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  z-index: 5;
 }
 
 .deck-stage::before {
   left: 0;
-  -webkit-mask-image: linear-gradient(to right, black 25%, transparent 100%);
-  mask-image: linear-gradient(to right, black 25%, transparent 100%);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
 }
 
 .deck-stage::after {
   right: 0;
-  -webkit-mask-image: linear-gradient(to left, black 25%, transparent 100%);
-  mask-image: linear-gradient(to left, black 25%, transparent 100%);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
 }
 
 .deck-stage.is-dragging {
@@ -709,9 +704,8 @@ main {
               border-color 0.3s ease,
               box-shadow 0.4s ease;
   opacity: 0.45;
-  transform: scale(0.9);
-  filter: blur(4px);
-  will-change: transform, opacity, filter;
+  transform: scale(0.92);
+  will-change: transform, opacity;
 }
 
 .deck-card::before {
@@ -733,7 +727,6 @@ main {
 .deck-card.is-active {
   opacity: 1;
   transform: scale(1.02);
-  filter: blur(0);
   
   box-shadow: 
     0 32px 75px -12px rgba(0, 0, 0, 0.95),
@@ -749,9 +742,8 @@ main {
 }
 
 .deck-card:hover:not(.is-active) {
-  opacity: 0.7;
-  transform: scale(0.93);
-  filter: blur(2px);
+  opacity: 0.75;
+  transform: scale(0.95);
   
 }
 }
@@ -873,8 +865,6 @@ main {
   padding: 16px 26px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.035);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
   box-shadow: 
     inset 1px 1px 2px 0px rgba(255, 255, 255, 0.22),
     inset -1px 0 2px 0 rgba(0, 0, 0, 0.2);
@@ -1177,12 +1167,10 @@ main {
   padding: 0 !important;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.95);
   /* Inflates from small scale to big and deflates back */
-  transform: scale(0.2);
+  transform: scale(0.85);
   opacity: 0;
-  filter: blur(12px);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.32s ease,
-              filter 0.32s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s ease;
   max-height: 85vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1202,7 +1190,6 @@ main {
 .modal.is-open .modal__dialog {
   transform: scale(1);
   opacity: 1;
-  filter: blur(0);
 }
 
 .modal__close {
@@ -1374,21 +1361,18 @@ main {
   color: var(--fg);
 }
 
-/* Scroll Reveal Animations - Smooth loading as user scrolls */
+/* Scroll Reveal Animations - Clean opacity & translate (no backdrop root isolation) */
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
-  filter: blur(4px);
+  transform: translateY(28px);
   transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform, filter;
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
 }
 
 .reveal.in {
   opacity: 1;
   transform: translateY(0);
-  filter: blur(0);
 }
 
 .hero__title.reveal { transition-delay: 0.05s; }
@@ -1404,8 +1388,7 @@ main {
     margin-left: -24px !important;
     margin-right: -24px !important;
     width: calc(100% + 48px) !important;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 45px, black calc(100% - 45px), transparent 100%) !important;
-    mask-image: linear-gradient(to right, transparent 0%, black 45px, black calc(100% - 45px), transparent 100%) !important;
+    /* Removed mask-image for mobile to preserve backdrop-filter */
   }
   .deck-stage::before,
   .deck-stage::after {
