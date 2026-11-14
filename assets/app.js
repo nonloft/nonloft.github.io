@@ -530,7 +530,7 @@ window.addEventListener('keydown', (e) => {
    Mouse Cursor Card Glow
    ------------------------------------------------------------- */
 function attachCardGlow() {
-  document.querySelectorAll('.deck-card, .stack-card').forEach(card => {
+  document.querySelectorAll('.deck-card, .stack-card, .about-card, .lang-detail-card').forEach(card => {
     card.addEventListener('pointermove', (e) => {
       const rect = card.getBoundingClientRect();
       card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
