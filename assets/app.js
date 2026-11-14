@@ -184,18 +184,6 @@ let activeDeckIndex = 0;
 root.setAttribute('data-theme', 'dark');
 try { localStorage.setItem('portfolio-theme', 'dark'); } catch (_) {}
 
-/* =============================================================
-   Authentic Liquid Glass Engine (iOS 26 / VisionOS)
-   Hardware-Accelerated 120 FPS Native GPU Engine
-   ============================================================= */
-function redrawGlass(glass) {
-  // Driven natively by CSS & in-DOM SVG filters for maximum 120 FPS performance
-}
-
-function initLiquidGlass() {
-  // Fully hardware-accelerated via CSS & SVG defs
-}
-
 /* -------------------------------------------------------------
    Floating & Docking Navbar
    - Docked to top at scroll position 0
@@ -204,7 +192,6 @@ function initLiquidGlass() {
    ------------------------------------------------------------- */
 function initFloatingNav() {
   if (!navWrapper) return;
-  const nav = navWrapper.querySelector('.nav');
   let isFloating = false;
 
   const handleScroll = () => {
@@ -212,10 +199,6 @@ function initFloatingNav() {
     if (shouldFloat !== isFloating) {
       isFloating = shouldFloat;
       navWrapper.classList.toggle('is-floating', isFloating);
-      if (nav) {
-        redrawGlass(nav);
-        setTimeout(() => redrawGlass(nav), 390);
-      }
     }
   };
 
@@ -236,29 +219,23 @@ function renderDeck() {
       : 'project-card__status--wip';
 
     return `
-      <article class="deck-card project-card liquid-glass ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" tabindex="0">
-        <div class="lg-overlay-bg" aria-hidden="true"></div>
-        <div class="lg-filter-layer" aria-hidden="true">
-          <div class="glass-box" aria-hidden="true"></div>
+      <article class="deck-card project-card ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" tabindex="0">
+        <div class="project-card__body">
+          <div class="project-card__badge-row">
+            <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
+            <span class="project-card__status ${statusClass}">${escapeHtml(p.status)}</span>
+          </div>
+          <h3 class="project-card__title">${escapeHtml(p.title)}</h3>
+          <p class="project-card__desc">${escapeHtml(p.shortDesc)}</p>
+          <div class="project-card__tags">
+            ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+          </div>
         </div>
-        <div class="lg-content project-card__content">
-          <div class="project-card__body">
-            <div class="project-card__badge-row">
-              <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
-              <span class="project-card__status ${statusClass}">${escapeHtml(p.status)}</span>
-            </div>
-            <h3 class="project-card__title">${escapeHtml(p.title)}</h3>
-            <p class="project-card__desc">${escapeHtml(p.shortDesc)}</p>
-            <div class="project-card__tags">
-              ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
-            </div>
-          </div>
-          <div class="project-card__bar" data-action="preview" role="button" tabindex="0" aria-label="Открыть превью ${escapeHtml(p.title)}">
-            <span class="project-card__bar-text">Смотреть превью</span>
-            <svg class="project-card__bar-icon" viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
-            </svg>
-          </div>
+        <div class="project-card__bar" data-action="preview" role="button" tabindex="0" aria-label="Открыть превью ${escapeHtml(p.title)}">
+          <span class="project-card__bar-text">Смотреть превью</span>
+          <svg class="project-card__bar-icon" viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+          </svg>
         </div>
       </article>
     `;
@@ -319,7 +296,6 @@ function goToCard(index, animate = true) {
       deckTrack.style.transition = '';
     } else {
       deckTrack.style.transform = `translateX(${targetOffset}px)`;
-      // Active card switched smoothly
     }
   }
 }
@@ -532,11 +508,6 @@ function openModal(p) {
   projectModal.classList.add('is-open');
   projectModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
-
-  const dlg = projectModal.querySelector('.liquid-glass');
-  if (dlg) {
-    setTimeout(() => redrawGlass(dlg), 20);
-  }
 }
 
 function closeModal() {
@@ -559,7 +530,7 @@ window.addEventListener('keydown', (e) => {
    Mouse Cursor Card Glow
    ------------------------------------------------------------- */
 function attachCardGlow() {
-  document.querySelectorAll('.deck-card, .stack-card, .about-card, .lang-detail-card').forEach(card => {
+  document.querySelectorAll('.deck-card, .stack-card').forEach(card => {
     card.addEventListener('pointermove', (e) => {
       const rect = card.getBoundingClientRect();
       card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
@@ -583,15 +554,7 @@ function initTicker() {
    Scroll Reveal Observer
    ------------------------------------------------------------- */
 function initScrollReveal() {
-  // Immediately reveal hero elements
-  document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('in'));
-
-  const revealElements = document.querySelectorAll('.reveal:not(.in)');
-  if (!('IntersectionObserver' in window)) {
-    revealElements.forEach(el => el.classList.add('in'));
-    return;
-  }
-
+  const revealElements = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -600,8 +563,8 @@ function initScrollReveal() {
       }
     });
   }, {
-    threshold: 0.05,
-    rootMargin: '50px 0px 50px 0px'
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
   });
 
   revealElements.forEach(el => observer.observe(el));
@@ -650,7 +613,6 @@ try {
 initFloatingNav();
 initTicker();
 renderDeck();
-initLiquidGlass();
 initScrollReveal();
 fetchGitHubStats();
 
@@ -785,23 +747,17 @@ function renderLangCards(activeFilter = 'all') {
     : LANG_KNOWLEDGE.filter(item => item.id === activeFilter);
 
   langCardsList.innerHTML = filtered.map(lang => `
-    <div class="lang-detail-card liquid-glass" data-lang="${lang.id}">
-      <div class="lg-overlay-bg" aria-hidden="true"></div>
-      <div class="lg-filter-layer" aria-hidden="true">
-        <div class="glass-box" aria-hidden="true"></div>
+    <div class="lang-detail-card" data-lang="${lang.id}">
+      <div class="lang-detail-card__header">
+        <h4 class="lang-detail-card__title">${escapeHtml(lang.name)}</h4>
+        <span class="lang-detail-card__badge">${escapeHtml(lang.badge)}</span>
       </div>
-      <div class="lg-content lang-detail-card__content">
-        <div class="lang-detail-card__header">
-          <h4 class="lang-detail-card__title">${escapeHtml(lang.name)}</h4>
-          <span class="lang-detail-card__badge">${escapeHtml(lang.badge)}</span>
-        </div>
-        <p class="lang-detail-card__desc">${escapeHtml(lang.desc)}</p>
-        <ul class="lang-detail-card__list">
-          ${lang.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('')}
-        </ul>
-        <div class="lang-detail-card__tags">
-          ${lang.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
-        </div>
+      <p class="lang-detail-card__desc">${escapeHtml(lang.desc)}</p>
+      <ul class="lang-detail-card__list">
+        ${lang.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('')}
+      </ul>
+      <div class="lang-detail-card__tags">
+        ${lang.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
       </div>
     </div>
   `).join('');
@@ -819,16 +775,6 @@ function openLangModal(filter = 'all') {
   langModal.classList.add('is-open');
   langModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
-
-  const dlg = langModal.querySelector('.liquid-glass');
-  if (dlg) {
-    setTimeout(() => {
-      redrawGlass(dlg);
-      if (langCardsList) {
-        langCardsList.querySelectorAll('.liquid-glass').forEach(redrawGlass);
-      }
-    }, 20);
-  }
 }
 
 function closeLangModal() {
@@ -874,4 +820,3 @@ window.addEventListener('keydown', (e) => {
     closeLangModal();
   }
 });
-
