@@ -695,13 +695,16 @@ main {
   background: var(--border);
 }
 
-/* Draggable Card Deck Stage with smooth atmospheric edge blur instead of harsh slice */
+/* Draggable Card Deck Stage - seamless viewport flow without harsh side cutoffs */
+#projects {
+  overflow-x: clip;
+  position: relative;
+}
+
 .deck-stage {
   position: relative;
   width: 100%;
   overflow: visible;
-  overflow-x: clip;
-  overflow-y: visible;
   padding: 35px 0 95px 0;
   margin-bottom: -55px;
   cursor: grab;
@@ -709,29 +712,6 @@ main {
   -webkit-user-select: none;
   touch-action: pan-y;
   outline: none;
-  /* Removed mask-image to avoid isolating backdrop-filter in Chromium */
-}
-
-/* Atmospheric edge fade vignettes without backdrop root isolation */
-.deck-stage::before,
-.deck-stage::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 60px;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.deck-stage::before {
-  left: 0;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
-}
-
-.deck-stage::after {
-  right: 0;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
 }
 
 .deck-stage.is-dragging {
@@ -1477,11 +1457,6 @@ main {
     margin-left: -24px !important;
     margin-right: -24px !important;
     width: calc(100% + 48px) !important;
-    /* Removed mask-image for mobile to preserve backdrop-filter */
-  }
-  .deck-stage::before,
-  .deck-stage::after {
-    width: 50px !important;
   }
   .nav__container {
     justify-content: center !important;
