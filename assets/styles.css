@@ -226,8 +226,8 @@ a {
   z-index: 1;
   pointer-events: none;
   border-radius: inherit;
-  background: rgba(10, 12, 18, 0.26);
-  transition: background 0.3s ease;
+  background: radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, 0.05) 0%, rgba(10, 11, 16, 0.45) 100%);
+  transition: background 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .lg-filter-layer {
@@ -244,36 +244,56 @@ a {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  backdrop-filter: blur(0.5px) url(#liquidGlassFilter) brightness(1.12) saturate(1.4);
-  -webkit-backdrop-filter: blur(0.5px) url(#liquidGlassFilter) brightness(1.12) saturate(1.4);
+  backdrop-filter: blur(28px) saturate(190%) contrast(1.04) brightness(1.05);
+  -webkit-backdrop-filter: blur(28px) saturate(190%) contrast(1.04) brightness(1.05);
   /* Optical specular bevel: bright top light catch, soft volume glow, deep bottom shadow */
   box-shadow: 
-    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.55),
-    inset 0 0 16px 0 rgba(255, 255, 255, 0.05),
-    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.6);
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 0 16px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              border-radius 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Prismatic chromatic aberration highlight along the glass border */
+/* Prismatic chromatic aberration highlight along the glass border (Apple / Nik Delvin liquid glass) */
 .glass-box::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  padding: 1px;
+  padding: 1.5px;
   background: linear-gradient(135deg, 
-    rgba(255, 80, 180, 0.4) 0%, 
-    rgba(80, 220, 255, 0.4) 30%, 
-    rgba(120, 255, 180, 0.3) 60%, 
-    rgba(255, 200, 80, 0.4) 100%
+    rgba(255, 75, 120, 0.55) 0%, 
+    rgba(80, 200, 255, 0.55) 25%, 
+    rgba(125, 255, 180, 0.4) 50%, 
+    rgba(255, 200, 75, 0.5) 75%, 
+    rgba(205, 95, 255, 0.55) 100%
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  opacity: 0.55;
-  transition: opacity 0.3s ease;
+  opacity: 0.65;
+  transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Optical convex liquid reflection sheen on top */
+.glass-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 85% 45% at 50% 0%, 
+    rgba(255, 255, 255, 0.16) 0%, 
+    rgba(255, 255, 255, 0.02) 45%, 
+    transparent 75%
+  );
+  opacity: 0.85;
+  transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .lg-content {
@@ -319,30 +339,38 @@ a {
   border-radius: 0;
   outline: none;
   border: none !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
   background: transparent !important;
   box-shadow: none;
   overflow: hidden;
   transition: max-width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
               border-radius 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.38s ease;
+              box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav .lg-overlay-bg {
-  background: rgba(0, 0, 0, 0.88);
-  transition: background 0.38s ease;
+  background: rgba(8, 9, 13, 0.88);
+  transition: background 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav .glass-box {
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: none;
+  transition: box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              border-radius 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav .glass-box::before {
   opacity: 0;
+  transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav .glass-box::after {
+  opacity: 0;
+  transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav__container {
@@ -355,7 +383,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  transition: padding 0.38s ease;
+  transition: padding 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Floating pill state when scrolled down */
@@ -367,26 +395,27 @@ a {
   max-width: 860px;
   border-radius: 999px;
   border: none !important;
-  border-bottom: none !important;
   box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.88);
 }
 
 .nav-wrapper.is-floating .nav .lg-overlay-bg {
-  background: rgba(8, 9, 13, 0.75);
+  background: rgba(8, 9, 13, 0.62);
 }
 
 .nav-wrapper.is-floating .nav .glass-box {
-  backdrop-filter: blur(0.5px) url(#liquidGlassFilterPill) brightness(1.15) saturate(1.4);
-  -webkit-backdrop-filter: blur(0.5px) url(#liquidGlassFilterPill) brightness(1.15) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 
-    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 0 12px 0 rgba(255, 255, 255, 0.05),
-    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 0 12px 0 rgba(255, 255, 255, 0.04),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.55);
 }
 
 .nav-wrapper.is-floating .nav .glass-box::before {
-  opacity: 0.6;
+  opacity: 0.8;
+}
+
+.nav-wrapper.is-floating .nav .glass-box::after {
+  opacity: 0.8;
 }
 
 .nav-wrapper.is-floating .nav__container {
@@ -800,8 +829,6 @@ main {
 .deck-card:hover:not(.is-active) {
   opacity: 0.75;
   transform: scale(0.95);
-  
-}
 }
 
 /* Dots */
@@ -1420,10 +1447,16 @@ main {
 /* Scroll Reveal Animations - Clean opacity & translate (no backdrop root isolation) */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(24px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
+}
+
+/* Hero section elements are always immediately visible on page load */
+.hero .reveal {
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 .reveal.in {
