@@ -7,14 +7,14 @@
   <meta name="description" content="Портфолио nonloft: нативные десктопные приложения на Flutter, Qt/Python и Electron, VPN-клиенты и сетевые инструменты.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="favicon.svg">
-  <link rel="stylesheet" href="assets/styles.css?v=20261114_04">
+  <link rel="stylesheet" href="assets/styles.css?v=20261114_05">
 </head>
 <body style="background: transparent !important; background-color: transparent !important;">
 
   <!-- Fullscreen Background Video & Overlay -->
   <div class="video-bg-container" aria-hidden="true">
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline webkit-playsinline preload="auto">
-      <source src="assets/bg.mp4?v=20261114_04" type="video/mp4">
+      <source src="assets/bg.mp4?v=20261114_05" type="video/mp4">
     </video>
     <div class="video-bg__overlay"></div>
   </div>
@@ -43,28 +43,16 @@
   <div class="glow-orb glow-orb--1" aria-hidden="true"></div>
   <div class="glow-orb glow-orb--2" aria-hidden="true"></div>
 
-  <!-- Liquid Glass SVG Displacement Filters (inspired by Mael-667/Liquid-Glass-CSS) -->
-  <svg class="liquid-glass-filters" aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none;">
-    <defs>
-      <!-- Filter for larger surfaces (cards, modals) -->
-      <filter id="liquidGlassFilter" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
-        <feTurbulence type="fractalNoise" baseFrequency="0.009 0.011" numOctaves="2" seed="8" stitchTiles="stitch" x="0%" y="0%" width="100%" height="100%" result="turbulence"/>
-        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="35" xChannelSelector="R" yChannelSelector="B" x="0%" y="0%" width="100%" height="100%" result="displacementMap1"/>
-      </filter>
-      <!-- Filter for compact/pill elements (navbar, tags, buttons) -->
-      <filter id="liquidGlassFilter2" color-interpolation-filters="linearRGB" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse">
-        <feBlend mode="screen" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" in2="SourceGraphic" result="blend"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.019 0.008" numOctaves="5" seed="8" stitchTiles="stitch" x="0%" y="0%" width="100%" height="100%" result="turbulence"/>
-        <feDisplacementMap in="blend" in2="turbulence" scale="6" xChannelSelector="R" yChannelSelector="B" x="0%" y="0%" width="100%" height="100%" result="displacementMap1"/>
-      </filter>
-    </defs>
-  </svg>
+  <!-- Nik Delvin Dynamic Liquid Glass Engine (iOS 26 / VisionOS Refraction) -->
 
   <!-- Header / Navigation (Docked at top, floating pill on scroll) -->
   <div class="nav-wrapper" id="navWrapper">
-    <header class="nav">
-      <div class="liquid-glass-fx" aria-hidden="true"></div>
-      <div class="nav__container">
+    <header class="nav liquid-glass">
+      <div class="lg-overlay-bg" aria-hidden="true"></div>
+      <div class="lg-filter-layer" aria-hidden="true">
+        <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="10" data-strength="95" data-saturate="1.45" data-brightness="1.18"></div>
+      </div>
+      <div class="lg-content nav__container">
         <a class="brand" href="#top" aria-label="Наверх">nonloft</a>
 
         <nav class="nav__links" aria-label="Основная навигация">
@@ -139,71 +127,91 @@
       </div>
 
       <div class="stack-grid">
-        <div class="stack-card reveal">
-          <div class="liquid-glass-fx" aria-hidden="true"></div>
-          <div class="stack-card__icon-wrap">
-            <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <div class="stack-card liquid-glass reveal">
+          <div class="lg-overlay-bg" aria-hidden="true"></div>
+          <div class="lg-filter-layer" aria-hidden="true">
+            <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="10" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
           </div>
-          <h3 class="stack-card__title">Desktop & Native GUI</h3>
-          <p class="stack-card__desc">Разработка нативных интерфейсов под Windows с кастомными оверлеями и системным треем.</p>
-          <div class="stack-card__tags">
-            <span class="tag">Flutter / Dart</span>
-            <span class="tag">Qt6 / PySide6</span>
-            <span class="tag">Electron</span>
-            <span class="tag">WPF (C#)</span>
-            <span class="tag">Win32 API</span>
-          </div>
-        </div>
-
-        <div class="stack-card reveal">
-          <div class="liquid-glass-fx" aria-hidden="true"></div>
-          <div class="stack-card__icon-wrap">
-            <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </div>
-          <h3 class="stack-card__title">Сетевые протоколы & VPN</h3>
-          <p class="stack-card__desc">Интеграция прокси-ядер, кастомная маршрутизация, проверка RTT пинга и защита соединений.</p>
-          <div class="stack-card__tags">
-            <span class="tag">mihomo (Clash Meta)</span>
-            <span class="tag">VLESS / VMess</span>
-            <span class="tag">Shadowsocks</span>
-            <span class="tag">TCP Sockets</span>
-            <span class="tag">Sub Parsing</span>
+          <div class="lg-content stack-card__content">
+            <div class="stack-card__icon-wrap">
+              <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <h3 class="stack-card__title">Desktop & Native GUI</h3>
+            <p class="stack-card__desc">Разработка нативных интерфейсов под Windows с кастомными оверлеями и системным треем.</p>
+            <div class="stack-card__tags">
+              <span class="tag">Flutter / Dart</span>
+              <span class="tag">Qt6 / PySide6</span>
+              <span class="tag">Electron</span>
+              <span class="tag">WPF (C#)</span>
+              <span class="tag">Win32 API</span>
+            </div>
           </div>
         </div>
 
-        <div class="stack-card stack-card--interactive reveal" id="langStackCard" role="button" tabindex="0" aria-label="Открыть подробные познания в языках программирования">
-          <div class="liquid-glass-fx" aria-hidden="true"></div>
-          <div class="stack-card__icon-wrap">
-            <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div class="stack-card liquid-glass reveal">
+          <div class="lg-overlay-bg" aria-hidden="true"></div>
+          <div class="lg-filter-layer" aria-hidden="true">
+            <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="10" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
           </div>
-          <div class="stack-card__header-row">
-            <h3 class="stack-card__title">Языки программирования</h3>
-            <span class="stack-card__pill">Подробнее &rarr;</span>
-          </div>
-          <p class="stack-card__desc">Основной рабочий инструментарий для написания логики, системных хуков и скриптов.</p>
-          <div class="stack-card__tags">
-            <button class="tag tag--interactive" type="button" data-lang="python">Python</button>
-            <button class="tag tag--interactive" type="button" data-lang="dart">Dart</button>
-            <button class="tag tag--interactive" type="button" data-lang="cpp">C++</button>
-            <button class="tag tag--interactive" type="button" data-lang="csharp">C#</button>
-            <button class="tag tag--interactive" type="button" data-lang="js">JavaScript / TS</button>
-            <button class="tag tag--interactive" type="button" data-lang="powershell">PowerShell</button>
+          <div class="lg-content stack-card__content">
+            <div class="stack-card__icon-wrap">
+              <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h3 class="stack-card__title">Сетевые протоколы & VPN</h3>
+            <p class="stack-card__desc">Интеграция прокси-ядер, кастомная маршрутизация, проверка RTT пинга и защита соединений.</p>
+            <div class="stack-card__tags">
+              <span class="tag">mihomo (Clash Meta)</span>
+              <span class="tag">VLESS / VMess</span>
+              <span class="tag">Shadowsocks</span>
+              <span class="tag">TCP Sockets</span>
+              <span class="tag">Sub Parsing</span>
+            </div>
           </div>
         </div>
 
-        <div class="stack-card reveal">
-          <div class="liquid-glass-fx" aria-hidden="true"></div>
-          <div class="stack-card__icon-wrap">
-            <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <div class="stack-card stack-card--interactive liquid-glass reveal" id="langStackCard" role="button" tabindex="0" aria-label="Открыть подробные познания в языках программирования">
+          <div class="lg-overlay-bg" aria-hidden="true"></div>
+          <div class="lg-filter-layer" aria-hidden="true">
+            <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="10" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
           </div>
-          <h3 class="stack-card__title">Сборка, CI/CD & Релизы</h3>
-          <p class="stack-card__desc">Упаковка приложений в один файл, автоматическая дистрибуция и настройка установщиков.</p>
-          <div class="stack-card__tags">
-            <span class="tag">NSIS Installers</span>
-            <span class="tag">PyInstaller</span>
-            <span class="tag">GitHub Actions</span>
-            <span class="tag">Docker</span>
-            <span class="tag">Git</span>
+          <div class="lg-content stack-card__content">
+            <div class="stack-card__icon-wrap">
+              <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div class="stack-card__header-row">
+              <h3 class="stack-card__title">Языки программирования</h3>
+              <span class="stack-card__pill">Подробнее &rarr;</span>
+            </div>
+            <p class="stack-card__desc">Основной рабочий инструментарий для написания логики, системных хуков и скриптов.</p>
+            <div class="stack-card__tags">
+              <button class="tag tag--interactive" type="button" data-lang="python">Python</button>
+              <button class="tag tag--interactive" type="button" data-lang="dart">Dart</button>
+              <button class="tag tag--interactive" type="button" data-lang="cpp">C++</button>
+              <button class="tag tag--interactive" type="button" data-lang="csharp">C#</button>
+              <button class="tag tag--interactive" type="button" data-lang="js">JavaScript / TS</button>
+              <button class="tag tag--interactive" type="button" data-lang="powershell">PowerShell</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack-card liquid-glass reveal">
+          <div class="lg-overlay-bg" aria-hidden="true"></div>
+          <div class="lg-filter-layer" aria-hidden="true">
+            <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="10" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
+          </div>
+          <div class="lg-content stack-card__content">
+            <div class="stack-card__icon-wrap">
+              <svg class="stack-card__svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <h3 class="stack-card__title">Сборка, CI/CD & Релизы</h3>
+            <p class="stack-card__desc">Упаковка приложений в один файл, автоматическая дистрибуция и настройка установщиков.</p>
+            <div class="stack-card__tags">
+              <span class="tag">NSIS Installers</span>
+              <span class="tag">PyInstaller</span>
+              <span class="tag">GitHub Actions</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Git</span>
+            </div>
           </div>
         </div>
       </div>
@@ -223,9 +231,12 @@
         </div>
       </div>
 
-      <div class="about-card reveal">
-        <div class="liquid-glass-fx" aria-hidden="true"></div>
-        <div class="about-content">
+      <div class="about-card liquid-glass reveal">
+        <div class="lg-overlay-bg" aria-hidden="true"></div>
+        <div class="lg-filter-layer" aria-hidden="true">
+          <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="12" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
+        </div>
+        <div class="lg-content about-content">
           <p class="about-lead">
             Привет! Я <strong>nonloft</strong> — разработчик прикладного софта, системных утилит и сетевых инструментов.
           </p>
@@ -250,9 +261,13 @@
   <!-- Interactive Project Preview Modal -->
   <div class="modal" id="projectModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal__backdrop" id="modalBackdrop"></div>
-    <div class="modal__dialog">
-      <div class="liquid-glass-fx" aria-hidden="true"></div>
-      <button class="modal__close" id="modalClose" aria-label="Закрыть превью">
+    <div class="modal__dialog liquid-glass">
+      <div class="lg-overlay-bg" aria-hidden="true"></div>
+      <div class="lg-filter-layer" aria-hidden="true">
+        <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="14" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
+      </div>
+      <div class="lg-content modal__dialog-content">
+        <button class="modal__close" id="modalClose" aria-label="Закрыть превью">
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
 
@@ -294,9 +309,13 @@
   <!-- Interactive Programming Languages Modal -->
   <div class="modal" id="langModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal__backdrop" id="langModalBackdrop"></div>
-    <div class="modal__dialog modal__dialog--wide">
-      <div class="liquid-glass-fx" aria-hidden="true"></div>
-      <button class="modal__close" id="langModalClose" aria-label="Закрыть окно языков">
+    <div class="modal__dialog modal__dialog--wide liquid-glass">
+      <div class="lg-overlay-bg" aria-hidden="true"></div>
+      <div class="lg-filter-layer" aria-hidden="true">
+        <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="14" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
+      </div>
+      <div class="lg-content modal__dialog-content">
+        <button class="modal__close" id="langModalClose" aria-label="Закрыть окно языков">
         <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
 
@@ -339,6 +358,6 @@
     </div>
   </footer>
 
-  <script src="assets/app.js?v=20261114_04"></script>
+  <script src="assets/app.js?v=20261114_05"></script>
 </body>
 </html>

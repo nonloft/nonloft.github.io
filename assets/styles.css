@@ -145,7 +145,7 @@ a {
 .video-bg__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.28);
   pointer-events: none;
 }
 
@@ -208,53 +208,70 @@ a {
 }
 
 /* =============================================================
-   Authentic Liquid Glass Engine (Mael-667/Liquid-Glass-CSS)
+   Authentic Liquid Glass Engine (nikdelvin/liquid-glass)
+   iOS 26 / VisionOS Dynamic Vector Refraction & Chromatic Aberration
    ============================================================= */
-.liquid-glass-filters {
-  position: absolute;
-  width: 0;
-  height: 0;
+.liquid-glass {
+  position: relative;
   overflow: hidden;
-  pointer-events: none;
+  background: transparent !important;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  border: none !important;
 }
 
-.liquid-glass-fx {
+.lg-overlay-bg {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
+  z-index: 1;
   pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-  transform: translate3d(0, 0, 0);
+  border-radius: inherit;
+  background: rgba(8, 9, 13, 0.28);
+  transition: background 0.3s ease;
 }
 
-.liquid-glass-fx::before,
-.liquid-glass-fx::after {
-  content: "";
+.lg-filter-layer {
   position: absolute;
   inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.glass-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-radius: inherit;
   pointer-events: none;
-  transform: translate3d(0, 0, 0);
+  box-shadow: inset 0 0 4px 0px rgba(255, 255, 255, 0.45);
+  background: transparent;
+  will-change: backdrop-filter;
+  transition: box-shadow 0.3s ease;
 }
 
-/* Background turbulence refraction & optical displacement layer */
-.liquid-glass-fx::before {
-  z-index: -2;
-  filter: url(#liquidGlassFilter);
-  backdrop-filter: blur(28px) saturate(190%) brightness(1.05);
-  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.05);
+.lg-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
 }
 
-/* Specular reflection & dark acrylic bevel layer */
-.liquid-glass-fx::after {
-  z-index: -1;
-  background: radial-gradient(120% 85% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 60%, rgba(255, 255, 255, 0.02) 100%), rgba(12, 13, 18, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    inset 1px 1px 3px 1px rgba(255, 255, 255, 0.32),
-    inset -1px -2px 3px 1px rgba(0, 0, 0, 0.45);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+/* High contrast glass text shadows */
+.project-card__title,
+.stack-card__title,
+.about-card h3,
+.hero__title {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8), 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+.project-card__desc,
+.stack-card__desc,
+.about-lead,
+.hero__lead {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
 }
 
 /* Navigation: Docked at top by default, liquid glass floating pill when scrolled */
@@ -278,29 +295,28 @@ a {
   margin: 0 auto;
   border-radius: 0;
   outline: none;
-  border: 1px solid transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba(0, 0, 0, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: inset 1px 1px 2px 0 transparent, inset -1px -2px 3px 1px transparent, 0 0 0 0 transparent;
+  border: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background: transparent !important;
+  box-shadow: none;
   overflow: hidden;
   transition: max-width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
               border-radius 0.38s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.3s ease,
-              background-color 0.3s ease,
-              box-shadow 0.38s ease,
-              backdrop-filter 0.3s ease;
+              box-shadow 0.38s ease;
 }
 
-.nav .liquid-glass-fx {
-  opacity: 0;
-  transition: opacity 0.38s ease;
+.nav .lg-overlay-bg {
+  background: rgba(0, 0, 0, 0.85);
+  transition: background 0.38s ease, border-radius 0.38s ease;
+}
+
+.nav .glass-box {
+  box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.06);
 }
 
 .nav__container {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   max-width: 1140px;
   margin: 0 auto;
   padding: 14px 24px;
@@ -319,30 +335,17 @@ a {
 .nav-wrapper.is-floating .nav {
   max-width: 860px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(12, 12, 16, 0.55);
-  backdrop-filter: blur(24px) saturate(190%) brightness(1.05);
-  -webkit-backdrop-filter: blur(24px) saturate(190%) brightness(1.05);
-  box-shadow: 
-    inset 1px 1px 2px 0px rgba(255, 255, 255, 0.3),
-    inset -1px -2px 3px 1px rgba(0, 0, 0, 0.4),
-    0 16px 40px -8px rgba(0, 0, 0, 0.88);
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.88);
 }
 
-.nav-wrapper.is-floating .nav .liquid-glass-fx {
-  opacity: 1;
+.nav-wrapper.is-floating .nav .lg-overlay-bg {
+  background: rgba(8, 9, 13, 0.42);
 }
 
-.nav-wrapper.is-floating .nav .liquid-glass-fx::before {
-  filter: url(#liquidGlassFilter2);
-}
-
-.nav-wrapper.is-floating .nav .liquid-glass-fx::after {
-  background: rgba(12, 12, 16, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    inset 1px 1px 2px 0px rgba(255, 255, 255, 0.28),
-    inset -1px -2px 3px 1px rgba(0, 0, 0, 0.38);
+.nav-wrapper.is-floating .nav .glass-box {
+  box-shadow: inset 0 0 4px 0px rgba(255, 255, 255, 0.5);
 }
 
 .nav-wrapper.is-floating .nav__container {
@@ -687,7 +690,7 @@ main {
   position: relative;
   z-index: 1;
   background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: none !important;
   border-radius: 20px;
   box-shadow: 0 22px 55px -12px rgba(0, 0, 0, 0.9);
   padding: 0 !important;
@@ -731,25 +734,25 @@ main {
   opacity: 1;
   transform: scale(1.02);
   filter: blur(0);
-  border-color: rgba(255, 255, 255, 0.22) !important;
+  
   box-shadow: 
     0 32px 75px -12px rgba(0, 0, 0, 0.95),
     0 0 25px rgba(255, 255, 255, 0.05);
 }
 
-.deck-card.is-active .liquid-glass-fx::after {
-  background: radial-gradient(120% 85% at 50% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 60%, rgba(255, 255, 255, 0.04) 100%), rgba(14, 15, 22, 0.68);
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 
-    inset 1px 1px 3px 0px rgba(255, 255, 255, 0.52),
-    inset -1px -2px 3px 1px rgba(0, 0, 0, 0.48);
+.deck-card.is-active .glass-box {
+  box-shadow: inset 0 0 6px 0px rgba(255, 255, 255, 0.65);
+}
+
+.deck-card.is-active .lg-overlay-bg {
+  background: rgba(8, 9, 13, 0.22);
 }
 
 .deck-card:hover:not(.is-active) {
   opacity: 0.7;
   transform: scale(0.93);
   filter: blur(2px);
-  border-color: rgba(255, 255, 255, 0.18) !important;
+  
 }
 }
 
@@ -841,6 +844,16 @@ main {
   gap: 6px;
   margin-top: auto;
   padding-top: 14px;
+}
+
+.project-card__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
 }
 
 .project-card__body {
@@ -949,13 +962,12 @@ main {
   position: relative;
   z-index: 1;
   background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: none !important;
   border-radius: 18px;
   box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.85);
-  padding: 24px;
+  padding: 0 !important;
   display: flex;
   flex-direction: column;
-  gap: 12px;
   overflow: hidden;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.3s ease,
@@ -984,11 +996,19 @@ main {
   opacity: 1;
 }
 
-.stack-card:hover .liquid-glass-fx::after {
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 
-    inset 1px 1px 3px 0px rgba(255, 255, 255, 0.42),
-    inset -1px -2px 3px 1px rgba(0, 0, 0, 0.42);
+.stack-card:hover .glass-box {
+  box-shadow: inset 0 0 6px 0px rgba(255, 255, 255, 0.65);
+}
+
+.stack-card__content {
+  position: relative;
+  z-index: 3;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .stack-card__icon-wrap {
@@ -1070,10 +1090,10 @@ main {
   position: relative;
   z-index: 1;
   background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: none !important;
   border-radius: 22px;
   box-shadow: 0 28px 65px -12px rgba(0, 0, 0, 0.9);
-  padding: clamp(26px, 4vw, 44px);
+  padding: 0 !important;
   overflow: hidden;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -1083,17 +1103,18 @@ main {
   box-shadow: 0 32px 70px -12px rgba(0, 0, 0, 0.95);
 }
 
-.about-card:hover .liquid-glass-fx::after {
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 
-    inset 1px 1px 3px 0px rgba(255, 255, 255, 0.42),
-    inset -1px -2px 3px 1px rgba(0, 0, 0, 0.42);
+.about-card:hover .glass-box {
+  box-shadow: inset 0 0 6px 0px rgba(255, 255, 255, 0.65);
 }
 
 
 
-.about-content {
+.about-card .about-content {
+  position: relative;
+  z-index: 3;
+  padding: clamp(26px, 4vw, 44px);
   max-width: 800px;
+  box-sizing: border-box;
 }
 
 .about-lead {
@@ -1149,11 +1170,11 @@ main {
   position: relative;
   z-index: 1;
   background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: none !important;
   border-radius: 24px;
   max-width: 620px;
   width: 100%;
-  padding: 32px;
+  padding: 0 !important;
   box-shadow: 0 40px 100px rgba(0, 0, 0, 0.95);
   /* Inflates from small scale to big and deflates back */
   transform: scale(0.2);
@@ -1167,11 +1188,15 @@ main {
   overflow-x: hidden;
 }
 
-.modal__dialog .liquid-glass-fx::after {
-  background: radial-gradient(120% 75% at 50% 0%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 65%, rgba(255, 255, 255, 0.03) 100%), rgba(14, 15, 22, 0.88);
-  box-shadow: 
-    inset 1px 1px 3px 0px rgba(255, 255, 255, 0.45),
-    inset -1px -2px 3px 1px rgba(0, 0, 0, 0.5);
+.modal__dialog .glass-box {
+  box-shadow: inset 0 0 5px 0px rgba(255, 255, 255, 0.55);
+}
+
+.modal__dialog .modal__dialog-content {
+  position: relative;
+  z-index: 3;
+  padding: 32px;
+  box-sizing: border-box;
 }
 
 .modal.is-open .modal__dialog {
@@ -1529,37 +1554,27 @@ main {
   position: relative;
   z-index: 1;
   background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: none !important;
   border-radius: 14px;
-  padding: 20px;
+  padding: 0 !important;
   overflow: hidden;
   box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.lang-detail-card .liquid-glass-fx::before {
-  filter: url(#liquidGlassFilter2);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+.lang-detail-card .glass-box {
+  box-shadow: inset 0 0 4px 0px rgba(255, 255, 255, 0.45);
 }
 
-.lang-detail-card .liquid-glass-fx::after {
-  background: rgba(18, 20, 28, 0.65);
-  box-shadow: 
-    inset 1px 1px 2px 0px rgba(255, 255, 255, 0.22),
-    inset -1px -2px 3px 1px rgba(0, 0, 0, 0.35);
+.lang-detail-card:hover .glass-box {
+  box-shadow: inset 0 0 5px 0px rgba(255, 255, 255, 0.6);
 }
 
-.lang-detail-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.lang-detail-card:hover .liquid-glass-fx::after {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 
-    inset 1px 1px 2px 0px rgba(255, 255, 255, 0.35),
-    inset -1px -2px 3px 1px rgba(0, 0, 0, 0.4);
+.lang-detail-card__content {
+  position: relative;
+  z-index: 3;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .lang-detail-card__header {

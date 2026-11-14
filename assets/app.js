@@ -184,6 +184,152 @@ let activeDeckIndex = 0;
 root.setAttribute('data-theme', 'dark');
 try { localStorage.setItem('portfolio-theme', 'dark'); } catch (_) {}
 
+/* =============================================================
+   Authentic Nik Delvin Liquid Glass Engine (iOS 26 / VisionOS)
+   Displacement Mapping & Prism Chromatic Aberration
+   ============================================================= */
+function getDisplacementMap({ height, width, radius, depth }) {
+  const y1 = Math.ceil((radius / height) * 15);
+  const y2 = Math.floor(100 - (radius / height) * 15);
+  const x1 = Math.ceil((radius / width) * 15);
+  const x2 = Math.floor(100 - (radius / width) * 15);
+
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg height="${height}" width="${width}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+    <style>.mix { mix-blend-mode: screen; }</style>
+    <defs>
+      <linearGradient id="Y" x1="0" x2="0" y1="${y1}%" y2="${y2}%">
+        <stop offset="0%" stop-color="#0F0" />
+        <stop offset="100%" stop-color="#000" />
+      </linearGradient>
+      <linearGradient id="X" x1="${x1}%" x2="${x2}%" y1="0" y2="0">
+        <stop offset="0%" stop-color="#F00" />
+        <stop offset="100%" stop-color="#000" />
+      </linearGradient>
+    </defs>
+    <rect x="0" y="0" height="${height}" width="${width}" fill="#808080" />
+    <g filter="blur(2px)">
+      <rect x="0" y="0" height="${height}" width="${width}" fill="#000080" />
+      <rect x="0" y="0" height="${height}" width="${width}" fill="url(#Y)" class="mix" />
+      <rect x="0" y="0" height="${height}" width="${width}" fill="url(#X)" class="mix" />
+      <rect x="${depth}" y="${depth}" height="${Math.max(0, height - 2 * depth)}" width="${Math.max(0, width - 2 * depth)}" fill="#808080" rx="${radius}" ry="${radius}" filter="blur(${depth}px)" />
+    </g>
+  </svg>`);
+}
+
+function getDisplacementFilter({
+  height,
+  width,
+  radius,
+  depth,
+  strength = 100,
+  chromaticAberration = 0,
+}) {
+  const mapUri = getDisplacementMap({ height, width, radius, depth });
+
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg height="${height}" width="${width}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="displace" color-interpolation-filters="sRGB">
+        <feImage x="0" y="0" height="${height}" width="${width}" href="${mapUri}" result="displacementMap" />
+        <feDisplacementMap transform-origin="center" in="SourceGraphic" in2="displacementMap" scale="${strength + chromaticAberration * 2}" xChannelSelector="R" yChannelSelector="G" />
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="displacedR" />
+        <feDisplacementMap in="SourceGraphic" in2="displacementMap" scale="${strength + chromaticAberration}" xChannelSelector="R" yChannelSelector="G" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="displacedG" />
+        <feDisplacementMap in="SourceGraphic" in2="displacementMap" scale="${strength}" xChannelSelector="R" yChannelSelector="G" />
+        <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="displacedB" />
+        <feBlend in="displacedR" in2="displacedG" mode="screen" />
+        <feBlend in2="displacedB" mode="screen" />
+      </filter>
+    </defs>
+  </svg>`) + '#displace';
+}
+
+const supportsBackdropFilterUrl = (() => {
+  try {
+    const testEl = document.createElement('div');
+    testEl.style.cssText = 'backdrop-filter: url(#test)';
+    return Boolean(testEl.style.backdropFilter && testEl.style.backdropFilter.includes('url('));
+  } catch (_) {
+    return false;
+  }
+})();
+
+const pendingGlassRedraws = new WeakMap();
+
+function redrawGlass(glass) {
+  if (!glass) return;
+  const glassBox = glass.querySelector('.glass-box');
+  if (!glassBox) return;
+
+  if (pendingGlassRedraws.has(glass)) {
+    cancelAnimationFrame(pendingGlassRedraws.get(glass));
+  }
+
+  const rafId = requestAnimationFrame(() => {
+    pendingGlassRedraws.delete(glass);
+
+    const rect = glass.getBoundingClientRect();
+    const width = Math.round(rect.width);
+    const height = Math.round(rect.height);
+
+    if (width < 8 || height < 8) return;
+
+    const blur = parseFloat(glassBox.dataset.blur || '0');
+    const chromaticAberration = parseFloat(glassBox.dataset.cab || '2.5');
+    const depth = parseFloat(glassBox.dataset.depth || '10');
+    const strength = parseFloat(glassBox.dataset.strength || '85');
+    const saturate = parseFloat(glassBox.dataset.saturate || '1.45');
+    const brightness = parseFloat(glassBox.dataset.brightness || '1.15');
+
+    const computedStyle = window.getComputedStyle(glass);
+    let radius = parseFloat(computedStyle.borderRadius || '0');
+    if (isNaN(radius)) radius = 16;
+    if (radius > height / 2) {
+      radius = Math.floor(height / 2);
+    }
+
+    glassBox.style.width = width + 'px';
+    glassBox.style.height = height + 'px';
+
+    if (supportsBackdropFilterUrl) {
+      const filterUrl = getDisplacementFilter({
+        height,
+        width,
+        radius,
+        depth,
+        strength,
+        chromaticAberration,
+      });
+      const filterStyle = `blur(${blur}px) url('${filterUrl}') brightness(${brightness}) saturate(${saturate})`;
+      glassBox.style.backdropFilter = filterStyle;
+      glassBox.style.webkitBackdropFilter = filterStyle;
+    } else {
+      const fallbackStyle = `blur(14px) brightness(${brightness}) saturate(${saturate})`;
+      glassBox.style.backdropFilter = fallbackStyle;
+      glassBox.style.webkitBackdropFilter = fallbackStyle;
+    }
+  });
+
+  pendingGlassRedraws.set(glass, rafId);
+}
+
+let globalGlassObserver = null;
+
+function initLiquidGlass() {
+  if (!globalGlassObserver && typeof ResizeObserver !== 'undefined') {
+    globalGlassObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        redrawGlass(entry.target);
+      }
+    });
+  }
+
+  const elements = document.querySelectorAll('.liquid-glass');
+  elements.forEach(el => {
+    redrawGlass(el);
+    if (globalGlassObserver) globalGlassObserver.observe(el);
+  });
+}
+
 /* -------------------------------------------------------------
    Floating & Docking Navbar
    - Docked to top at scroll position 0
@@ -192,6 +338,7 @@ try { localStorage.setItem('portfolio-theme', 'dark'); } catch (_) {}
    ------------------------------------------------------------- */
 function initFloatingNav() {
   if (!navWrapper) return;
+  const nav = navWrapper.querySelector('.nav');
   let isFloating = false;
 
   const handleScroll = () => {
@@ -199,6 +346,10 @@ function initFloatingNav() {
     if (shouldFloat !== isFloating) {
       isFloating = shouldFloat;
       navWrapper.classList.toggle('is-floating', isFloating);
+      if (nav) {
+        redrawGlass(nav);
+        setTimeout(() => redrawGlass(nav), 390);
+      }
     }
   };
 
@@ -219,24 +370,29 @@ function renderDeck() {
       : 'project-card__status--wip';
 
     return `
-      <article class="deck-card project-card ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" tabindex="0">
-        <div class="liquid-glass-fx" aria-hidden="true"></div>
-        <div class="project-card__body">
-          <div class="project-card__badge-row">
-            <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
-            <span class="project-card__status ${statusClass}">${escapeHtml(p.status)}</span>
-          </div>
-          <h3 class="project-card__title">${escapeHtml(p.title)}</h3>
-          <p class="project-card__desc">${escapeHtml(p.shortDesc)}</p>
-          <div class="project-card__tags">
-            ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
-          </div>
+      <article class="deck-card project-card liquid-glass ${idx === activeDeckIndex ? 'is-active' : ''}" data-index="${idx}" data-id="${p.id}" tabindex="0">
+        <div class="lg-overlay-bg" aria-hidden="true"></div>
+        <div class="lg-filter-layer" aria-hidden="true">
+          <div class="glass-box" data-blur="0" data-cab="2.5" data-depth="12" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
         </div>
-        <div class="project-card__bar" data-action="preview" role="button" tabindex="0" aria-label="Открыть превью ${escapeHtml(p.title)}">
-          <span class="project-card__bar-text">Смотреть превью</span>
-          <svg class="project-card__bar-icon" viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
-          </svg>
+        <div class="lg-content project-card__content">
+          <div class="project-card__body">
+            <div class="project-card__badge-row">
+              <span class="project-card__type-badge">${escapeHtml(p.badge)}</span>
+              <span class="project-card__status ${statusClass}">${escapeHtml(p.status)}</span>
+            </div>
+            <h3 class="project-card__title">${escapeHtml(p.title)}</h3>
+            <p class="project-card__desc">${escapeHtml(p.shortDesc)}</p>
+            <div class="project-card__tags">
+              ${p.tags.slice(0, 4).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+            </div>
+          </div>
+          <div class="project-card__bar" data-action="preview" role="button" tabindex="0" aria-label="Открыть превью ${escapeHtml(p.title)}">
+            <span class="project-card__bar-text">Смотреть превью</span>
+            <svg class="project-card__bar-icon" viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+            </svg>
+          </div>
         </div>
       </article>
     `;
@@ -258,6 +414,10 @@ function renderDeck() {
   attachCardGlow();
   initDeckInteractions();
   goToCard(activeDeckIndex, false);
+  deckTrack.querySelectorAll('.liquid-glass').forEach(card => {
+    redrawGlass(card);
+    if (globalGlassObserver) globalGlassObserver.observe(card);
+  });
 }
 
 function goToCard(index, animate = true) {
@@ -509,6 +669,11 @@ function openModal(p) {
   projectModal.classList.add('is-open');
   projectModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+
+  const dlg = projectModal.querySelector('.liquid-glass');
+  if (dlg) {
+    setTimeout(() => redrawGlass(dlg), 20);
+  }
 }
 
 function closeModal() {
@@ -614,6 +779,7 @@ try {
 initFloatingNav();
 initTicker();
 renderDeck();
+initLiquidGlass();
 initScrollReveal();
 fetchGitHubStats();
 
@@ -748,18 +914,23 @@ function renderLangCards(activeFilter = 'all') {
     : LANG_KNOWLEDGE.filter(item => item.id === activeFilter);
 
   langCardsList.innerHTML = filtered.map(lang => `
-    <div class="lang-detail-card" data-lang="${lang.id}">
-      <div class="liquid-glass-fx" aria-hidden="true"></div>
-      <div class="lang-detail-card__header">
-        <h4 class="lang-detail-card__title">${escapeHtml(lang.name)}</h4>
-        <span class="lang-detail-card__badge">${escapeHtml(lang.badge)}</span>
+    <div class="lang-detail-card liquid-glass" data-lang="${lang.id}">
+      <div class="lg-overlay-bg" aria-hidden="true"></div>
+      <div class="lg-filter-layer" aria-hidden="true">
+        <div class="glass-box" data-blur="0" data-cab="2" data-depth="10" data-strength="85" data-saturate="1.4" data-brightness="1.15"></div>
       </div>
-      <p class="lang-detail-card__desc">${escapeHtml(lang.desc)}</p>
-      <ul class="lang-detail-card__list">
-        ${lang.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('')}
-      </ul>
-      <div class="lang-detail-card__tags">
-        ${lang.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+      <div class="lg-content lang-detail-card__content">
+        <div class="lang-detail-card__header">
+          <h4 class="lang-detail-card__title">${escapeHtml(lang.name)}</h4>
+          <span class="lang-detail-card__badge">${escapeHtml(lang.badge)}</span>
+        </div>
+        <p class="lang-detail-card__desc">${escapeHtml(lang.desc)}</p>
+        <ul class="lang-detail-card__list">
+          ${lang.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('')}
+        </ul>
+        <div class="lang-detail-card__tags">
+          ${lang.tags.map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('')}
+        </div>
       </div>
     </div>
   `).join('');
@@ -769,6 +940,11 @@ function renderLangCards(activeFilter = 'all') {
       tab.classList.toggle('is-active', tab.dataset.filter === activeFilter);
     });
   }
+
+  langCardsList.querySelectorAll('.liquid-glass').forEach(card => {
+    redrawGlass(card);
+    if (globalGlassObserver) globalGlassObserver.observe(card);
+  });
 }
 
 function openLangModal(filter = 'all') {
@@ -777,6 +953,16 @@ function openLangModal(filter = 'all') {
   langModal.classList.add('is-open');
   langModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+
+  const dlg = langModal.querySelector('.liquid-glass');
+  if (dlg) {
+    setTimeout(() => {
+      redrawGlass(dlg);
+      if (langCardsList) {
+        langCardsList.querySelectorAll('.liquid-glass').forEach(redrawGlass);
+      }
+    }, 20);
+  }
 }
 
 function closeLangModal() {
@@ -822,3 +1008,7 @@ window.addEventListener('keydown', (e) => {
     closeLangModal();
   }
 });
+
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.liquid-glass').forEach(redrawGlass);
+}, { passive: true });
