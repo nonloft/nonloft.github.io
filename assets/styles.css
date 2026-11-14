@@ -237,6 +237,7 @@ html[data-theme="light"] .video-bg__overlay {
   width: 100%;
   padding: 0;
   pointer-events: none;
+  outline: none;
   transition: padding 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -248,14 +249,15 @@ html[data-theme="light"] .video-bg__overlay {
   background: rgba(0, 0, 0, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: none;
+  border: 1px solid transparent;
   border-radius: 0;
-  box-shadow: none;
-  transition: all 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-html[data-theme="light"] .nav {
-  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 0 0 0 transparent;
+  outline: none;
+  transition: max-width 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              border-radius 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              background-color 0.3s ease,
+              box-shadow 0.38s ease;
 }
 
 .nav__container {
@@ -277,17 +279,11 @@ html[data-theme="light"] .nav {
 .nav-wrapper.is-floating .nav {
   max-width: 860px;
   border-radius: 999px;
-  border: 1px solid #262626;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(10, 10, 10, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.95), 0 0 1px 1px rgba(255, 255, 255, 0.08);
-}
-
-html[data-theme="light"] .nav-wrapper.is-floating .nav {
-  background: rgba(244, 244, 245, 0.92);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.95);
 }
 
 .nav-wrapper.is-floating .nav__container {
